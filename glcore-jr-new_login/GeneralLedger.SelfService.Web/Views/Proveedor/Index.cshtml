@@ -1,0 +1,164 @@
+﻿@{
+    ViewData["Title"] = "Proponentes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card border-0">
+            <div class="col-md-12 px-2 pt-2">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Proveedores</a></li>
+                    <li class="breadcrumb-item active">Proponentes</li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="row">                  
+                    <div class="col-md-12">
+                        <div class="card border-0">
+                            <div class="card-body">
+                                <ul class="nav nav-tabs nav-tabs-v2">
+                                    <li class="nav-item me-3"><a href="#LProveedores" class="nav-link active" data-bs-toggle="tab">Proveedores</a></li>
+                                    <li class="nav-item me-3"><a href="#LProponentes" class="nav-link" data-bs-toggle="tab">Proponentes</a></li>
+                                    <li class="nav-item me-3"><a href="#LRetirados" class="nav-link" data-bs-toggle="tab">Retirados</a></li>
+                                </ul>
+                                <div class="tab-content pt-3">
+                                    <div class="tab-pane fade active show" id="LProveedores">
+                                        <div class="row">
+                                            <div class="col-md-12 mb-3">
+                                                <div class="row">
+                                                    <div class="col-md-10">
+                                                        <div class="form-group">
+                                                            <label for="" class="form-label">Buscar</label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-text"><i class="fas fa-search"></i> </span>
+                                                                <input type="text" name="search-proveedor" id="search-proveedor" class="form-control form-control-sm">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @*@foreach (var item in ViewBag.Permisos)
+                                                    {
+                                                    if (item.Codigo == "000005" && item.Activo)
+                                                    {*@
+                                                    <div class="col-md-2 ms-auto d-flex justify-content-end align-items-center mt-4">
+                                                        <a id="btn-n-proveedor" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle fa-fw me-1"></i> Nuevo proveedor </a>
+                                                    </div>
+                                                    @*         break;
+                                                    }
+                                                    }*@
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <table id="table-proveedores" class="table table-borderless align-middle table-hover table-sm w-100">
+                                                    <thead>
+                                                        <tr>
+                                                            <th nowrap align="center" width="10%">Identificación</th>
+                                                            <th nowrap align="center" width="10%">Nombre o Razón Social</th>
+                                                            <th nowrap align="center" width="40%">Dirección</th>
+                                                            <th nowrap align="center" width="20%">Ciudad</th>
+                                                            <th nowrap align="center" width="10%">Teléfono</th>
+                                                            <th nowrap align="center" width="10%">Email</th>
+                                                            <th nowrap width="10%">Acciones</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="LProponentes">
+                                        <div class="row">
+                                            <div class="col-md-12 mb-3">
+                                                <div class="row">
+                                                    <div class="col-md-10">
+                                                        <div class="form-group">
+                                                            <label for="" class="form-label">Buscar</label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-text"><i class="fas fa-search"></i> </span>
+                                                                <input type="text" name="search-proponentes" id="search-proponentes" class="form-control form-control-sm">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @*@foreach (var item in ViewBag.Permisos)
+                                                    {
+                                                    if (item.Codigo == "000005" && item.Activo)
+                                                    {*@
+                                                    <div class="col-md-2 ms-auto d-flex justify-content-end align-items-center mt-4">
+                                                        <a id="btn-n-proponente" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle fa-fw me-1"></i> Nuevo proponente </a>
+                                                    </div>
+                                                    @*         break;
+                                                    }
+                                                    }*@
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <table id="table-proponentes" class="table table-borderless align-middle table-hover table-sm w-100">
+                                                    <thead>
+                                                        <tr>
+                                                            <th nowrap align="center" width="10%">Identificación</th>
+                                                            <th nowrap align="center" width="10%">Nombre o Razón Social</th>
+                                                            <th nowrap align="center" width="40%">Dirección</th>
+                                                            <th nowrap align="center" width="20%">Ciudad</th>
+                                                            <th nowrap align="center" width="10%">Teléfono</th>
+                                                            <th nowrap align="center" width="10%">Email</th>
+                                                            <th nowrap width="10%">Acciones</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="LRetirados">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="" class="form-label">Buscar</label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-text"><i class="fas fa-search"></i> </span>
+                                                                <input type="text" name="search-retirado" id="search-retirado" class="form-control form-control-sm">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <table id="table-retirados" class="table table-borderless align-middle table-hover table-sm w-100">
+                                                    <thead>
+                                                        <tr>
+                                                            <th nowrap align="center" width="10%">Identificación</th>
+                                                            <th nowrap align="center" width="10%">Nombre o Razón Social</th>
+                                                            <th nowrap align="center" width="40%">Dirección</th>
+                                                            <th nowrap align="center" width="20%">Ciudad</th>
+                                                            <th nowrap align="center" width="10%">Teléfono</th>
+                                                            <th nowrap align="center" width="10%">Email</th>
+                                                            <th nowrap width="10%">Acciones</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                             
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

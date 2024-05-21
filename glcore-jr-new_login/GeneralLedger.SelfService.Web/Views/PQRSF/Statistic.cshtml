@@ -1,0 +1,304 @@
+﻿@{
+    ViewData["Title"] = "Estadisticas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row pb-1 d-flex justify-content-center"> 
+    <!--TOTAL-->
+    <div class="col-6 col-md-2">
+        <div class="card border-0 m-2">
+            <div class="card-body m-1 p-1">
+                <div class="row m-0 p-0">
+                    <div class="col-md-12 m-0"> 
+                        <h4 id="pqrsftotal" class="text-center">0</h4>
+                    </div>
+                    <hr>
+                    <div class="col-md-12 d-flex justify-content-center align-items-center m-0">
+                        <i class="fas fa-cogs fa-lg text-primary"></i>
+                        <span class="badge fw-bold text-dark" style="font-size:1rem">TOTAL PQRSF</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!--ABIERTOS-->
+    <div class="col-6 col-md-2">
+        <div class="card border-0 m-2">
+            <div class="card-body m-1 p-1">
+                <div class="row m-0 p-0">
+                    <div class="col-md-12 m-0"> 
+                        <h4 id="pqrsfopen" class="text-center">0</h4>
+                    </div>
+                    <hr>
+                    <div class="col-md-12 d-flex justify-content-center align-items-center m-0">
+                        <i class="fas fa-clock fa-lg text-success"></i>
+                        <span class="badge fw-bold text-dark" style="font-size:1rem">ABIERTAS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--EN GESTIÓN-->
+    <div class="col-6 col-md-2">
+        <div class="card border-0 m-2">
+            <div class="card-body m-1 p-1">
+                <div class="row m-0 p-0">
+                    <div class="col-md-12 m-0"> 
+                        <h4 id="pqrsfinmanagement" class="text-center">0</h4>
+                    </div>
+                    <hr>
+                    <div class="col-md-12 d-flex justify-content-center align-items-center m-0">
+                        <i class="fas fa-clock fa-lg text-warning"></i>
+                        <span class="badge fw-bold text-dark" style="font-size:1rem">EN GESTIÓN</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!--SIN ASIGNAR-->
+    <div class="col-6 col-md-2">
+        <div class="card border-0 m-2">
+            <div class="card-body m-1 p-1">
+                <div class="row m-0 p-0">
+                    <div class="col-md-12 m-0"> 
+                        <h4 id="pqrsfnoassigned" class="text-center">0</h4>
+                    </div>
+                    <hr>
+                    <div class="col-md-12 d-flex justify-content-center align-items-center m-0">
+                        <i class="fas fa-user fa-lg text-dark"></i>
+                        <span class="badge fw-bold text-dark" style="font-size:1rem">SIN ASIGNAR</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+      <!--RESUELTAS-->
+    <div class="col-6 col-md-2">
+        <div class="card border-0 m-2">
+            <div class="card-body m-1 p-1">
+                <div class="row m-0 p-0">
+                    <div class="col-md-12 m-0"> 
+                        <h4 id="pqrsfclose" class="text-center">0</h4>
+                    </div>
+                    <hr>
+                    <div class="col-md-12 d-flex justify-content-center align-items-center m-0">
+                        <i class="fas fa-check-circle fa-lg text-dark"></i>
+                        <span class="badge fw-bold text-dark" style="font-size:1rem">CERRADAS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--VENCE HOY-->
+    <div class="col-6 col-md-2">
+        <div class="card border-0 m-2">
+            <div class="card-body m-1 p-1">
+                <div class="row m-0 p-0">
+                    <div class="col-md-12 m-0"> 
+                        <h4 id="pqrsfexpires" class="text-center">0</h4>
+                    </div>
+                    <hr>
+                    <div class="col-md-12 d-flex justify-content-center align-items-center m-0">
+                        <i class="fas fa-clock fa-lg text-danger"></i>
+                        <span class="badge fw-bold text-dark" style="font-size:1rem">VENCE HOY</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card border-0">
+            <div class="card-body">
+                <ul class="nav nav-tabs nav-tabs-v2">
+                    <li class="nav-item me-3"><a href="#homev2" class="nav-link active" data-bs-toggle="tab">PQRSF</a></li>
+                    @*<li class="nav-item me-3"><a href="#profilev2" class="nav-link" data-bs-toggle="tab">Profile</a></li>*@
+                </ul>
+
+                <div class="tab-content pt-3">
+
+                    <div class="tab-pane fade active show" id="homev2">
+                        <div class="row">
+                            <div class="card border-0">
+                                <div class="card-body">
+                                    <div id="apexAreaChart"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row pb-1">
+                            @* PQRSF POR TIPO RESEÑA *@
+                            <div class="col-md-6">
+                                <div class="card border-0 ">
+                                    <div class="card-body">
+                                        <div id="piechart-tipo"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            @* PQRSF POR ESTADO *@
+                            <div class="col-md-6">
+                                <div class="card border-0">
+                                    <div class="card-body">
+                                        <div id="piechart-estado"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row pb-1">
+                            @* PQRSF POR PRIORIDAD *@
+                            <div class="col-md-6">
+                                <div class="card border-0">
+                                    <div class="card-body">
+                                        <div id="piechart-prioridad"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            @* PQRSF POR PROCESO *@
+                            <div class="col-md-6">
+                                <div class="card border-0">
+                                    <div class="card-body">
+                                        <div id="piechart-proceso"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*<div class="tab-pane fade" id="profilev2">
+
+                    </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(()=>{
+            LoadDataStatistic();    
+        });
+
+        function LoadDataStatistic(){
+            let urlAction = "@Url.Action("LoadStatistic","PQRSF")";
+
+            $.ajax({
+                url: urlAction,
+                type: "GET",
+                contentType: "application/json",
+                success: function (response) {
+
+                    $("#pqrsftotal").text(response.count.total);
+                    $("#pqrsfopen").text(response.count.open);
+                    $("#pqrsfexpires").text(response.count.expires);
+                    $("#pqrsfnoassigned").text(response.count.noAssigned);
+                    $("#pqrsfclose").text(response.count.close);
+                    $("#pqrsfinmanagement").text(response.count.inmanagement);
+
+                   LoadPieChart(response.resena.labels,
+                                response.resena.values,
+                                "#piechart-tipo",
+                                response.resena.title);
+
+                   LoadPieChart(response.estados.labels,
+                                response.estados.values,
+                                "#piechart-estado",
+                                response.estados.title);
+
+                  LoadPieChart(response.prioridad.labels,
+                                response.prioridad.values,
+                                "#piechart-prioridad",
+                                response.prioridad.title);
+                    
+                  LoadPieChart(response.procesos.labels,
+                                response.procesos.values,
+                                "#piechart-proceso",
+                                response.procesos.title);
+
+                  LoadAreaChart(response.timepqrsf.data, response.timepqrsf.dates);
+                },
+            });
+        }
+
+        function LoadPieChart(labels,values,content,title){
+            var apexPieChartOptions = {
+                chart: { height: 260, type: 'donut',},
+                stroke: { show: true, colors: [app.color.componentBg], width: 2, dashArray: 0},
+                dataLabels: {
+                    dropShadow: { enabled: false,top: 1,left: 1, blur: 1, opacity: 0.45},
+                },                
+                labels: labels,series: values,
+                title: {
+                    text: title,
+                }
+            };
+            var apexPieChart = new ApexCharts(document.querySelector(content), apexPieChartOptions);
+            apexPieChart.render();
+        }
+
+        function LoadAreaChart(data,dates){
+             var apexAreaChartOptions = {
+                chart: { height: 350,type: 'area',},
+                dataLabels: {enabled: true},
+                stroke: { curve: 'smooth',width: 3},
+                title: {text: 'PQRSF Enviadas a lo largo del tiempo',align: 'center'},
+                colors: [app.color.blue],
+                series: [{ name: 'PQRSF', data: data},],
+                markers: { size: 4},
+                xaxis: { type: 'datetime', categories: dates,
+                        labels: {
+                          format: 'dd MMM'
+                        }
+                },
+                yaxis: {
+                    min: 0,
+                    tickAmount: 5
+                },
+                tooltip: { x: {format: 'dd/MM/yy'},}
+            };
+            var apexAreaChart = new ApexCharts(document.querySelector('#apexAreaChart'),apexAreaChartOptions);
+            apexAreaChart.render();
+        }
+
+        function LoadLineChart(data,dates){
+            var apexLineChartOptions = {
+                chart: {height: 350,type: 'line',toolbar: {show: false}},
+                title: {text: 'Average High & Low Temperature',align: 'center'},
+                colors: [app.color.blue],
+                dataLabels: {enabled: true,background: {borderWidth: 0},},
+                stroke: {curve: 'smooth',width: 3},
+                series: [{name: 'PQRSF',data: data}],
+                grid: {
+                    row: {
+                        colors: ['rgba('+ app.color.componentColorRgb + ', .1)', 'transparent'], // takes an array which will be repeated on columns
+                        opacity: 0.5
+                    },
+                },
+                markers: { size: 4},
+                xaxis: {type: 'datetime', categories: dates},
+                yaxis: {
+                    min: 0,
+                    tickAmount: 4
+                },
+                legend: {show: true,position: 'top',offsetY: -10,horizontalAlign: 'right',floating: true,}
+            };
+            var apexLineChart = new ApexCharts(document.querySelector('#apexLineChart'),apexLineChartOptions);
+            apexLineChart.render();
+        }
+        
+    </script>
+}

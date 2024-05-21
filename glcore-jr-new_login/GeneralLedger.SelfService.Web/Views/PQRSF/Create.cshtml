@@ -1,0 +1,362 @@
+﻿@using Common
+@model GeneralLedger.SelfServiceCore.Data.DTOs.PQRSFCreateDTO
+
+@{
+    ViewData["Title"] = "Radicar PQRSF";
+    ViewData["DateNow"] = DateTime.Now.ToString("dd-MM-yyyy");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row d-flex justify-content-center">
+    <div class="col-md-9">
+        <div class="card border-0">
+            <div class="col-md-12 px-2 pt-2">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">PQRSF</a></li>
+                    <li class="breadcrumb-item active">Radicación de PQRSF</li>
+                </ul>
+            </div>
+            <div class="card-body" >
+                <div class="row">
+                    <div class="col-md-12">
+                        <form id="form-create-pqrsf" enctype="multipart/form-data" method="post">
+                            <div class="container">
+                                <div class="row mb-3">
+                                    <!--CAMPO DE FECHA DE CREACION DE LA PQRSF-->
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Fecha de Creación<span class="text-danger">*</span></label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                                <input asp-for="Fecha" type="text" class="form-control" value="@ViewData["DateNow"]" readonly />
+                                            </div>
+                                            <span asp-validation-for="Fecha" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <!--CAMPO DE TIPO DE RESEÑA-->
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label class="form-label">Tipo de Reseña<span class="text-danger">*</span></label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-clipboard"></i></span>
+                                                <select asp-for="IdSituacion" class="form-select">
+                                                    @foreach (var s in Model.Situaciones)
+                                                    {
+                                                        <option value="@s.Id">@s.TipoSituacion</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <!--CAMPO DEL CLIENTE QUIEN REALIZA LA PQRSF-->
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-group">
+                                            <label class="form-label">Cliente<span class="text-danger">*</span></label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                                <input asp-for="NombreCliente" class="form-control" readonly />
+                                            </div>
+                                            <span asp-validation-for="NroIdeCli" class="text-danger"></span>
+                                            <input asp-for="NroIdeCli" type="hidden" class="form-control" readonly value="@Model.NroIdeCli" />
+                                            <input asp-for="NitEmpresa" type="hidden" class="form-control" readonly value="@Model.NitEmpresa" />
+                                        </div>
+                                    </div>
+
+                                    <!--CAMPO DE CONTACTO DEL CLIENTE-->
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-group">
+                                            <label asp-for="IdContacto" class="form-label">Contacto<span class="text-danger">*</span></label>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="fa fa-address-book"></i></span>
+                                                        <select asp-for="IdContacto" class="form-select"></select>
+                                                        <button type="button" id="btn-contacto" class="input-group-text btn btn-success" data-bs-toggle="modal" data-bs-target="#modal-contacto"><i class="fas fa-plus-circle"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <!--CAMPO DE ASUNTO DE PQRSF-->
+                                    <div class="col-md-12 mb-3">
+                                        <div class="form-group">
+                                            <label class="form-label">Asunto<span class="text-danger">*</span></label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                                                <input asp-for="Asunto" type="text" class="form-control" placeholder="Escribe un asunto..."/>
+                                            </div>
+                                            <span asp-validation-for="Asunto" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <!--CAMPO DE DESCRIPCION DE PQRSF-->
+                                    @*<div class="col-md-12 mb-3">
+                                        <div class="form-group">
+                                            <textarea asp-for="Descripcion" class="form-control" cols="30" rows="4" placeholder="Describa la situación..." style="resize:none; display:none"></textarea>
+                                        </div>
+                                    </div>*@
+                                    <div class="col-md-12 mb-3">
+                                        <div class="form-group">
+                                            <label class="form-label">Descripción de la Situación<span class="text-danger">*</span></label>
+                                            <textarea class="summernote" asp-for="Descripcion" cols="30" rows="20"></textarea>
+                                            <span asp-validation-for="Descripcion" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 mb-3">
+                                        <div class="form-group">
+                                            <label class="form-label">Archivos de Soporte</label>
+                                            <div class="drag-area">
+                                                <div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                                                <header class="drag-text">Presione el botón para seleccionar los archivos
+                                                </header>
+                                                <div class="pl-3 pr-5 pt-3 pb-2">
+                                                    <input asp-for="Archivos" type="file" class="form-control" multiple />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            
+                            <div class="col-md-12">
+                                <button id="btn-create-pqrsf" type="button" class="btn btn-success">Guardar</button>
+                                <a id="btn-cancel-pqrsf" asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="modal-contacto">
+    <div class="modal-dialog  modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nuevo Contacto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" id="form-contacto">
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12 mb-2">
+                                <div class="form-group">
+                                    <label for="NombreContacto" class="form-label">Nombre de Contacto<span class="text-danger">*</span></label>
+                                    <input id="NombreContacto" name="NombreContacto" type="text" class="form-control">
+                                    <input id="Id" name="Id" type="hidden" class="form-control">
+                                    <input id="NitEmpresa" name="NitEmpresa" type="hidden" class="form-control">
+                                    <input id="NroIdCli" name="NroIdCli" type="hidden" value="@SessionHelper.GetValue(User,"nroid")" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <div class="form-group">
+                                    <label for="Celular" class="form-label">Celular<span class="text-danger">*</span></label>
+                                    <input id="Celular" name="Celular" type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <div class="form-group">
+                                    <label for="Telefono" class="form-label">Telefono</label>
+                                    <input id="Telefono" name="Telefono" type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <div class="form-group">
+                                    <label for="Email" class="form-label">Email<span class="text-danger">*</span></label>
+                                    <input id="Email" name="Email" type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btn-close-modal" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
+                    <button id="btn-save-contacto" type="button" class="btn btn-success">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section Scripts {
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script src="@Url.Content("~/validations/PQRSF/create.js")" type="text/javascript"></script>
+<script>
+    $(document).ready(() => {
+
+        $('#Descripcion').summernote({
+                height: 280,
+            minHeight: 280,             
+            maxHeight: 280,
+            lang: 'es-ES',
+            placeholder: 'Describe aquí la situación...',
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['fontname', ['fontname']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ],
+            callbacks: {
+                onImageUpload: function (files) {
+                    var formData = new FormData();
+                    formData.append('file', files[0]);
+
+                    $.ajax({
+                        url: '/PQRSF/UploadImageSummerNote', // Ruta del controlador en ASP.NET Core
+                        method: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (response) 
+                        {
+                            var imageUrl = response.filePath;
+                                var image = $('<img>').attr('src', '/Temp/Trash' + imageUrl);
+                                console.log(image);
+                                $('#Descripcion').summernote('insertNode', image[0]);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(xhr.responseText);
+                        }
+                    });
+                }
+            }
+        });
+        const dragArea = document.querySelector('.drag-area');
+        const button = dragArea.querySelector('button');
+        const inputFile = dragArea.querySelector('#Archivo');
+
+        //EVENTOS JQUERY
+        $("#btn-contacto").on("click", () => {
+            $("#modal-contacto").show();
+        });
+
+        $("#btn-save-contacto").on("click", (e) => {
+            SaveNewContacto();
+        });
+
+        $("#btn-create-pqrsf").on("click",()=>{
+            SaveNewPQRSF();
+        });
+
+
+        //LLAMADO A FUNCIONES
+        LoadContactos();
+    });
+
+    function SaveNewPQRSF()
+    {
+        var formData = new FormData(document.getElementById("form-create-pqrsf"));
+
+        LoaderScreenShow();
+        $.ajax({
+            url: "@Url.Action("Create", "PQRSF")",
+            type: "POST",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            beforeSend: function () {
+                $('#btn-create-pqrsf').prop('disabled', true);
+                $('#btn-cancel-pqrsf').prop('disabled', true);
+                $('#btn-contacto').prop('disabled', true);
+            },
+            success: function (response) {
+                LoaderScreenHide();
+                if (response.result) {
+                    window.location.href='@Url.Action("Index","PQRSF")';
+                } else {
+                    ToastAlert.fire({icon: 'error',title: response.message});
+                }
+            },
+            complete: function () {
+                $('#btn-save-contacto').prop('disabled', false);
+                $('#btn-create-pqrsf').prop('disabled', false);
+                $('#btn-cancel-pqrsf').prop('disabled', false);
+                $('#btn-contacto').prop('disabled', false);
+                LoaderScreenHide();
+            }
+        });
+    }
+
+    function SaveNewContacto() {
+        let form = $('#form-contacto');
+
+        if($("#form-contacto").valid()){
+            $.ajax({
+                url: "@Url.Action("SaveNewContacto", "Contacto")",
+                type: "POST",
+                data: form.serialize(),
+                beforeSend: function () {
+                    LoaderScreenShow();
+                    $('#btn-save-contacto').prop('disabled', true);
+                },
+                success: function (response) {
+                    if (response.result) {
+                        ToastAlert.fire({icon: 'success',title: response.message}); 
+                        LoadContactos();
+                        $("#modal-contacto #btn-close-modal").click();
+                        $("#NombreContacto").val("");
+                        $("#Celular").val("");
+                        $("#Telefono").val("");
+                        $("#Email").val("");
+                        $(`#IdContacto option[value="${response.contacto}"]`).attr("selected", "selected");
+                    } else {
+                        ToastAlert.fire({icon: 'error',title: response.message}); 
+                    }
+                },
+                complete: function () {
+                    LoaderScreenHide();
+                    $('#btn-save-contacto').prop('disabled', true);
+                }
+            });
+        }
+    }
+
+
+    function LoadContactos() {
+
+        $.ajax({
+            url: "@Url.Action("LoadContactosCliente", "PQRSF")",
+            type: "GET",
+            datatype: "json",
+            success: function (response) {
+                if (response.result) {
+
+                    $("#IdContacto").empty();
+                    for (let i in response.data) {
+                        $("#IdContacto").append(`<option value=${response.data[i].id}>${response.data[i].nombreContacto}</option>`);
+                    }
+                } else {
+                    toastr.error(response.message, "Ups! Ha ocurrido un error!");
+                }
+            }
+        });
+    }
+</script>
+}

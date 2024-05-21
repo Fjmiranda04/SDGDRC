@@ -1,0 +1,79 @@
+﻿@page
+@model Login2Model
+@{
+    ViewData["Title"] = "Login";
+    var error = ViewData["ErrorMessage"] as string;
+    var email = ViewData["Email"] as string;
+    var logo = ViewData["Logo"] as string;
+    var web = ViewData["Web"] as string;
+    var nit = ViewData["Nit"] as string;
+    var salt = ViewData["Salt"] as string;
+    var keyConnect = ViewData["KeyConnect"] as string;
+}
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+<div class="container text-center">
+    <div class="row d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <div class="col-12 col-md-5">
+            <div class="card border-0 shadow p-5">
+                <div class="body">
+                    <div class="row">
+                        <form id="account" method="POST">
+                            <div class="col-md-12 mb-2 text-center">
+                                <img src="@logo" class="img-fluid" width="300" height="300" alt="Logo PowerBy GeneralLedger">
+                            </div>
+                            <div class="h4 text-dark text-center my-3">
+                                Te damos la bienvenida
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group text-start">
+                                    <label for="" class="form-label">Usuario o Correo Electrónico</label>
+                                    <input id="Input_Email" name="Input.Email" type="text" value="@email" class="form-control" placeholder="Escriba aquí su usuario o correo electrónico">
+                                    <span asp-validation-for="Input.Email" class="text-danger d-inline-block rounded-sm px-2"></span>
+                                    <input id="Input_KeyConnect" name="Input.KeyConnect" type="hidden" value="@nit" class="form-control">
+                                    <input id="Input_Salt" name="Input.Salt" type="hidden" value="@salt" class="form-control">
+                                    <span asp-validation-for="Input.KeyConnect" class="text-danger d-inline-block rounded-sm px-2"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group text-start">
+                                    <label for="" class="form-label">Contraseña</label>
+                                    <input asp-for="Input.Password" class="form-control" placeholder="Escriba aquí su contraseña">
+                                    <span asp-validation-for="Input.Password" class="text-danger d-inline-block rounded-sm px-2"></span>
+                                </div>
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                            {
+                                <div class="col-md-12 text-center mb-2">
+                                    <span class="bg-danger bg-opacity-10 text-danger d-inline-block rounded-sm px-2">
+                                        <i class="fa fa-exclamation-circle text-danger fs-12px"></i>
+                                        <span class="text-danger">@Model.ErrorMessage</span>
+                                    </span>
+                                </div>
+                            }
+
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary w-100" id="btn-iniciar">Iniciar Sesión</button>
+                                    </div>
+                                    <div class="col-12 text-center py-3">
+                                        <a id="forgot-password" href="/Identity/Account/ForgotPassword?urlcompany=@salt">¿Olvidaste tu contraseña?</a>
+                                    </div>
+                                   
+                                   @*<a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="btn btn-success w-100">Regitrarse</a>*@
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

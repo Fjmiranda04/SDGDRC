@@ -1,0 +1,111 @@
+﻿@model GeneralLedger.SelfServiceCore.Data.DTOs.PQRSFShowDTO
+@{
+    ViewData["Title"] = "Editar PQRSF";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="d-flex align-item-center mb-2">
+    <div>
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index">PQRSF</a></li>
+            <li class="breadcrumb-item active">EDITAR PQRSF</li>
+        </ul>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <form asp-action="Edit" enctype="multipart/form-data">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                  <p class="page-header mb-0">Nueva PQRSF</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!--CAMPO DE FECHA DE CREACION DE LA PQRSF-->
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label asp-for="Fecha" class="form-label"></label>
+                                    <input asp-for="Fecha" type="date" class="form-control" readonly/>
+                                    <span asp-validation-for="Fecha" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!--CAMPO DEL CLIENTE QUIEN REALIZA LA PQRSF-->
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Cliente</label>
+                                    <input asp-for="NombreCliente" class="form-control" readonly/> 
+                                    <input asp-for="CliCod" type="hidden" class="form-control" readonly/>
+                                    <span asp-validation-for="CliCod" class="text-danger"></span>   
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <!--CAMPO DE CONTACTO DEL CLIENTE-->
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label asp-for="Contacto" class="form-label">Contacto</label>
+                                    <select asp-for="Contacto" class="form-select">
+                                        @foreach (var item in @ViewBag.Contactos)
+                                        {
+                                           <option value="@item.Id">@item.NombreContacto</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!--CAMPO DE TIPO DE RESEÑA-->
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Tipo de Reseña</label>
+                                    <select  asp-for="IdSituacion"  class="form-select">
+                                        @foreach (var item in ViewBag.situaciones)
+                                        {
+                                            <option value="@item.Codigo">@item.TipoSituacion</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!--CAMPO DE DESCRIPCION DE PQRSF-->
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Descripción de Situación</label>
+                                    <textarea asp-for="DescripcionSituacion" class="form-control" cols="30" rows="6" style="resize:none"></textarea>
+                                    <span asp-validation-for="DescripcionSituacion" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Archivos de Soporte</label>
+                                    <br />
+                                    
+                                    <br />
+                                    @* <input type="file" value="@Model.Ruta" class="form-control"/> *@
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button asp-action="Edit" type="submit" class="btn btn-success">Guardar</button>
+                                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,773 @@
+﻿@*
+For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model GeneralLedger.SelfServiceCore.Data.DTOs.PedidoCreateDTO
+@{
+    ViewData["Title"] = "Nuevo Pedido";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var today = ViewData["DateNow"] = DateTime.Now.ToString("dd/MM/yyyy");
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Pedido/create.css" />
+</head>
+
+<section class="row justify-content-center">
+    <div class="row">
+        <div class="col-12 col-md-2">
+            <div class="card border-0">
+                <div class="col-md-12 px-2 pt-2">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Pedido</a></li>
+                        <li class="breadcrumb-item active">Nuevo pedido</li>
+                    </ul>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="nav nav-tabs flex flex-column">
+                                <li class="nav-item flex mb-3">
+                                    <a data-bs-toggle="tab" href="#Inventario"
+                                       class="card tab-link flex-grow-1 flex flex-column active p-3 justify-content-center fw-bold w-100">
+                                        <i class="fa fa-cubes m-auto fs-2 mb-2"></i>
+                                        <span class="m-auto">Inventario</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item flex mb-3">
+                                    <a data-bs-toggle="tab" href="#Servicios"
+                                       class="card tab-link flex-grow-1 flex flex-column p-3 justify-content-center fw-bold w-100">
+                                        <i class="fa fa-wrench m-auto fs-2 mb-2"></i>
+                                        <span class="m-auto">Servicios</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7">
+            <div class="card border-0" style="height: 100vh;">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa fa-magnifying-glass"></i></span>
+                            <input type="text" class="form-control" placeholder="" id="" />
+                        </div>
+                    </div>
+                    <div class="tab-content">
+                        <div id="Inventario" class="tab-pane fade active show">
+                            <div class="row overflow-auto" id="articulosLayout" style="height: 90vh;">
+                            </div>
+                        </div>
+                        <div id="Servicios" class="tab-pane fade">
+                            <div class="row overflow-auto" id="serviciosLayout" style="height: 90vh;">
+                            </div>
+                        </div>
+                        <div id="Cotizacion" class="tab-pane fade">
+                            <div class="row">
+                                <article class="col-md-6 mb-3">
+                                    <div class="card item-card position-relative d-flex flex-column overflow-hidden">
+                                        <div class="d-flex flex-column flex-grow-1 p-3 text-black">
+                                            <span class="font-weight-bold h4">
+                                                Certificado de
+                                                firma digital
+                                            </span>
+                                            <div class="d-flex gap-2">
+                                                <span class="m-0 text-gray-700">Valor unitario:</span>
+                                                <span class="fw-bold m-0">$226</span>
+                                            </div>
+                                            <div class="d-flex gap-2">
+                                                <span class="m-0 text-gray-700">Medida:</span>
+                                                <span class="fw-bold m-0">UND</span>
+                                            </div>
+                                            <div class="d-flex justify-content-end">
+                                                <button class="btn btn-sm btn-success">
+                                                    <i class="fa fa-plus"></i>
+                                                    <span>Agregar</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+                                <article class="col-md-6 mb-3">
+                                    <div class="card item-card position-relative d-flex flex-column overflow-hidden">
+                                        <div class="d-flex flex-column flex-grow-1 p-3 text-black">
+                                            <span class="font-weight-bold h4">
+                                                Certificado de
+                                                firma digital
+                                            </span>
+                                            <div class="d-flex gap-2">
+                                                <span class="m-0 text-gray-700">Valor unitario:</span>
+                                                <span class="fw-bold m-0">$226</span>
+                                            </div>
+                                            <div class="d-flex gap-2">
+                                                <span class="m-0 text-gray-700">Medida:</span>
+                                                <span class="fw-bold m-0">UND</span>
+                                            </div>
+                                            <div class="d-flex justify-content-end">
+                                                <button class="btn btn-sm btn-success">
+                                                    <i class="fa fa-plus"></i>
+                                                    <span>Agregar</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+                                <article class="col-md-6 mb-3">
+                                    <div class="card item-card position-relative d-flex flex-column overflow-hidden">
+                                        <div class="d-flex flex-column flex-grow-1 p-3 text-black">
+                                            <span class="font-weight-bold h4">
+                                                Certificado de
+                                                firma digital
+                                            </span>
+                                            <div class="d-flex gap-2">
+                                                <span class="m-0 text-gray-700">Valor unitario:</span>
+                                                <span class="fw-bold m-0">$226</span>
+                                            </div>
+                                            <div class="d-flex gap-2">
+                                                <span class="m-0 text-gray-700">Medida:</span>
+                                                <span class="fw-bold m-0">UND</span>
+                                            </div>
+                                            <div class="d-flex justify-content-end">
+                                                <button class="btn btn-sm btn-success">
+                                                    <i class="fa fa-plus"></i>
+                                                    <span>Agregar</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+                                <article class="col-md-6 mb-3">
+                                    <div class="card item-card position-relative d-flex flex-column overflow-hidden">
+                                        <div class="d-flex flex-column flex-grow-1 p-3 text-black">
+                                            <span class="font-weight-bold h4">
+                                                Certificado de
+                                                firma digital
+                                            </span>
+                                            <div class="d-flex gap-2">
+                                                <span class="m-0 text-gray-700">Valor unitario:</span>
+                                                <span class="fw-bold m-0">$226</span>
+                                            </div>
+                                            <div class="d-flex gap-2">
+                                                <span class="m-0 text-gray-700">Medida:</span>
+                                                <span class="fw-bold m-0">UND</span>
+                                            </div>
+                                            <div class="d-flex justify-content-end">
+                                                <button class="btn btn-sm btn-success">
+                                                    <i class="fa fa-plus"></i>
+                                                    <span>Agregar</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-3">
+            <div class="card flex-grow-1 border-0" style="height: 100vh;">
+                <div class="pt-3 px-3 d-flex justify-content-between position-relative align-items-center">
+                    <div class="icon"><i class="fa fa-plate-wheat"></i></div>
+                    <div class="flex-grow-1 fs-5 fw-bold">Datos del Pedido</div>
+                    @* <div class="order small fw-bold">Pedido No. <span class="fw-bold text-danger">????</span></div> *@
+
+                    @* <div class="mr-1">
+                        <button type="button" data-toggle-class="pos-mobile-sidebar-toggled"
+                                data-toggle-target="#pos" class="btn">
+                            <i class="fa fa-xmark"></i>
+                        </button>
+                    </div> *@
+                    
+                </div>
+
+                <div class="col-12 col-md-12">
+                    <form id="form-pedido" class="needs-validation" novalidate>
+                        <div class="row px-3">
+                            <div class="col-12 col-md-12 my-2">
+                                <h6 class="h6 m-0">Cliente</h6>
+                                <span>@Model.NombreCliente</span>
+                                <div class="form-group">                                                                      
+                                    <input type="hidden" asp-for="CodigoCliente" value="@Model.CodigoCliente">
+                                    <input type="hidden" asp-for="CodigoEscala" value="@Model.CodigoEscala">
+                                    <input type="hidden" asp-for="CodigoVendedor" value="@Model.CodigoVendedor">
+                                    <input type="hidden" asp-for="CodigoPais" value="@Model.CodigoPais">
+                                    <input type="hidden" asp-for="CodigoPostal" value="@Model.CodigoPostal">
+                                    <input type="hidden" asp-for="CodigoCiudad" value="@Model.CodigoCiudad">
+                                    <input type="hidden" asp-for="NitCliente" value="@Model.NitCliente">
+                                    <input type="hidden" asp-for="IvaIncluido" value="@Model.IvaIncluido">                                 
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 my-2">
+                                <div class="form-group">
+                                    <label class="form-label">Fecha Requerido</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fa fa-map-marker-alt"></i></span>
+                                        <input id="fechaRequerido" name="fechaRequerido" type="date" class="form-control form-control-sm" value="@today" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-12 my-2">
+                                <div class="form-group">
+                                    <label class="form-label">Dirección de Envío</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fa fa-map-marker-alt"></i></span>
+                                        <select id="codigoSucursal" name="codigoSucursal" class="form-select form-select-sm">
+                                            @foreach (var item in Model.Sucursales)
+                                            {
+                                                <option value="@item.CodigoSucursal">@item.Sucursal</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="border-bottom p-3">
+                    <div class="d-flex align-items-center mb-2">
+                        <textarea id="detalle" name="detalle" class="form-control" cols="30" rows="3" ></textarea>
+                    </div>
+                    <div class="d-flex align-items-center mb-2">
+                        <div>Subtotal</div>
+                        <div class="flex-1 text-end h6 mb-0">$0.00</div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div>IVA</div>
+                        <div class="flex-1 text-end h6 mb-0">$0.00</div>
+                    </div>
+                    <hr class="opacity-1 my-10px">
+                    <div class="d-flex align-items-center mb-2">
+                        <div>Total</div>
+                        <div class="flex-1 text-end h4 mb-0">$0.00</div>
+                    </div>
+                </div>
+                <div class="pos-sidebar-body tab-content" data-scrollbar="true" data-height="100%" style="height: 90vh;">
+                    <div class="tab-pane fade h-100 show active">
+                        <article class="border-top px-3 py-4 d-flex">
+                            <div class="d-flex flex-grow-1">
+                                <div class="flex-1">
+                                    <span class="h6 mb-1">Consultoria empresarial</span>
+                                    <span class="small">$0.00</span>
+                                    <div class="d-flex mt-2">
+                                        <button type="button" class="btn btn-secondary btn-sm">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                        <input type="text"
+                                               class="form-control w-50px form-control-sm mx-2 bg-white bg-opacity-25 bg-white bg-opacity-25 text-center"
+                                               value="01">
+                                        <button type="button" class="btn btn-secondary btn-sm">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ms-3 d-flex flex-column">
+                                <div class="flex-1">$12.99</div>
+                                <div class="text-end">
+                                    <button class="btn btn-default btn-sm text-danger border-danger">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="border-top px-3 py-4 d-flex">
+                            <div class="d-flex flex-grow-1">
+                                <div class="flex-1">
+                                    <span class="h6 mb-1">Certificado de firma digital</span>
+                                    <span class="small">$0.00</span>
+                                    <div class="d-flex mt-2">
+                                        <button type="button" class="btn btn-secondary btn-sm">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                        <input type="text"
+                                               class="form-control w-50px form-control-sm mx-2 bg-white bg-opacity-25 bg-white bg-opacity-25 text-center"
+                                               value="01">
+                                        <button type="button" class="btn btn-secondary btn-sm">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ms-3 d-flex flex-column">
+                                <div class="flex-1">$12.99</div>
+                                <div class="text-end">
+                                    <button class="btn btn-default btn-sm text-danger border-danger">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="border-top px-3 py-4 d-flex">
+                            <div class="d-flex flex-grow-1">
+                                <div class="flex-1">
+                                    <span class="h6 mb-1">Certificado de firma digital</span>
+                                    <span class="small">$0.00</span>
+                                    <div class="d-flex mt-2">
+                                        <button type="button" class="btn btn-secondary btn-sm">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                        <input type="text"
+                                               class="form-control w-50px form-control-sm mx-2 bg-white bg-opacity-25 bg-white bg-opacity-25 text-center"
+                                               value="01">
+                                        <button type="button" class="btn btn-secondary btn-sm">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ms-3 d-flex flex-column">
+                                <div class="flex-1">$12.99</div>
+                                <div class="text-end">
+                                    <button class="btn btn-default btn-sm text-danger border-danger">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="border-top px-3 py-4 d-flex">
+                            <div class="d-flex flex-grow-1">
+                                <div class="flex-1">
+                                    <span class="h6 mb-1">Certificado de firma digital</span>
+                                    <span class="small">$0.00</span>
+                                    <div class="d-flex mt-2">
+                                        <button type="button" class="btn btn-secondary btn-sm">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                        <input type="text"
+                                               class="form-control w-50px form-control-sm mx-2 bg-white bg-opacity-25 bg-white bg-opacity-25 text-center"
+                                               value="01">
+                                        <button type="button" class="btn btn-secondary btn-sm">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ms-3 d-flex flex-column">
+                                <div class="flex-1">$12.99</div>
+                                <div class="text-end">
+                                    <button class="btn btn-default btn-sm text-danger border-danger">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="border-top px-3 py-4 d-flex">
+                            <div class="d-flex flex-grow-1">
+                                <div class="flex-1">
+                                    <span class="h6 mb-1">Certificado de firma digital</span>
+                                    <span class="small">$0.00</span>
+                                    <div class="d-flex mt-2">
+                                        <button type="button" class="btn btn-secondary btn-sm">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                        <input type="text"
+                                               class="form-control w-50px form-control-sm mx-2 bg-white bg-opacity-25 bg-white bg-opacity-25 text-center"
+                                               value="01">
+                                        <button type="button" class="btn btn-secondary btn-sm">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ms-3 d-flex flex-column">
+                                <div class="flex-1">$12.99</div>
+                                <div class="text-end">
+                                    <button class="btn btn-default btn-sm text-danger border-danger">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="border-top px-3 py-4 d-flex">
+                            <div class="d-flex flex-grow-1">
+                                <div class="flex-1">
+                                    <span class="h6 mb-1">Certificado de firma digital</span>
+                                    <span class="small">$0.00</span>
+                                    <div class="d-flex mt-2">
+                                        <button type="button" class="btn btn-secondary btn-sm">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                        <input type="text"
+                                               class="form-control w-50px form-control-sm mx-2 bg-white bg-opacity-25 bg-white bg-opacity-25 text-center"
+                                               value="01">
+                                        <button type="button" class="btn btn-secondary btn-sm">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ms-3 d-flex flex-column">
+                                <div class="flex-1">$12.99</div>
+                                <div class="text-end">
+                                    <button class="btn btn-default btn-sm text-danger border-danger">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="border-top px-3 py-4 d-flex">
+                            <div class="d-flex flex-grow-1">
+                                <div class="flex-1">
+                                    <span class="h6 mb-1">Certificado de firma digital</span>
+                                    <span class="small">$0.00</span>
+                                    <div class="d-flex mt-2">
+                                        <button type="button" class="btn btn-secondary btn-sm">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                        <input type="text"
+                                               class="form-control w-50px form-control-sm mx-2 bg-white bg-opacity-25 bg-white bg-opacity-25 text-center"
+                                               value="01">
+                                        <button type="button" class="btn btn-secondary btn-sm">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ms-3 d-flex flex-column">
+                                <div class="flex-1">$12.99</div>
+                                <div class="text-end">
+                                    <button class="btn btn-default btn-sm text-danger border-danger">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="border-top px-3 py-4 d-flex">
+                            <div class="d-flex flex-grow-1">
+                                <div class="flex-1">
+                                    <span class="h6 mb-1">Certificado de firma digital</span>
+                                    <span class="small">$0.00</span>
+                                    <div class="d-flex mt-2">
+                                        <button type="button" class="btn btn-secondary btn-sm">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                        <input type="text"
+                                               class="form-control w-50px form-control-sm mx-2 bg-white bg-opacity-25 bg-white bg-opacity-25 text-center"
+                                               value="01">
+                                        <button type="button" class="btn btn-secondary btn-sm">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ms-3 d-flex flex-column">
+                                <div class="flex-1">$12.99</div>
+                                <div class="text-end">
+                                    <button class="btn btn-default btn-sm text-danger border-danger">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="border-top px-3 py-4 d-flex">
+                            <div class="d-flex flex-grow-1">
+                                <div class="flex-1">
+                                    <span class="h6 mb-1">Certificado de firma digital</span>
+                                    <span class="small">$0.00</span>
+                                    <div class="d-flex mt-2">
+                                        <button type="button" class="btn btn-secondary btn-sm">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                        <input type="text"
+                                               class="form-control w-50px form-control-sm mx-2 bg-white bg-opacity-25 bg-white bg-opacity-25 text-center"
+                                               value="01">
+                                        <button type="button" class="btn btn-secondary btn-sm">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ms-3 d-flex flex-column">
+                                <div class="flex-1">$12.99</div>
+                                <div class="text-end">
+                                    <button class="btn btn-default btn-sm text-danger border-danger">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="border-top px-3 py-4 d-flex">
+                            <div class="d-flex flex-grow-1">
+                                <div class="flex-1">
+                                    <span class="h6 mb-1">Certificado de firma digital</span>
+                                    <span class="small">$0.00</span>
+                                    <div class="d-flex mt-2">
+                                        <button type="button" class="btn btn-secondary btn-sm">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                        <input type="text"
+                                               class="form-control w-50px form-control-sm mx-2 bg-white bg-opacity-25 bg-white bg-opacity-25 text-center"
+                                               value="01">
+                                        <button type="button" class="btn btn-secondary btn-sm">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ms-3 d-flex flex-column">
+                                <div class="flex-1">$12.99</div>
+                                <div class="text-end">
+                                    <button class="btn btn-default btn-sm text-danger border-danger">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="border-top px-3 py-4 d-flex">
+                            <div class="d-flex flex-grow-1">
+                                <div class="flex-1">
+                                    <span class="h6 mb-1">Certificado de firma digital</span>
+                                    <span class="small">$0.00</span>
+                                    <div class="d-flex mt-2">
+                                        <button type="button" class="btn btn-secondary btn-sm">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                        <input type="text"
+                                               class="form-control w-50px form-control-sm mx-2 bg-white bg-opacity-25 bg-white bg-opacity-25 text-center"
+                                               value="01">
+                                        <button type="button" class="btn btn-secondary btn-sm">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ms-3 d-flex flex-column">
+                                <div class="flex-1">$12.99</div>
+                                <div class="text-end">
+                                    <button class="btn btn-default btn-sm text-danger border-danger">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="border-top px-3 py-4 d-flex">
+                            <div class="d-flex flex-grow-1">
+                                <div class="flex-1">
+                                    <span class="h6 mb-1">Certificado de firma digital</span>
+                                    <span class="small">$0.00</span>
+                                    <div class="d-flex mt-2">
+                                        <button type="button" class="btn btn-secondary btn-sm">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                        <input type="text"
+                                               class="form-control w-50px form-control-sm mx-2 bg-white bg-opacity-25 bg-white bg-opacity-25 text-center"
+                                               value="01">
+                                        <button type="button" class="btn btn-secondary btn-sm">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ms-3 d-flex flex-column">
+                                <div class="flex-1">$12.99</div>
+                                <div class="text-end">
+                                    <button class="btn btn-default btn-sm text-danger border-danger">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="tab-pane fade h-100">
+                        <div class="h-100 d-flex align-items-center justify-content-center text-center p-20">
+                            <div>
+                                <div class="mb-3 mt-n5">
+                                    <svg width="6em" height="6em" viewBox="0 0 16 16" class="text-gray-300"
+                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                              d="M14 5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5zM1 4v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4H1z">
+                                        </path>
+                                        <path d="M8 1.5A2.5 2.5 0 0 0 5.5 4h-1a3.5 3.5 0 1 1 7 0h-1A2.5 2.5 0 0 0 8 1.5z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <h5>No existen articulos en el pedido</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</section>
+
+@* <section class="row justify-content-center">
+    <div class="card mb-2 py-2 px-3">
+        <div class="row">
+            <div class="col-md-6 px-2 pt-2">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Pedido</a></li>
+                    <li class="breadcrumb-item active">Nuevo pedido</li>
+                </ul>
+            </div>
+            <div class="col-md-6 px-3 pt-2 text-end">
+                <h5 class="pb-2">Detalles del Pedido</h5>
+            </div>
+        </div>
+        <div class="card-body py-0 px-2 mb-2">
+            <form action="/" method="post">
+                <div class="row mt-3">
+                    <div class="form-group col-6 mb-3">
+                        <div class="form-group">
+                            <label for="" class="form-label">
+                                Cliente<span class="text-danger">*</span>
+                            </label>
+                            <div class="row">
+                                <div class="col-md-4 position-relative">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fa fa-building"></i></span>
+                                        <input class="form-control" type="text" id="NitCliente" name="">
+                                    </div>
+                                    <ul id="clienteList"
+                                        class="list-group position-absolute h-auto right-0 bg-white shadow top-100 w-100"
+                                        style="list-style: none; z-index: 5;">
+                                    </ul>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="" id="NombreCliente"
+                                            readonly />
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-6 mb-3">
+                        <div class="form-group">
+                            <label for="CodigoSucursal" class="form-label">
+                                Sucursal<span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
+                                <input type="text" class="form-control" placeholder="" id="CodigoSucursal" readonly />
+                            </div>
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-6 mb-3">
+                        <div class="form-group">
+                            <label for="" class="form-label">
+                                Solicitante<span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-user-pen"></i></span>
+                                <select class="form-select" name="" id="NombreSolicitante">
+                                    <option value="0" selected>Seleccione el solicitante</option>
+                                    <option value="12323123">Luis Fernando Villa</option>
+                                    <option value="929323s1">Maria Vargas</option>
+                                </select>
+                            </div>
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-6 mb-3">
+                        <div class="form-group">
+                            <label for="Dependencia" class="form-label">
+                                Dependencia<span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-location-dot"></i></span>
+                                <select class="form-select" name="" id="Dependencia">
+                                    <option value="0" selected>Seleccione una ciudad</option>
+                                    <option value="BOG">BOGOTÁ</option>
+                                    <option value="CTG">CARTAGENA</option>
+                                </select>
+                            </div>
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="CodigoVendedor" class="form-label">
+                                Vendedor<span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-user-tie"></i></span>
+                                <input type="text" class="form-control" placeholder="" id="CodigoVendedor" readonly />
+                            </div>
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-8 mb-3">
+                        <div class="form-group">
+                            <label for="Oc" class="form-label">
+                                OC N°/Ref<span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-hashtag"></i></span>
+                                <input type="text" class="form-control" placeholder="" id="Oc" />
+                            </div>
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-4 mb-3">
+                        <div class="form-group">
+                            <label for="FechaOC" class="form-label">
+                                Fecha OC<span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                <input asp-for="Fecha" type="text" id="FechaOC" class="form-control" value="@today" />
+                            </div>
+                            <span asp-validation-for="Fecha" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="" class="form-label">
+                            Detalles<span class="text-danger">*</span>
+                        </label>
+                        <textarea class="form-control" style="resize: none;" name="" id=""></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="card d-flex align-items-end mb-2 p-2">
+        <h5 class="fw-bold my-0">Solicitudes</h5>
+    </div>
+    <div class="">
+        <div class="row p-0">
+            <div class="col-md-2 ps-0">
+                
+            </div>
+            <div class="col-md-7 flex-grow-1">
+               
+            </div>
+
+            <div class="col-md-3 pe-0">
+                
+            </div>
+        </div>
+    </div>
+    <div class="d-flex align-items-center justify-content-center mx-auto  my-2">
+        <button class="btn btn-success mx-2">Guardar</button>
+        <button class="btn btn-danger mx-2">Cancelar</button>
+    </div>
+
+</section> *@
+@section Scripts
+{
+    <script src="~/scripts/Utils/tabs.js" type="text/javascript"></script>
+    <script src="~/scripts/Pedido/create2.js" type="text/javascript"></script>
+}

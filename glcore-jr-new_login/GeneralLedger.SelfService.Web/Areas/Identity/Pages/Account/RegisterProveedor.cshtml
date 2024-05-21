@@ -1,0 +1,300 @@
+﻿@page
+@using GeneralLedger.SelfServiceCore.Data.Models
+@using GeneralLedger.SelfServiceCore.Data.ModelsGL;
+@model RegisterProveedorModel
+@{
+    ViewData["Title"] = "Registrar";
+    var error = ViewData["ErrorMessage"] as string;
+    var empresas = ViewData["Empresas"] as IEnumerable<Empresa>;
+    var ciudades = ViewData["Ciudades"] as IEnumerable<Prociudad>;
+}
+<div class="container pt-3">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow px-2">
+                <div class="card-body">
+                    <form asp-route-returnUrl="@Model.ReturnUrl" method="POST">
+                        <div class="row">
+                            <div class="col-md-12 mb-2 px-5 text-center">
+                                <img src="~/img/LogoGLpb.png" width="230" height="230" class="img-fluid" alt="Logo PowerBy GeneralLedger">
+                            </div>
+                            <div class="text-muted text-center mb-2">
+                                Formulario de registro Proveedor
+                            </div>
+                             @if (!string.IsNullOrEmpty(error))
+                            {
+                                <div class="col-md-12 text-center mb-2">
+                                    <span class="bg-danger bg-opacity-10 text-danger d-inline-block rounded-sm px-2">
+                                        <i class="fa fa-exclamation-circle text-danger fs-12px"></i>
+                                        <span class="text-danger">@error</span>
+                                    </span>
+                                </div>
+                            }
+                            <div class="col-md-12 mb-2">
+                                <div class="form-group">
+                                    <label for="">Empresa<span class="text-danger">*</span></label>
+                                    <select asp-for="Input.NitEmpresa" class="form-select form-select-sm">
+                                        <option value="">Seleccione su empresa</option>
+                                        @foreach (var item in empresas)
+                                        {
+                                            <option value="@item.Nit">@item.Nit - @item.Nombre</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Razón Social<span class="text-danger">*</span></label>
+                                    <input asp-for="Input.RazonSocial" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.RazonSocial" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Tipo de Documento<span class="text-danger">*</span></label>
+                                    <select asp-for="Input.TipoDoc" class="form-select form-select-sm">
+                                        <option value="CC">CC</option>
+                                        <option value="NI">NI</option>
+                                        <option value="CE">CE</option>
+                                        <option value="TI">TI</option>
+                                        <option value="PE">PE</option>
+                                        <option value="PA">PA</option>
+                                        <option value="CM">CM</option>
+                                    </select>
+                                    <span asp-validation-for="Input.TipoDoc" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">NIT</label>
+                                    <input asp-for="Input.NitProveedor" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.NitProveedor" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Dirección<span class="text-danger">*</span></label>
+                                    <input asp-for="Input.Direccion" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.Direccion" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Ciudad<span class="text-danger">*</span></label>
+                                    <select asp-for="Input.Ciudad" class="form-select form-select-sm">
+                                        @foreach (var item in ciudades)
+                                        {
+                                            <option value="@item.Ciucod">@item.Ciunom</option>
+                                        }
+                                    </select>
+                                    <span asp-validation-for="Input.Ciudad" class="text-danger"></span>
+                                </div>
+                            </div>
+                          
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Teléfono<span class="text-danger">*</span></label>
+                                    <input asp-for="Input.Telefono" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.Telefono" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Fax<span class="text-danger">*</span></label>
+                                    <input asp-for="Input.Fax" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.Fax" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Email</label>
+                                    <input asp-for="Input.Email" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Representante Legal<span class="text-danger">*</span></label>
+                                    <input asp-for="Input.RepLegal" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.RepLegal" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Cédula<span class="text-danger">*</span></label>
+                                    <input asp-for="Input.CedRepLegal" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.CedRepLegal" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Contacto<span class="text-danger">*</span></label>
+                                    <input asp-for="Input.ContactoRepLegal" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.ContactoRepLegal" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Cargo<span class="text-danger">*</span></label>
+                                    <input asp-for="Input.CargoLegal" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.CargoLegal" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!--INFORMACION TRIBUTARIA Y MERCANTIL-->
+
+                             <div class="col-md-12 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Número RUT<span class="text-danger">*</span></label>
+                                    <input asp-for="Input.NumeroRUT" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.NumeroRUT" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Registro Unico de Proponentes<span class="text-danger">*</span></label>
+                                    <div class="">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" asp-for="Input.IsRUP" value="0">
+                                            <label class="form-check-label">NO</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" asp-for="Input.IsRUP" value="1">
+                                            <label class="form-check-label">SI</label>
+                                        </div>                                     
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Fecha Inscripción o Renovación<span class="text-danger">*</span></label>
+                                    <input type="date" asp-for="Input.FechaInscripcionRUT" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.FechaInscripcionRUT" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                          
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Número de Matrícula Mercantil<span class="text-danger">*</span></label>
+                                    <input asp-for="Input.NumeroMatriculaMercantil" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.NumeroMatriculaMercantil" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Fecha Vencimiento M<span class="text-danger">*</span></label>
+                                    <input type="date" asp-for="Input.FechaVencimientoRUT" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.FechaVencimientoRUT" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Certificado de Establecimiento de Comercio<span class="text-danger">*</span></label>
+                                    <div class="">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" asp-for="Input.IsCertificadoEstablecimientoComercio" value="0">
+                                            <label class="form-check-label">NO</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" asp-for="Input.IsCertificadoEstablecimientoComercio" value="1">
+                                            <label class="form-check-label">SI</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Bien/Servicio<span class="text-danger">*</span></label>
+                                    <div class="">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" asp-for="Input.TipoBienServicio" value="0">
+                                            <label class="form-check-label">Exentos</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" asp-for="Input.TipoBienServicio" value="1">
+                                            <label class="form-check-label">Gravados</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" asp-for="Input.TipoBienServicio" value="2">
+                                            <label class="form-check-label">Excluídos</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" asp-for="Input.TipoBienServicio" value="3">
+                                            <label class="form-check-label">Mixtos</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Actividad Comercial<span class="text-danger">*</span></label>
+                                    <div class="">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" asp-for="Input.TipoActividadComercial" value="0">
+                                            <label class="form-check-label">Industrial</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" asp-for="Input.TipoActividadComercial" value="1">
+                                            <label class="form-check-label">Comercial</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" asp-for="Input.TipoActividadComercial" value="2">
+                                            <label class="form-check-label">Servicios</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" asp-for="Input.TipoActividadComercial" value="3">
+                                            <label class="form-check-label">Otros</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Contraseña<span class="text-danger">*</span></label>
+                                    <input asp-for="Input.Password" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Confirmar Contraseña<span class="text-danger">*</span></label>
+                                    <input asp-for="Input.ConfirmPassword" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            </div>
+                            <div class="col-md-6 mt-4">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-success w-100">Registrarte</button>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-4">
+                                <div class="form-group">
+                                    <a href="/" type="button" class="btn btn-secondary w-100">Cancelar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

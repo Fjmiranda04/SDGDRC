@@ -1,0 +1,244 @@
+@model IEnumerable<GeneralLedger.SelfServiceCore.Data.DTOs.PQRSFListDTO>
+@{
+    ViewData["Title"] = "Listado de PQRSF";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["DateNow"] = DateTime.Now.ToString("yyyy-MM-dd");
+}
+
+
+
+<div class="row mt-0 pt-0">
+    @* TABLE *@
+    <div class="col-12 col-md-10 px-1 py-0">
+        <div class="card border-0 px-0 py-0" id="card-table">
+            <div class="col-md-12 px-2 pt-2">
+                <ul class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="#">PQRSF</a></li>
+                    <li class="breadcrumb-item active">Listado de PQRSF</li>
+                </ul>
+            </div>
+            <div class="card-body px-0 py-0 my-0">
+                <div class="row">
+                   <div class="col-md-12">
+                        <div class="row mb-2 px-2">
+                            <div class="col-12 col-md-12 py-2" style="background-color: #FCFCFC;">
+                                <div class="row" style="background-color: #FCFCFC;">
+                                    <div class="col-4 col-md-2">
+                                        <div class="col-md-12 d-flex justify-content-center align-items-center m-0">
+                                            <i class="fas fa-clock fa-lg text-success"></i>
+                                            <span id="sabiertas" class="badge fw-bold text-dark" style="font-size:1rem">0 Abiertas</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 col-md-2">
+                                        <div class="col-md-12 d-flex justify-content-center align-items-center m-0">
+                                            <i class="fas fa-cogs fa-lg text-danger"></i>
+                                            <span id="spendientes" class="badge fw-bold text-dark" style="font-size:1rem">0 Pendientes</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 col-md-2">
+                                        <div class="col-md-12 d-flex justify-content-center align-items-center m-0">
+                                            <i class="fas fa-cogs fa-lg text-warning"></i>
+                                            <span id="sgestion" class="badge fw-bold text-dark" style="font-size:1rem">0 En Gestión</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 col-md-2">
+                                        <div class="col-md-12 d-flex justify-content-center align-items-center m-0">
+                                            <i class="fas fa-check-circle fa-lg text-dark"></i>
+                                            <span id="sresueltas" class="badge fw-bold text-dark" style="font-size:1rem">0 Resueltas</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 col-md-2">
+                                        <div class="col-md-12 d-flex justify-content-center align-items-center m-0">
+                                            <i class="fas fa-list-ul fa-lg text-primary"></i>
+                                            <span id="stotal" class="badge fw-bold text-dark" style="font-size:1rem">0 Total</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                   </div>
+                    @* TABLE *@
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-10 col-md-10 px-3">                               
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-search"></i>
+                                        </span>
+                                        <input type="text" name="Search" id="Search" class="form-control form-control-sm" placeholder="Buscar..." value="">
+                                    </div>
+                                </div>                             
+                            </div>
+                            <div class="col-2 col-md-2 ms-auto d-flex justify-content-end align-items-center px-3">
+                                <a id="btn-new-pqrsf" asp-action="Create" class="btn btn-primary btn-sm "><i class="fa fa-plus-circle fa-fw me-1"></i> Nueva PQRSF </a>
+                            </div>
+                            <div class="col-md-12">
+                                <table class="table table-borderless table-lg table-hover" id="list-pqrsf" style=" min-width: 100%;width: 100%;"> 
+                                    <thead class="m-0 p-0 w-100">
+                                        <tr>
+                                           @* <th width="3%" align="center" style="min-width: 3%;"><input type="checkbox" class="form-check-input"/></th>*@
+                                            <th width="10%" align="center" style="min-width: 7%;">Nro</th>
+                                            <th width="20%" style="min-width: 15%;">Cliente</th>
+                                            <th width="25%" style="min-width: 25%;">Asunto</th>
+                                            <th width="10%" style="min-width: 10%;">Fecha</th>
+                                            <th width="10%" style="min-width: 10%;">Estado</th>
+                                            <th width="10%" style="min-width: 10%;">Prioridad</th>
+                                            <th width="25%" style="min-width: 15%;">Responsable</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                   
+                                </table>
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-2">
+        <div class="fixed-navbar">
+           <div class="card border-0 p-0 m-0">
+                <div class="toast-header my-0">
+                    <div class="col-md-12 my-0 py-0">
+                        <h5 class="mb-0">Filtros</h5>
+                    </div>
+                </div>
+               <div class="card-body">
+  
+                    @* TARGET COUNT *@
+                    
+                    @* FILTERS *@
+                    <div class="row px-0">
+
+                        <div class="col-12 col-md-12 mb-3 px-0">
+                            <label for="" class="form-label">Fecha Creación</label>
+                            <div class="input-group" id="daterangei">
+                                <input type="date" id="dateini" name="dateini" class="form-control form-control-sm" value="" placeholder="Filtrar por fecha" />
+                                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                <input type="date" id="datefin" name="datefin" class="form-control form-control-sm" value="" placeholder="Filtrar por fecha" />
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-12 mb-3 px-0">
+                            <div class="form-group">
+                                <label for="" class="form-label">Plazo limite de resolución</label>
+                                <select name="fecresolucion" id="fecresolucion" class="form-select form-select-sm filter-table" data-index="2">
+                                    <option value="all">Cualquier momento</option>
+                                    <option value="1">Vencidas</option>
+                                    <option value="2">Hoy</option>
+                                    <option value="3">Mañana</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-12 mb-3 px-0">
+                            <div class="form-group">
+                                <label for="" class="form-label">Agente</label>
+                                <select name="AgentePqrsf" id="AgentePqrsf" class="form-select form-select-sm filter-table" data-index="7">
+                                    <option value="all">TODOS</option>
+                                    @foreach (var item in ViewBag.Agentes)
+                                    {
+                                        <option value="@item.NroId">@item.NombreCompleto</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-12 mb-3 px-0">
+                            <div class="form-group">
+                                <label for="" class="form-label">Área</label>
+                                <select name="AreaPqrsf" id="AreaPqrsf" class="form-select form-select-sm filter-table" data-index="7">
+                                    <option value="all">TODOS</option>
+                                    @foreach (var item in ViewBag.Agentes)
+                                    {
+                                        <option value="@item.NombreCompleto">@item.NombreCompleto</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-12 mb-3 px-0">
+                            <div class="form-group">
+                                <label for="" class="form-label">Tipo</label>
+                                <select name="Tipo" id="TipoPqrsf" class="form-select form-select-sm filter-table" data-index="3">
+                                    <option value="all">TODOS</option>
+                                    @foreach (var item in ViewBag.Situaciones)
+                                    {
+                                        <option id="@item.Id">@item.TipoSituacion</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-12 mb-3 px-0">
+                            <div class="form-group">
+                                <label for="" class="form-label">Estado</label>
+                                <select name="EstadoPqrsf" id="EstadoPqrsf" class="form-select form-select-sm filter-table" data-index="5">
+                                    <option value="all">TODOS</option>
+                                    <option value="cer">Todo sin resolver</option>
+                                    @foreach (var item in ViewBag.Estados)
+                                    {
+                                        <option value="@item.Id">@item.Nombre</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-12 mb-3 px-0">
+                            <div class="form-group">
+                                <label for="" class="form-label">Prioridad</label>
+                                <select name="PrioridadPqrsf" id="PrioridadPqrsf" class="form-select form-select-sm filter-table" data-index="6">
+                                    <option value="all">TODOS</option>
+                                    @foreach (var item in ViewBag.Prioridades)
+                                    {
+                                        <option value="@item.Id">@item.Nombre</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="col-12 col-md-12 mb-3 px-0">
+                            <div class="form-group">
+                                <label for="" class="form-label">Cliente</label>
+                                <select name="ClientePqrsf" id="ClientePqrsf" class="form-select form-select-sm filter-table" data-index="2">
+                                    <option value="all">TODOS</option>
+                                    @foreach (var item in ViewBag.Clientes)
+                                    {
+                                        <option value="@item.Clinit">@item.Clinom</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                         
+                        <div class="col-12 col-md-12 mb-3 px-0">
+                            <div class="form-group">
+                                <label for="" class="form-label">Etiquetas</label>
+                                <select class="form-control" id="ex-etiquetas" multiple="" style="display: none;">
+                                    <option value="all">TODO</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-12 mb-3 px-0">
+                            <button id="btn-filter" class="btn btn-success w-100">Aplicar</button>
+                        </div>
+                        
+                    </div>
+                      
+               </div>
+           </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts 
+{
+    <script type="text/javascript" src="~/scripts/PQRSF/list.js"></script>
+}

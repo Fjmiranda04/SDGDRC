@@ -1,0 +1,362 @@
+﻿@{
+    ViewData["title"] = "Generar Cotización";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Cotizacion/create.css" />
+</head>
+
+<section class="row d-flex justify-content-center">
+    <div class="col-md-11">
+        <div class="card mb-2">
+            <div class="col-md-12 px-2 pt-2">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Cotizaciones</a></li>
+                    <li class="breadcrumb-item active">Nueva Cotización</li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form action="">
+                            <div class="container">
+                                <div class="row mb-3">
+                                    <div class="col-md-12 mb-2">
+                                        <div class="form-group">
+                                            <label for="selectCliente" class="form-label">
+                                                Cliente<span class="text-danger">*</span>
+                                            </label>
+                                            <div class="row">
+                                                <div class="col-md-4 position-relative">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text">
+                                                            <i class="fa fa-building"></i>
+                                                        </span>
+                                                        <input class="form-control" type="text" id="NitCliente"
+                                                            autocomplete="off" name="client">
+                                                    </div>
+                                                    <ul id="clienteList"
+                                                        class="list-group position-absolute h-auto right-0 bg-white shadow top-100 w-100"
+                                                        style="list-style: none; z-index: 5;">
+                                                    </ul>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" placeholder=""
+                                                            id="NombreCliente" readonly />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <div class="form-group">
+                                            <label for="selectSolicitante" class="form-label">
+                                                Solicitante<span class="text-danger">*</span>
+                                            </label>
+                                            <div class="row">
+                                                <div class="col-md-4 position-relative">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text">
+                                                            <i class="fa fa-user-pen"></i>
+                                                        </span>
+                                                        <input class="form-control" type="text" id="CodSolicitante"
+                                                            autocomplete="off" name="">
+                                                    </div>
+                                                    <ul id="solicitanteList"
+                                                        class="list-group position-absolute h-auto right-0 bg-white shadow top-100 w-100"
+                                                        style="list-style: none; z-index: 5;">
+                                                    </ul>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" placeholder=""
+                                                            id="NombreSolicitante" readonly />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <div class="form-group">
+                                            <label for="Cargo" class="form-label">
+                                                Cargo<span class="text-danger">*</span>
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
+                                                <input type="text" class="form-control" placeholder="" id="Cargo"
+                                                    readonly />
+                                            </div>
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <div class="form-group">
+                                            <label for="Correo" class="form-label">
+                                                Correo electrónico
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                                                <input type="email" class="form-control" placeholder="" id="Correo"
+                                                    readonly />
+                                            </div>
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <div class="form-group">
+                                            <label for="Teléfono" class="form-label">
+                                                Teléfono
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-mobile-screen-button"></i>
+                                                </span>
+                                                <input type="text" class="form-control" placeholder="" id="Telefono"
+                                                    readonly />
+                                            </div>
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mb-2">
+                                        <div class="form-group">
+                                            <label for="NombreVendedor" class="form-label">
+                                                Vendedor<span class="text-danger">*</span>
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fa fa-user-tie"></i></span>
+                                                <input type="text" class="form-control" placeholder=""
+                                                    id="NombreVendedor" readonly />
+                                            </div>
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mb-2">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">
+                                                Tipo formato<span class="text-danger">*</span>
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fa fa-user-pen"></i></span>
+                                                <select class="form-select" name="" id="TipoFormato">
+                                                    <option value="0" selected>Seleccione el tipo de formato</option>
+                                                    <option value="12323123">1</option>
+                                                    <option value="929323s1">2</option>
+                                                </select>
+                                            </div>
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mb-2">
+                                        <label for="" class="form-label">
+                                            Descripción<span class="text-danger">*</span>
+                                        </label>
+                                        <textarea class="form-control" style="resize: none;" name="" id=""></textarea>
+                                    </div>
+                                    <div class="col-md-12 mb-2">
+                                        <label for="" class="form-label">
+                                            Condiciones comerciales
+                                        </label>
+                                        <textarea class="form-control" style="resize: none;" name="" id=""></textarea>
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <div class="form-group">
+                                            <label for="Validez" class="form-label">
+                                                Validez de la oferta
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fa fa-clock"></i></span>
+                                                <input type="text" class="form-control" placeholder="" id="Validez"
+                                                    readonly />
+                                            </div>
+
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <div class="form-group">
+                                            <label for="Pago" class="form-label">
+                                                Forma de Pago
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fa fa-credit-card"></i></span>
+                                                <input type="text" class="form-control" placeholder="" id="Pago"
+                                                    readonly />
+                                            </div>
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">
+                                                Garantía
+                                            </label>
+                                            <textarea class="form-control" style="resize: none;" name=""
+                                                id=""></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-2 row">
+                                        <div class="form-group col-md-12 mb-2">
+                                            <label for="Descuento" class="form-label">
+                                                Descuento<span class="text-danger">*</span>
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fa fa-tag"></i></span>
+                                                <input type="number" class="form-control" placeholder="" id="Descuento"
+                                                    value="0.00" step="0.01" min="0" max="100000" />
+                                                <span class="input-group-text">%</span>
+                                            </div>
+                                            <span class="text-danger"></span>
+                                        </div>
+                                        <div class="col-md-12 d-flex gap-2 align-items-center">
+                                            <label for="" class="form-label">Impresión IVA:</label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                                    id="RadioIva1" checked>
+                                                <label class="form-check-label" for="RadioIva1">
+                                                    Valor
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                                    id="RadioIva2">
+                                                <label class="form-check-label" for="RadioIva2">
+                                                    Porcentaje
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9 mb-2">
+                                        <div class="form-group d-flex align-items-center">
+                                            <label for="Escala" class="form-label text-nowrap me-3">
+                                                Escala de precios<span class="text-danger">*</span>
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fa fa-dollar-sign"></i></span>
+                                                <input type="text" class="form-control" placeholder="" id="Escala" />
+                                            </div>
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 mb-2 d-flex align-items-center">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="CheckAiu">
+                                            <label class="form-check-label" for="CheckAiu">
+                                                Aplicar AIU
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-md-12 mb-2 d-flex justify-content-center">
+                                        <button class="btn btn-success mx-2">Guardar</button>
+                                        <button class="btn btn-danger mx-2">Cancelar</button>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex">
+            <div>
+                <ul class="tabs-menu d-block m-0 p-0 z-50">
+                    <li class="tabs-menu-li rounded-end custom-shadow fw-bold border active">
+                        <a class="tabs-menu-a text-black d-block position-relative text-decoration-none py-3 px-2"
+                            href="">Agregar Items</a>
+                    </li>
+                    <li class="tabs-menu-li rounded-end custom-shadow fw-bold border">
+                        <a class="tabs-menu-a text-black d-block position-relative text-decoration-none py-3 px-2"
+                            href="">Complementos</a>
+                    </li>
+                    <li class="tabs-menu-li rounded-end custom-shadow fw-bold border">
+                        <a class="tabs-menu-a text-black d-block position-relative text-decoration-none py-3 px-2"
+                            href="">Reportes</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="tabs-body position-relative p-6 bg-white flex-grow-1 border">
+                <div class="row h-100">
+                    <div class="col-md-4 border-end pe-0">
+                        <div class="tabs-panel position-relative active" data-index="0">
+                            <div class="d-flex flex-column">
+                                <ul class="nav nav-tabs p-0 fw-bold d-flex flex-column">
+                                    <li class="nav-item d-flex">
+                                        <a data-bs-toggle="tab" href="#Mercancias"
+                                            class="submenu-link text-black flex-grow-1 py-2 px-3">
+                                            Inventario de Mercancias o Productos
+                                        </a>
+                                    </li>
+                                    <li class="nav-item d-flex">
+                                        <a data-bs-toggle="tab" href="#Servicios"
+                                            class="submenu-link text-black flex-grow-1 py-2 px-3">
+                                            Inventario Servicios
+                                        </a>
+                                    </li>
+                                    <li class="nav-item d-flex">
+                                        <a data-bs-toggle="tab" href="#AddItem"
+                                            class="submenu-link text-black flex-grow-1 py-2 px-3">
+                                            Registrar Item
+                                        </a>
+                                    </li>
+                                    <li class="nav-item d-flex">
+                                        <a data-bs-toggle="tab" href="#Presupuesto"
+                                            class="submenu-link text-black flex-grow-1 py-2 px-3">
+                                            Presupuesto
+                                        </a>
+                                    </li>
+                                    <li class="nav-item d-flex">
+                                        <a data-bs-toggle="tab" href="#Eliminar"
+                                            class="submenu-link text-black flex-grow-1 py-2 px-3">
+                                            Eliminar
+                                        </a>
+                                    </li>
+                                    <li class="nav-item d-flex">
+                                        <a data-bs-toggle="tab" href="#AIU"
+                                            class="submenu-link text-black flex-grow-1 py-2 px-3">
+                                            AIU
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="tabs-panel position-relative" data-index="1">
+                            <div class="d-flex flex-column">
+
+                            </div>
+                        </div>
+                        <div class="tabs-panel position-relative" data-index="2">
+                            <div class="d-flex flex-column">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="tab-content">
+                            <div id="Mercancias" class="tab-pane fade active show">
+                                <div class="row p-2 overflow-auto min" id="articulosLayout" style="max-height: 600px;">
+                                </div>
+                            </div>
+                            <div id="Servicios" class="tab-pane fade">
+                                <div class="row p-2 overflow-auto min" id="serviciosLayout" style="max-height: 600px;">
+                                </div>
+                            </div>
+                            <div id="AddItem" class="tab-pane fade">TRES</div>
+                            <div id="Presupuesto" class="tab-pane fade">CUATRO</div>
+                            <div id="Eliminar" class="tab-pane fade">CINCO</div>
+                            <div id="AIU" class="tab-pane fade">CINCO</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+
+@section scripts
+{
+    <script src="~/scripts/Utils/tabs.js" type="text/javascript">
+    </script>
+    <script src="~/scripts/Cotizacion/create.js" type="text/javascript">
+    </script>
+}

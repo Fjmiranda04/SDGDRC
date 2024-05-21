@@ -1,0 +1,1027 @@
+﻿@{
+    ViewData["Title"] = "Mis Solicitudes de Empleados";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card border-0 px-0 py-0 my-0">
+            <div class="col-md-12 px-2 pt-2">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Gestión Humana</a></li>
+                    <li class="breadcrumb-item active">Solicitudes</li>
+                </ul>
+            </div>
+            <div class="card-body px-2 py-0">
+
+                <div class="row">
+                     <div class="col-md-12">
+                        <ul class="nav nav-tabs nav-tabs-v2" role="tablist">
+                            <li class="nav-item me-3" role="presentation"><a href="#Pendientes" class="nav-link active" data-bs-toggle="tab" role="tab">Pendientes</a></li>
+                            <li class="nav-item me-3" role="presentation"><a href="#Aprobadas" class="nav-link" data-bs-toggle="tab" role="tab">Aprobadas</a></li>
+                            <li class="nav-item me-3" role="presentation"><a href="#Rechazadas" class="nav-link" data-bs-toggle="tab" role="tab">Rechazadas</a></li>
+                        </ul>
+
+                        <div class="tab-content pt-3">
+                            <div class="tab-pane fade active show" id="Pendientes" role="tabpanel">
+                               <div class="row">
+                                    <div class="col-12 col-md-7">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Buscar</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-search"></i> </span>
+                                                <input type="text" name="search-solicitud-p" id="search-solicitud-p" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-5">                            
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Tipo Solicitud</label>
+                                            <div class="input-group">
+          
+                                                <select name="TipoNovedad" id="TipoNovedad" class="form-select">
+                                                    <option value="AUSP">Solicitud de Permisos</option>
+                                                    <option value="AUSV">Solicitud de Vacaciones</option>
+                                                    @foreach (var item in ViewBag.TipoNovedades)
+                                                    {
+                                                        <option value="@item.Codigo">@item.Novedad</option>
+                                                    }                                                   
+                                                </select>
+                                                <button id="btn-n-solicitud" class="btn btn-outline-primary" type="button"><i class="fa fa-plus-circle fa-fw me-1"></i> Agregar Solicitud</button>
+                                            </div>
+                                        </div>                                
+                                    </div>
+
+                                    <div class="col-md-12">
+
+                                        <table id="table-pendientes" class="table table-borderless table-striped table-earning" style=" min-width: 100%;width: 100%;">
+                                            <thead>
+                                                <tr>
+                                                    <th nowrap width="10%">N° Solicitud</th>
+                                                    <th nowrap width="10%">Fecha</th>
+                                                    <th nowrap width="20%">Tipo de Solicitud</th>
+                                                    <th nowrap width="40%">Descripción</th>
+                                                    <th nowrap width="20%">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                      
+                                    </div>
+                               </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="Aprobadas" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Buscar</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-search"></i> </span>
+                                                <input type="text" name="search-solicitud-a" id="search-solicitud-a" class="form-control form-control-sm">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <table id="table-aprobadas" class="table table-borderless table-striped table-earning" style=" min-width: 100%;width: 100%;">
+                                            <thead>
+                                                <tr>
+                                                    <th nowrap width="10%">N° Solicitud</th>
+                                                    <th nowrap width="10%">Fecha</th>
+                                                    <th nowrap width="20%">Tipo de Solicitud</th>
+                                                    <th nowrap width="30%">Descripción</th>
+                                                    <th nowrap width="10%">Fecha Aprobado</th>
+                                                    <th nowrap width="20%">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="Rechazadas" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Buscar</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-search"></i> </span>
+                                                <input type="text" name="search-solicitud-r" id="search-solicitud-r" class="form-control form-control-sm">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <table id="table-rechazadas" class="table table-borderless table-striped table-earning" style=" min-width: 100%;width: 100%;">
+                                            <thead>
+                                                <tr>
+                                                    <th nowrap width="10%">N° Solicitud</th>
+                                                    <th nowrap width="10%">Fecha</th>
+                                                    <th nowrap width="20%">Tipo de Solicitud</th>
+                                                    <th nowrap width="30%">Descripción</th>
+                                                    <th nowrap width="10%">Fecha Rechazado</th>
+                                                    <th nowrap width="20%">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-eps">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cambio de EPS</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container">
+                    <form action="" id="form-eps">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Identificación</label>
+                                    <input type="text" class="form-control" id="identificacioneps" name="identificacioneps" value="" readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Empleado</label>
+                                    <input type="text" class="form-control" id="nomeempleadoeps" name="nomeempleadoeps" value="" readonly />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">EPS Actual</label>
+                                    <select name="epsactual" id="epsactual" class="form-select" disabled>
+                                        <option value="NA">Seleccione una opción</option>
+                                        @foreach (var item in ViewBag.Eps)
+                                        {
+                                            <option value="@item.Epscod">@item.Epsnom</option>
+                                        }                                       
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">EPS Nueva</label>
+                                    <select name="codigoeps" id="codigoeps" class="form-select" >
+                                        <option data-tokens="Seleccione una opción" value="NA">Seleccione una opción</option>
+                                        @foreach (var item in ViewBag.Eps)
+                                        {
+                                            <option data-tokens="@item.Epsnom" value="@item.Epscod">@item.Epsnom</option>
+                                        }                                       
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Descripción</label>
+                                    <textarea id="observaciones" name="observaciones" class="form-control" cols="30" rows="3" placeholder="Escriba aqui una observación..." style="resize: none;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="btn-save-eps" type="button" class="btn btn-success">Guardar</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-tipo-documento">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cambio de Tipo de Documento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container">
+                    <form action="" id="form-tipdoc">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Identificación</label>
+                                    <input type="text" class="form-control" id="identificaciontipdoc" name="identificaciontipdoc" value="" readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Empleado</label>
+                                    <input type="text" class="form-control" id="nomeempleadotipdoc" name="nomeempleadotipdoc" value="" readonly />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Tipo Documento Actual</label>
+                                    <input type="text" class="form-control" id="tipdocactual" name="tipdocactual" value="" readonly/>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Tipo Documento Nueva</label>
+                                    <select name="codigotipdoc" id="codigotipdoc" class="form-select">
+                                        <option value="NA">Seleccione una Opción</option>
+                                        <option value="CC">CC</option>
+                                        <option value="NI">NI</option>
+                                        <option value="CE">CE</option>
+                                        <option value="TI">TI</option>
+                                        <option value="PE">PE</option>
+                                        <option value="PA">PA</option>
+                                        <option value="CM">CM</option>
+                                        <option value="PT">PT</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Descripción</label>
+                                    <textarea id="observacionestipdoc" name="observacionestipdoc" class="form-control" cols="30" rows="3" placeholder="Escriba aqui una observación..." style="resize: none;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="btn-save-tipdoc" type="button" class="btn btn-success">Guardar</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-fondop">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cambio de Fondo de Pensiones</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container">
+                    <form action="" id="form-fondop">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Identificación</label>
+                                    <input type="text" class="form-control" id="identificacionfp" name="identificacionfp" value="" readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Empleado</label>
+                                    <input type="text" class="form-control" id="nomeempleadofp" name="nomeempleadofp" value="" readonly />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Fondo de Pensión Actual</label>
+                                    <select name="fpactual" id="fpactual" class="form-select" disabled>
+                                        <option value="NA">Seleccione una opción</option>
+                                        @foreach (var item in ViewBag.Pension)
+                                        {
+                                            <option value="@item.Pencod">@item.Pennom</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Fondo de Pensión Nuevo</label>
+                                    <select name="codigofp" id="codigofp" class="form-select">
+                                        <option value="NA">Seleccione una opción</option>
+                                        @foreach (var item in ViewBag.Pension)
+                                        {
+                                            <option value="@item.Pencod">@item.Pennom</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Descripción</label>
+                                    <textarea id="observacionesfp" name="observacionesfp" class="form-control" cols="30" rows="3" placeholder="Escriba aqui una observación..." style="resize: none;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="btn-save-pen" type="button" class="btn btn-success">Guardar</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-fondoc">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cambio de Fondo de Cesantías</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container">
+                    <form action="" id="form-fondoc">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Identificación</label>
+                                    <input type="text" class="form-control" id="identificacionfc" name="identificacionfc" value="" readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Empleado</label>
+                                    <input type="text" class="form-control" id="nomeempleadofc" name="nomeempleadofc" value="" readonly />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Fondo de Censantías Actual</label>
+                                    @*<input type="text" class="form-control" id="fcactual" name="fcactual" value="" />*@
+                                    <select name="fcactual" id="fcactual" class="form-select" disabled>
+                                        <option value="NA">Seleccione una opción</option>
+                                        @foreach (var item in ViewBag.Cesantias)
+                                        {
+                                            <option value="@item.Cescod">@item.Cesnom</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Fondo de Censantías Nuevo</label>
+                                    <select name="codigofc" id="codigofc" class="form-select">
+                                        <option value="NA">Seleccione una opción</option>
+                                        @foreach (var item in ViewBag.Cesantias)
+                                        {
+                                            <option value="@item.Cescod">@item.Cesnom</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Descripción</label>
+                                    <textarea id="observacionesfc" name="observacionesfc" class="form-control" cols="30" rows="3" placeholder="Escriba aqui una observación..." style="resize: none;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="btn-save-ces" type="button" class="btn btn-success">Guardar</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-sueldo">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cambio de Sueldo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container">
+                    <form action="" id="form-sueldo">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Identificación</label>
+                                    <input type="text" class="form-control" id="identificacionsueldo" name="identificacionsueldo" value="" readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Empleado</label>
+                                    <input type="text" class="form-control" id="nomeempleadosueldo" name="nomeempleadosueldo" value="" readonly />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Sueldo Actual</label>
+                                    <input type="number" class="form-control" id="sueldoactual" name="sueldoactual" readonly />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Sueldo Nuevo</label>
+                                    <input type="number" class="form-control" id="sueldonuevo" name="sueldonuevo" value="" />                              
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Descripción</label>
+                                    <textarea id="observacionessueldo" name="observacionessueldo" class="form-control" cols="30" rows="3" placeholder="Escriba aqui una observación..." style="resize: none;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="btn-save-sue" type="button" class="btn btn-success">Guardar</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-caja">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cambio de Caja de Compensación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container">
+                    <form action="" id="form-caja">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Identificación</label>
+                                    <input type="text" class="form-control" id="identificacioncaja" name="identificacioncaja" value="" readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Empleado</label>
+                                    <input type="text" class="form-control" id="nomeempleadocaja" name="nomeempleadocaja" value="" readonly />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Caja de Compensación Actual</label>
+                                    @*<input type="text" class="form-control" id="cajaactual" name="cajaactual" value="" />*@
+                                    <select name="cajaactual" id="cajaactual" class="form-select" disabled>
+                                        <option value="NA">Seleccione una opción</option>
+                                        @foreach (var item in ViewBag.CajasCompensacion)
+                                        {
+                                            <option value="@item.Arpcod">@item.Arpnom</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Caja de Compensación Nuevo</label>
+                                    <select name="codigocaja" id="codigocaja" class="form-select">
+                                        <option value="NA">Seleccione una opción</option>
+                                        @foreach (var item in ViewBag.CajasCompensacion)
+                                        {
+                                            <option value="@item.Arpcod">@item.Arpnom</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Descripción</label>
+                                    <textarea id="observacionescaja" name="observacionescaja" class="form-control" cols="30" rows="3" placeholder="Escriba aqui una observación..." style="resize: none;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="btn-save-com" type="button" class="btn btn-success">Guardar</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-show-novedad">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detalles de solicitud</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">N° Solicitud</label>
+                                <input type="text" class="form-control" id="idsolicitud" name="idsolicitud" value="" readonly />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Fecha de Solicitud</label>
+                                <input type="text" class="form-control" id="fechasolicitud" name="fechasolicitud" value="" readonly />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Tipo de Solicitud</label>
+                            <input type="text" class="form-control" id="tiposolicitud" name="tiposolicitud" value="" readonly />
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Valor Anterior</label>
+                                <input type="text" class="form-control" id="valorant" name="valorant" value="" readonly />
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Valor Nuevo</label>
+                                <input type="text" class="form-control" id="valornuevo" name="valornuevo" value="" readonly />
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Descripción</label>
+                            <textarea id="obs" name="obs" class="form-control" cols="30" rows="3" placeholder="" style="resize: none;" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-permiso">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nueva Solicitud de Permiso</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form action="" id="form-permiso" class="needs-validation" novalidate>
+                        <div class="row">
+
+                            <div class="col-md-12 mt-2">
+                                <div class="form-group">
+                                    <label for="identificacionpermiso" class="form-label">Identificación</label>
+                                    <input type="text" class="form-control" id="identificacionpermiso" name="identificacionpermiso" value="" readonly required/>
+                                    <div class="invalid-feedback">
+                                        Número de identifación requerido
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-2">
+                                <div class="form-group">
+                                    <label class="form-label">Empleado</label>
+                                    <input type="text" class="form-control" id="nomeempleadopermiso" name="nomeempleadopermiso" value="" readonly />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mt-2">
+                                <div class="form-group">
+                                    <label for="codigopermiso" class="form-label">Tipo de Permiso</label>
+                                    <select name="codigopermiso" id="codigopermiso" class="form-select" required>
+                                        <option value="NA">Seleccione una opción</option>
+
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Seleccione el tipo de permiso
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mt-2">
+                                <div class="form-group">
+                                    <label for="finicialpermiso" class="form-label">Fecha Inicial</label>
+                                    <input type="date" class="form-control" id="finicialpermiso" name="finicialpermiso" value="" required />
+                                    <div class="invalid-feedback">
+                                        Digite la fecha de Inicial
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mt-2">
+                                <div class="form-group">
+                                    <label for="hinicialpermiso" class="form-label">Hora Inicial</label>
+                                    <input type="time" class="form-control" id="hinicialpermiso" name="hinicialpermiso" value="" required />
+                                    <div class="invalid-feedback">
+                                        Digite la hora inicial
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mt-2">
+                                <div class="form-group">
+                                    <label class="form-label">Fecha Final</label>
+                                    <input type="date" class="form-control" id="ffinalpermiso" name="ffinalpermiso" value="" required />
+                                    <div class="invalid-feedback">
+                                        Digite la fecha final
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mt-2">
+                                <div class="form-group">
+                                    <label for="hfinalpermiso" class="form-label">Hora Final</label>
+                                    <input type="time" class="form-control" id="hfinalpermiso" name="hfinalpermiso" value=""  required/>
+                                    <div class="invalid-feedback">
+                                        Digite la hora final
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 my-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="false" id="regresa" name="regresa" >
+                                    <label class="form-label" for="regresa">Regresa</label>
+                                </div>
+                            </div>
+                                                     
+                            <div class="col-md-12 mt-2">
+                                <div class="form-group">
+                                    <label for="observacionespermiso" class="form-label">Describa las razones del permiso</label>
+                                    <textarea id="observacionespermiso" name="observacionespermiso" class="form-control" cols="30" rows="3" placeholder="Escriba aqui una observación..." style="resize: none;" required></textarea>
+                                    <div class="invalid-feedback">
+                                        Digite las razones del permiso
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="btn-save-permiso" type="button" class="btn btn-success">Guardar</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-vacaciones">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nueva Solicitud de Vacaciones</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form action="" id="form-vacaciones" class="needs-validation" novalidate>
+                        <div class="row">
+
+                            <div class="col-md-12 mt-2">
+                                <div class="form-group">
+                                    <label for="identificacionvacaciones" class="form-label">Identificación</label>
+                                    <input type="text" class="form-control" id="identificacionvacaciones" name="identificacionvacaciones" value="" readonly required/>
+                                    <div class="invalid-feedback">
+                                        Número de identifación requerido
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-2">
+                                <div class="form-group">
+                                    <label class="form-label">Empleado</label>
+                                    <input type="text" class="form-control" id="nomeempleadovacaciones" name="nomeempleadovacaciones" value="" readonly />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mt-2">
+                                <div class="form-group">
+                                    <label for="fperiodoi" class="form-label">Periodo desde</label>
+                                    <input type="date" class="form-control" id="fperiodoi" name="fperiodoi" value="" readonly required/>
+                                    <div class="invalid-feedback">
+                                        Periodo inicial requerido
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-2">
+                                <div class="form-group">
+                                    <label for="fperiodof" class="form-label">Hasta</label>
+                                    <input type="date" class="form-control" id="fperiodof" name="fperiodof" value="" readonly required/>
+                                    <div class="invalid-feedback">
+                                        Periodo final requerido
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-md-6 mt-2">
+                                <div class="form-group">
+                                    <label for="fvacacionesi" class="form-label">Fecha Inicial</label>
+                                    <input type="date" class="form-control" id="fvacacionesi" name="fvacacionesi" value=""  required/>
+                                    <div class="invalid-feedback">
+                                        Fecha inicial de vacaciones requerida
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-2">
+                                <div class="form-group">
+                                    <label for="fvacacionesf" class="form-label">Fecha Reintegro</label>
+                                    <input type="date" class="form-control" id="fvacacionesf" name="fvacacionesf" value="" readonly required/>
+                                    <div class="invalid-feedback">
+                                        Fecha inicial de reintegro requerida
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mt-2">
+                                <div class="form-group">
+                                    <label for="diashabil" class="form-label">Días Hábiles</label>
+                                    <input type="number" class="form-control" id="diashabil" name="diashabil" value="" required />
+                                    <div class="invalid-feedback">
+                                        Días hábiles requerido
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mt-2">
+                                <div class="form-group">
+                                    <label for="diascompensados" class="form-label">Días Compensados</label>
+                                    <input type="number" class="form-control" id="diascompensados" name="diascompensados" value="" required />
+                                    <div class="invalid-feedback">
+                                        Días compensados requerido
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mt-2">
+                                <div class="form-group">
+                                    <label for="diasdisfrute" class="form-label">Días de Disfrute</label>
+                                    <input type="number" class="form-control" id="diasdisfrute" name="diasdisfrute" value="" readonly required  />
+                                    <div class="invalid-feedback">
+                                        Días de difrute requerido
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mt-2">
+                                <div class="form-group">
+                                    <label class="form-label">Total Días</label>
+                                    <input type="number" class="form-control" id="diastotal" name="diastotal" value="" readonly required/>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mt-2">
+                                <div class="form-group">
+                                    <label class="form-label">Días a Pagar</label>
+                                    <input type="number" class="form-control" id="diaspagar" name="diaspagar" value="" readonly required/>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mt-2">
+                                <div class="form-group">
+                                    <label class="form-label">Observaciones</label>
+                                    <textarea id="observacionesvacaciones" name="observacionesvacaciones" class="form-control" cols="30" rows="3" placeholder="Escriba aqui una observación..." style="resize: none;" required></textarea>
+                                    <div class="invalid-feedback">
+                                        La observación es requerida
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="btn-save-vacaciones" type="button" class="btn btn-success">Guardar</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-show-vacaciones">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="title-vacaciones">Solicitud de Vacaciones</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-md-6 mt-2">
+                            <div class="form-group">
+                                <label class="form-label">Periodo desde</label>
+                                <input type="date" class="form-control" id="sfperiodoi" name="sfperiodoi" value="" readonly />
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-2">
+                            <div class="form-group">
+                                <label class="form-label">Hasta</label>
+                                <input type="date" class="form-control" id="sfperiodof" name="sfperiodof" value="" readonly />
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6 mt-2">
+                            <div class="form-group">
+                                <label class="form-label">Fecha Inicial</label>
+                                <input type="date" class="form-control" id="sfvacacionesi" name="sfvacacionesi" value="" readonly />
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-2">
+                            <div class="form-group">
+                                <label class="form-label">Fecha Reintegro</label>
+                                <input type="date" class="form-control" id="sfvacacionesf" name="sfvacacionesf" value="" readonly />
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 mt-2">
+                            <div class="form-group">
+                                <label class="form-label">Días Habiles</label>
+                                <input type="number" class="form-control" id="sdiashabil" name="sdiashabil" value="" readonly />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mt-2">
+                            <div class="form-group">
+                                <label class="form-label">Días Compensados</label>
+                                <input type="number" class="form-control" id="sdiascompensados" name="sdiascompensados" value="" readonly />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mt-2">
+                            <div class="form-group">
+                                <label class="form-label">Días de Disfrute</label>
+                                <input type="number" class="form-control" id="sdiasdisfrute" name="sdiasdisfrute" value="" required readonly />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mt-2">
+                            <div class="form-group">
+                                <label class="form-label">Total Días</label>
+                                <input type="number" class="form-control" id="sdiastotal" name="sdiastotal" value="" readonly />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mt-2">
+                            <div class="form-group">
+                                <label class="form-label">Días a Pagar</label>
+                                <input type="number" class="form-control" id="sdiaspagar" name="sdiaspagar" value="" readonly />
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 mt-2">
+                            <div class="form-group">
+                                <label class="form-label">Observaciones</label>
+                                <textarea id="sobservacionesvacaciones" name="sobservacionesvacaciones" class="form-control" cols="30" rows="3" placeholder="Escriba aqui una observación..." style="resize: none;" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-show-permiso">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="title-permiso"> Solicitud de Permiso #</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+
+                    <div class="row">
+
+                        <div class="col-md-12 mt-2">
+                            <div class="form-group">
+                                <label class="form-label">Tipo de Permiso</label>
+                                <input type="text" class="form-control" id="stipopermiso" name="stipopermiso" value="" readonly />                             
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mt-2">
+                            <div class="form-group">
+                                <label class="form-label">Fecha Inicial</label>
+                                <input type="text" class="form-control" id="sfinicialpermiso" name="sfinicialpermiso" value="" readonly />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mt-2">
+                            <div class="form-group">
+                                <label class="form-label">Hora Inicial</label>
+                                <input type="text" class="form-control" id="shinicialpermiso" name="shinicialpermiso" value="" readonly />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mt-2">
+                            <div class="form-group">
+                                <label class="form-label">Fecha Final</label>
+                                <input type="text" class="form-control" id="sffinalpermiso" name="sffinalpermiso" value="" readonly />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mt-2">
+                            <div class="form-group">
+                                <label class="form-label">Hora Final</label>
+                                <input type="text" class="form-control" id="shfinalpermiso" name="shfinalpermiso" value="" readonly />
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 my-3">
+                            <div class="form-group">
+                                <label class="form-label">Regresa</label>
+                                <input type="text" class="form-control" id="sregresa" name="sregresa" value="" readonly />
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 mt-2">
+                            <div class="form-group">
+                                <label class="form-label">Razones</label>
+                                <textarea id="sobservacionespermiso" name="sobservacionespermiso" class="form-control" cols="30" rows="3" placeholder="Escriba aqui una observación..." style="resize: none;" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+{
+    <script src="~/scripts/GestionHumana/solicitudes.js" type="text/javascript"></script>
+}

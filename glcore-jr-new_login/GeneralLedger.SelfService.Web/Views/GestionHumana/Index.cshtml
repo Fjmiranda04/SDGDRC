@@ -1,0 +1,379 @@
+﻿@{
+    ViewData["Title"] = "Certificados Empleados";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-m-12">
+        <div class="card border-0">
+            <div class="col-md-12 px-2 pt-2">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Gestión Humana</a></li>
+                    <li class="breadcrumb-item active">Certificados Empleados</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row mt-2">
+    <div class="col-md-2">
+        <div class="card border-0">
+            <div class="card-body">
+                <div class="row">
+
+                    <div class="col-6 col-md-12 py-1">
+                        <a id="btnSueldoAct" class="btn btn-primary d-flex flex-column align-items-center">
+                            <i class="fas fa-hand-holding-usd" style="font-size:1.6rem"></i>
+                            Sueldo Actual
+                        </a>
+                    </div>
+
+                    <div class="col-6 col-md-12 py-1">
+                        <a id="btnSueldoProm" class="btn btn-primary d-flex flex-column align-items-center">
+                            <i class="fas fa-money-bill-alt" style="font-size:1.6rem"></i>
+                            Sueldo Promedio
+                        </a>
+                    </div>
+
+                    <div class="col-6 col-md-12 py-1">
+                        <a id="btnCertificadoLab" class="btn btn-primary d-flex flex-column align-items-center">
+                            <i class="fas fa-chart-line" style="font-size:1.6rem"></i>
+                            Ingresos y Retenciones
+                        </a>
+                    </div>
+
+                    <div class="col-6 col-md-12 py-1">
+                        <a id="btnContratoLaboral" class="btn btn-primary d-flex flex-column align-items-center">
+                            <i class="fas fa-file-contract" style="font-size:1.6rem"></i>
+                            Contrato de Trabajo
+                        </a>
+                    </div>
+
+                    @*                             <div class="col-4 col-md-2 py-1">
+                    <a id="btnHistorialLaboral" class="btn btn-primary d-flex flex-column align-items-center">
+                    <i class="fas fa-history" style="font-size:1.6rem"></i>
+                    Historial Laboral
+                    </a>
+                    </div> *@
+
+                    <div class="col-6 col-md-12 py-1">
+                        <a id="btnComprobantePago" class="btn btn-primary d-flex flex-column align-items-center">
+                            <i class="fas fa-receipt" style="font-size:1.6rem"></i>
+                            Comprobante de Pago
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-10">
+        <div class="row">
+            <div class="col-md-12 mb-2">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 text-end">
+                                <button id="btnSendMyEmail" type="button" class="btn btn-primary"><i class="fas fa-envelope"></i> Enviar a mi Correo</button>
+                                <button id="btnSendOtherEmail" type="button" class="btn btn-primary"><i class="fas fa-mail-bulk"></i> Enviar a otro Correo</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-6 col-md-7">
+                                        <h5 id="lblVisor">Certificado</h5>
+                                        <p class="text-muted" id="fechacertificado">
+                                            Generado el...
+                                        </p>
+                                    </div>
+                                    <div class="col-6 col-md-5 text-end">
+                                        <button id="btn-download-pdf" type="button" class="btn btn-success">
+                                            <i class="fas fa-download"></i> Descargar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="card p-0 m-0">
+                                    <div class="card-body p-0 m-0">
+                                        <div id="viewerpdf">
+                                            <embed src="" width="100%" height="640px" type="application/pdf" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@* <div class="row">
+    <div class="col-6 col-md-6"> 
+       <div class="card border-0">
+           <div class="col-md-12 px-2 pt-2">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Gestión Humana</a></li>
+                    <li class="breadcrumb-item active">Certificados Empleados</li>
+                </ul>
+           </div>
+           <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-md-12">
+                       
+                        <div class="row">
+                            <div class="col-4 col-md-2 py-1">
+                                <a id="btnSueldoAct" class="btn btn-primary d-flex flex-column align-items-center">
+                                  <i class="fas fa-hand-holding-usd" style="font-size:1.6rem"></i>
+                                  Sueldo Actual
+                                </a>
+                            </div>
+                            
+                            <div class="col-4 col-md-2 py-1">
+                                <a id="btnSueldoProm" class="btn btn-primary d-flex flex-column align-items-center">
+                                <i class="fas fa-money-bill-alt" style="font-size:1.6rem"></i> 
+                                 Sueldo Promedio</a>
+                            </div>
+
+                            <div class="col-4 col-md-2 py-1">
+                                <a id="btnCertificadoLab" class="btn btn-primary d-flex flex-column align-items-center">
+                                    <i class="fas fa-chart-line" style="font-size:1.6rem"></i> 
+                                     Ingresos y Retenciones
+                                </a>
+                            </div>
+
+                            <div class="col-4 col-md-2 py-1">
+                                <a id="btnContratoLaboral" class="btn btn-primary d-flex flex-column align-items-center">
+                                    <i class="fas fa-file-contract" style="font-size:1.6rem"></i> 
+                                    Contrato de Trabajo
+                                </a>
+                            </div>
+
+                           <div class="col-4 col-md-2 py-1">
+                                <a id="btnHistorialLaboral" class="btn btn-primary d-flex flex-column align-items-center">
+                                    <i class="fas fa-history" style="font-size:1.6rem"></i> 
+                                    Historial Laboral
+                                </a>
+                            </div> 
+
+                            <div class="col-4 col-md-2 py-1">
+                                <a id="btnComprobantePago" class="btn btn-primary d-flex flex-column align-items-center">
+                                    <i class="fas fa-receipt" style="font-size:1.6rem"></i> 
+                                    Comprobante de Pago
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-12">
+                        <div class="card border-0">
+                            <div class="toast-header my-2">
+                                <div class="col-md-8 my-0 py-0">
+                                    <h5 id="lblVisor" class="mb-0">Visor Certificados:</h5>
+                                </div>
+                                <div class="col-md-4 my-0 py-0 text-end">
+                                   <button id="btnSendMyEmail" type="button" class="btn btn-secondary"><i class="fas fa-envelope"></i> Enviar a mi Correo</button>
+                                   <button id="btnSendOtherEmail" type="button" class="btn btn-secondary"><i class="fas fa-mail-bulk"></i> Enviar a otro Correo</button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div id="viewerpdf">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>              
+           </div>
+       </div>
+
+    </div>
+
+    
+</div>
+ *@
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-periodo">
+    <div class="modal-dialog  modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Seleccionar Periodo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 mb-2">
+                            <div class="form-group">
+                                <label for="periodo" class="form-label">Periodo<span class="text-danger">*</span></label>
+                                <select id="periodo" name="periodo" class="form-select form-select-sm">
+                                     @for(int i = DateTime.Now.Year - 10; i <= DateTime.Now.Year;i++)
+                                    {
+                                        if(i == DateTime.Now.Year)
+                                        {
+                                            <option value="@i" selected>@i</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@i">@i</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>                      
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnPeriodo" type="button" class="btn btn-success">Aceptar</button>
+            </div>   
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-banco">
+    <div class="modal-dialog  modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Seleccionar Banco</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 mb-2">
+                            <div class="form-group">
+                                <label for="banco" class="form-label">Banco<span class="text-danger">*</span></label>
+                                <select id="banco" name="banco" class="form-select form-select-sm">
+                                     
+                                </select>
+                            </div>
+                        </div>                      
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnBanco" type="button" class="btn btn-success">Aceptar</button>
+            </div>   
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-empresa">
+    <div class="modal-dialog  modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Empresa Solicitante</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 mb-2">
+                            <div class="form-group">
+                                <label for="empresa" class="form-label">Empresa<span class="text-danger">*</span></label>
+                                <input id="empresa" type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-2">
+                            <div class="form-group">
+                                <label for="direccion" class="form-label">Dirección<span class="text-danger">*</span></label>
+                                <input id="direccion" type="text" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-2">
+                            <div class="form-group">
+                                <label for="ciudad" class="form-label">Ciudad<span class="text-danger">*</span></label>
+                                <input id="ciudad" type="text" class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnEmpresa" type="button" class="btn btn-success">Aceptar</button>
+            </div>   
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-comprobante">
+    <div class="modal-dialog  modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Comprobantes de Pagos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="fechaicp" class="form-label">Fecha Inicial<span class="text-danger">*</span></label>
+                                <input id="fechaicp" type="date" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="fechafcp" class="form-label">Fecha Final<span class="text-danger">*</span></label>
+                                <input id="fechafcp" type="date" class="form-control" />
+                            </div>
+                        </div>                      
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnComprobante" type="button" class="btn btn-success">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-email">
+    <div class="modal-dialog  modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Correo Electrónico</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="emailing" class="form-label">Correo Electrónico<span class="text-danger">*</span></label>
+                                <input id="emailing" name="emailing" type="email" class="form-control" />
+                            </div>
+                        </div>                     
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnSendOtherEmailModal" type="button" class="btn btn-success">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/scripts/GestionHumana/index.js" type="text/javascript"></script>
+}
+    

@@ -1,0 +1,13 @@
+﻿@using GeneralLedger.SelfServiceCore.Services
+@inject IConfiguracionService configuracionService
+@{
+    ViewData["Title"] = "Página de Inicio";
+     var configuraciones = await configuracionService.GetAll();
+     var logo = configuraciones.Where(x => x.Clave == "LOGO_EMPRESA").Select(x => x.Valor).FirstOrDefault();
+}
+
+<div class="text-center">
+    <h1 class="display-4">Bienvenido</h1>
+    <img src="@logo" width="430" height="130" alt="General Ledger">
+</div>
+

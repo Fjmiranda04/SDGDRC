@@ -1,0 +1,96 @@
+﻿@{
+    ViewData["title"] = "Cotizaciones";
+}
+
+<section class="row">
+    <div class="col-md-12">
+        <div class="card border-0">
+            <div class="row">
+                <div class="col-md-9 px-2 pt-2">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Cotizaciones</a></li>
+                        <li class="breadcrumb-item active">Listado de Cotizaciones</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-6 col-md-2 ms-auto">
+                            <a id="btn-new-pedido" asp-action="Create" class="btn btn-primary btn-sm w-100"><i
+                                    class="fa fa-plus-circle fa-fw me-1"></i>Nueva Cotización</a>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <table class="table table-borderless align-middle table-hover table-sm w-100 overflow-auto"
+                            id="table-cotizaciones">
+                            <thead>
+                                <tr>
+                                    <th>COTIZACION</th>
+                                    <th>ID CLIENTE</th>
+                                    <th>CLIENTE</th>
+                                    <th>ETIQUETA</th>
+                                    <th>FECHA</th>
+                                    <th>DÍAS</th>
+                                    <th>ESTADO</th>
+                                    <th>DESCRIPCIÓN</th>
+                                    @* <th>DEPENDENCIA</th> *@
+                                    <th>TOTAL</th>
+                                    @* <th>DESCRIPCIÓN</th>
+                                    <th>DEPENDENCIA</th>
+                                    <th>VENDEDOR</th>
+                                    <th>USUARIO</th>
+                                    <th>OT</th>
+                                    <th>FECHA OT</th>
+                                    <th>FACTURA</th>
+                                    <th>MONEDA</th>
+                                    <th>TIPO CAMBIO</th>
+                                    <th>ESCALA</th>
+                                    <th>DESC %</th>
+                                    <th>AIU DISCRIMINADO</th>
+                                    <th>PAÍS</th>
+                                    <th>TIPO DOC. GENERADO</th>
+                                    <th>DOC. GENERADO</th>
+                                    <th>ACCIONES</th> *@
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @* <tr>
+                                <td>Lorem, ipsum dolor.</td>
+                                <td>Lorem, ipsum dolor.</td>
+                                <td>Lorem, ipsum dolor.</td>
+                                <td>Lorem, ipsum dolor.</td>
+                                <td>Lorem, ipsum dolor.</td>
+                                <td>Lorem, ipsum dolor.</td>
+                                <td>Lorem, ipsum dolor.</td>
+                                <td>Lorem, ipsum dolor.</td>
+                                <td>Lorem, ipsum dolor.</td>
+                                <td>Lorem, ipsum dolor.</td>
+                                <td>Lorem, ipsum dolor.</td>
+                                <td>Lorem, ipsum dolor.</td>
+                                <td>Lorem, ipsum dolor.</td>
+                                <td>Lorem, ipsum dolor.</td>
+                                <td>Lorem, ipsum dolor.</td>
+                                <td>Lorem, ipsum dolor.</td>
+                                <td>Lorem, ipsum dolor.</td>
+                                <td>Lorem, ipsum dolor.</td>
+                                <td>Lorem, ipsum dolor.</td>
+                                <td>Lorem, ipsum dolor.</td>
+                                <td>Lorem, ipsum dolor.</td>
+                                <td>Lorem, ipsum dolor.</td>
+                                <td><button>ver</button></td>
+                                </tr> *@
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts
+{
+    <script src="~/scripts/Cotizacion/index.js" type="text/javascript">
+    </script>
+}

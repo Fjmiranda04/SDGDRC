@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeneralLedger.SelfServiceCore", "GeneralLedger.SelfServicePQRSF\GeneralLedger.SelfServiceCore.csproj", "{9274A0C1-C496-4CF5-A97F-0E0F6FF7BD9A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeneralLedger.SelfService.Web", "GeneralLedger.SelfService.Web\GeneralLedger.SelfService.Web.csproj", "{5970E9C1-55B8-46E8-B61F-0C811885208C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "General Ledger Core", "General Ledger Core", "{B1BE9984-3549-4004-85E6-3A03E09F19F6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "General Ledger Apps", "General Ledger Apps", "{3BF0DCD6-5D64-4DA4-9FAF-D4A60A8E7926}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Self Service", "Self Service", "{FC2A74D1-2F38-44F8-8051-1CF64893CE72}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GeneralLedger.SelfService.Web", "GeneralLedger.SelfService.Web", "{A142C308-1368-47A4-B8EF-C165D6A18106}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core Self Service", "Core Self Service", "{CF2E1555-81A7-429A-86FB-D397445AF85D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "General Ledger Resource", "General Ledger Resource", "{FA786248-EBFA-4922-A485-F00A99592BAE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{A32F3703-5DFD-47BD-9474-BBE9052BBCDA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{83A9544A-849B-4F9A-89AF-6BC0B7F17167}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9274A0C1-C496-4CF5-A97F-0E0F6FF7BD9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9274A0C1-C496-4CF5-A97F-0E0F6FF7BD9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9274A0C1-C496-4CF5-A97F-0E0F6FF7BD9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9274A0C1-C496-4CF5-A97F-0E0F6FF7BD9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5970E9C1-55B8-46E8-B61F-0C811885208C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5970E9C1-55B8-46E8-B61F-0C811885208C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5970E9C1-55B8-46E8-B61F-0C811885208C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5970E9C1-55B8-46E8-B61F-0C811885208C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83A9544A-849B-4F9A-89AF-6BC0B7F17167}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83A9544A-849B-4F9A-89AF-6BC0B7F17167}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83A9544A-849B-4F9A-89AF-6BC0B7F17167}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83A9544A-849B-4F9A-89AF-6BC0B7F17167}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9274A0C1-C496-4CF5-A97F-0E0F6FF7BD9A} = {CF2E1555-81A7-429A-86FB-D397445AF85D}
+		{5970E9C1-55B8-46E8-B61F-0C811885208C} = {A142C308-1368-47A4-B8EF-C165D6A18106}
+		{FC2A74D1-2F38-44F8-8051-1CF64893CE72} = {3BF0DCD6-5D64-4DA4-9FAF-D4A60A8E7926}
+		{A142C308-1368-47A4-B8EF-C165D6A18106} = {FC2A74D1-2F38-44F8-8051-1CF64893CE72}
+		{CF2E1555-81A7-429A-86FB-D397445AF85D} = {B1BE9984-3549-4004-85E6-3A03E09F19F6}
+		{A32F3703-5DFD-47BD-9474-BBE9052BBCDA} = {FA786248-EBFA-4922-A485-F00A99592BAE}
+		{83A9544A-849B-4F9A-89AF-6BC0B7F17167} = {A32F3703-5DFD-47BD-9474-BBE9052BBCDA}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BE70B7D6-2D95-4246-9BF9-86A99C7695F6}
+	EndGlobalSection
+EndGlobal

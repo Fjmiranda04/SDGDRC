@@ -1,0 +1,30 @@
+﻿@page
+@using GeneralLedger.SelfServiceCore.Data.Models
+@using GeneralLedger.SelfServiceCore.Data.ModelsGL;
+@model NotFoundModel
+@{
+    ViewData["Title"] = "Empresa no encontrada";
+    var url = ViewData["UrlEmpresa"] as string;
+}
+<div class="container text-center d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="row d-flex justify-content-center align-items-center">
+
+        <div class="col-12 col-md-12  mt-3">
+
+            <img class="img-fluid" src="~/img/404.svg" />
+
+        </div>
+
+        <div class="col-md-12">
+            <h1>Pagina no encontrada</h1>
+            <p class="mb-0">
+                Lamentablemente, la dirección que ingresaste no parece llevar a ningún destino. Por favor, revisa la URL e inténtalo de nuevo.  <br>
+                Si crees que esto es un error, no dudes en ponerte en contacto con nuestro equipo de soporte para obtener ayuda. ¡Gracias!
+                
+            </p>
+        </div>  
+        
+
+    </div>
+
+</div>

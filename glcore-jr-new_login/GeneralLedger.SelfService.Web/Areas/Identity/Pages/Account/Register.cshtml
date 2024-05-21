@@ -1,0 +1,183 @@
+﻿@page
+@using GeneralLedger.SelfServiceCore.Data.Models
+@using GeneralLedger.SelfServiceCore.Data.ModelsGL;
+@model RegisterModel
+@{
+    ViewData["Title"] = "Registrar";
+    var error = ViewData["ErrorMessage"] as string;
+    var empresas = ViewData["Empresas"] as IEnumerable<Empresa>;
+    var ciudades = ViewData["Ciudades"] as IEnumerable<Prociudad>;
+}
+<div class="container pt-3">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-0 shadow px-2">
+                <div class="card-body">
+                    <form asp-route-returnUrl="@Model.ReturnUrl" method="POST">
+                        <div class="row">
+                            <div class="col-md-12 mb-2 px-5 text-center">
+                                <img src="~/img/LogoGLpb.png" width="230" height="230" class="img-fluid" alt="Logo PowerBy GeneralLedger">
+                            </div>
+                            <div class="text-muted text-center mb-2">
+                                Formulario de registro Cliente
+                            </div>
+                             @if (!string.IsNullOrEmpty(error))
+                            {
+                                <div class="col-md-12 text-center mb-2">
+                                    <span class="bg-danger bg-opacity-10 text-danger d-inline-block rounded-sm px-2">
+                                        <i class="fa fa-exclamation-circle text-danger fs-12px"></i>
+                                        <span class="text-danger">@error</span>
+                                    </span>
+                                </div>
+                            }
+                            <div class="col-md-12 mb-2">
+                                <div class="form-group">
+                                    <label for="">Empresa<span class="text-danger">*</span></label>
+                                    <select asp-for="Input.NitEmpresa" class="form-select form-select-sm">
+                                        <option value="">Seleccione su empresa</option>
+                                        @foreach (var item in empresas)
+                                        {
+                                            <option value="@item.Nit">@item.Nit - @item.Nombre</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Primer Nombre<span class="text-danger">*</span></label>
+                                    <input asp-for="Input.PriNombre" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.PriNombre" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Segundo Nombre</label>
+                                    <input asp-for="Input.SegNombre" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.SegNombre" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Primer Apellido<span class="text-danger">*</span></label>
+                                    <input asp-for="Input.PriApellido" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.PriApellido" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Segundo Apellido</label>
+                                    <input asp-for="Input.SegApellido" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.SegApellido" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Tipo de Documento<span class="text-danger">*</span></label>
+                                    <select asp-for="Input.TipoDoc" class="form-select form-select-sm">
+                                        <option value="CC">CC</option>
+                                        <option value="NI">NI</option>
+                                        <option value="CE">CE</option>
+                                        <option value="TI">TI</option>
+                                        <option value="PE">PE</option>
+                                        <option value="PA">PA</option>
+                                        <option value="CM">CM</option>
+                                    </select>
+                                    <span asp-validation-for="Input.TipoDoc" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">No. Documento<span class="text-danger">*</span></label>
+                                    <input asp-for="Input.NroId" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.NroId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Ciudad<span class="text-danger">*</span></label>
+                                    <select asp-for="Input.Ciudad" class="form-select form-select-sm">
+                                        @foreach (var item in ciudades)
+                                        {
+                                            <option value="@item.Ciucod">@item.Ciunom</option>
+                                        }
+                                    </select>
+                                    <span asp-validation-for="Input.Ciudad" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Dirección<span class="text-danger">*</span></label>
+                                    <input asp-for="Input.Direccion" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.Direccion" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">No. Celular<span class="text-danger">*</span></label>
+                                    <input asp-for="Input.NumeroCelular" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.NumeroCelular" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">No. Telefono</label>
+                                    <input asp-for="Input.NumeroTelefono" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.NumeroTelefono" class="text-danger"></span>
+                                </div>
+                            </div>
+                            @*<div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">NIT Empresa<span class="text-danger">*</span></label>
+                                    <input asp-for="Input.NitEmpresa" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.NitEmpresa" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Nombre Empresa<span class="text-danger">*</span></label>
+                                    <input asp-for="Input.NombreEmpresa" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.NombreEmpresa" class="text-danger"></span>
+                                </div>
+                            </div>*@
+                            <div class="col-md-12 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Correo<span class="text-danger">*</span></label>
+                                    <input asp-for="Input.Email" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Contraseña<span class="text-danger">*</span></label>
+                                    <input asp-for="Input.Password" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Confirmar Contraseña<span class="text-danger">*</span></label>
+                                    <input asp-for="Input.ConfirmPassword" class="form-control form-control-sm" autocomplete="off">
+                                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-4">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-success w-100">Registrarte</button>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-4">
+                                <div class="form-group">
+                                    <a href="/" type="button" class="btn btn-secondary w-100">Cancelar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

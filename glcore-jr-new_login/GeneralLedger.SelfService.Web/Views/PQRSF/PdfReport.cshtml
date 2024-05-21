@@ -1,0 +1,184 @@
+﻿@model GeneralLedger.SelfServiceCore.Data.DTOs.PQRSFReportDTO
+@using GeneralLedger.SelfServiceCore.Services
+@inject IConfiguracionService configuracionService
+@{
+    ViewData["Title"] = "Exportando a PDF";
+    Layout = null;
+    var configuraciones = await configuracionService.GetAll();
+    var logo = configuraciones.Where(x => x.Clave == "LOGO_EMPRESA").Select(x => x.Valor).FirstOrDefault();
+    var Nombre = configuraciones.Where(x => x.Clave == "NAME_EMPRESA").Select(x => x.Valor).FirstOrDefault();
+    var NitEmpresa = configuraciones.Where(x => x.Clave == "NIT_EMPRESA").Select(x => x.Valor).FirstOrDefault();
+}
+
+<style>
+    *{
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    table{
+        border: 1px solid black;
+        width: 100%;
+        border-radius: 5px;
+        border-collapse: collapse;
+        margin-bottom: 10px;
+    }
+    th, td{
+        border: 1px solid black;
+        padding: 7px;
+    }
+</style>
+
+<table>
+    <tr>
+        <th width="30%" rowspan="3" class="d-flex justify-content-center align-items-center"></th>
+        <th width="40%" rowspan="3" class="text-center"><h4>@Nombre</h4><h5>@NitEmpresa</h5></th>
+        <th width="30%" rowspan="1">Codigo:</th>
+    </tr>
+    <tr>
+         <th width="30%" rowspan="1">Versión:</th>
+    </tr>
+    <tr>
+         <th width="30%" rowspan="1">Vigencia:</th>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th colspan="2" align="center">RECEPCIÓN</th>
+    </tr>
+    <tr>
+        <td colspan="2" align="center">Origen (Parte interesada): Cliente</td>
+    </tr>
+    <tr>
+        <td colspan="1" width="50%">Cliente: @Model.NombreCliente</td>
+        <td colspan="1" width="50%">Contacto: @Model.NombreContacto</td>
+    </tr>
+    <tr>
+        <td colspan="1" width="50%">Quien la recepcionó: @Model.AgenteResposable</td>
+        <td colspan="1" width="50%">Fecha de recepción: @String.Format("{0:dd/MM/yyyy}", Model.Fecha).ToUpper()</td>
+    </tr>
+    <tr>
+        <td colspan="2" width="100%">Tipo de reseña: @Model.TipoSituacion</td>
+    </tr>
+    <tr>
+        <td colspan="2" width="100%">Etiquetas: @Model.Etiquetas</td>
+    </tr>
+    <tr>
+        <th align="center" colspan="2" width="100%">DESCRIPCIÓN DE LA PQRSF (QUE PASÓ)</th>
+    </tr>
+    <tr>
+        <td colspan="2" width="100%">@Html.Raw(Model.Descripcion)</td>
+    </tr>
+    <tr>
+        <td colspan="1" width="50%">Procesos responsable: <br/> @Model.Proceso </td>
+        <td colspan="1" width="50%">Agente responsable: <br/> @Model.AgenteResposable </td>
+    </tr>
+    
+</table>
+
+<table>
+    <tr>
+        <th colspan="3" width="100%">TRATAMIENTO - ACCIONES</th>
+    </tr>
+    <tr>
+        <th colspan="1" width="50%">Actividad</th>
+        <th colspan="1" width="30%">Responsable</th>
+        <th colspan="1" width="20%">Fecha</th>
+    </tr>
+    @if(Model.ListTratamientos != null)
+    {
+        foreach (var item in Model.ListTratamientos)
+        {
+            <tr>
+                <td colspan="1" width="50%">@item.Actividad</td>
+                <td colspan="1" width="30%">@item.NombreResponsable</td>
+                <td colspan="1" width="20%"> @String.Format("{0:dd/MM/yyyy}", item.FechaCumplimiento).ToUpper()</td>
+            </tr> 
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="1" width="50%">N/A</td>
+            <td colspan="1" width="30%">N/A</td>
+            <td colspan="1" width="20%">N/A</td>
+        </tr> 
+        <tr>
+            <td colspan="1" width="50%">N/A</td>
+            <td colspan="1" width="30%">N/A</td>
+            <td colspan="1" width="20%">N/A</td>
+        </tr> 
+        <tr>
+            <td colspan="1" width="50%">N/A</td>
+            <td colspan="1" width="30%">N/A</td>
+            <td colspan="1" width="20%">N/A</td>
+        </tr> 
+    }
+    
+</table>
+
+<table>
+    <tr>
+        <th colspan="2" width="100%">SEGUIMIENTO - RESULTADOS OBTENIDOS</th>
+    </tr>
+    <tr>
+        <th colspan="1" width="20%">Fecha</th>
+        <th colspan="1" width="80%">Descripción</th>
+    </tr>
+    @if(Model.ListSeguimientos != null)
+    {
+        foreach (var item in Model.ListSeguimientos)
+        {
+            <tr>
+                <td colspan="1" width="20%"> @String.Format("{0:dd/MM/yyyy}", item.Fecha).ToUpper()</td>
+                <td colspan="1" width="80%">@item.Observaciones</td>
+            </tr> 
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="1" width="20%">N/A</td>
+            <td colspan="1" width="80%">N/A</td>
+        </tr> 
+        <tr>
+            <td colspan="1" width="20%">N/A</td>
+            <td colspan="1" width="80%">N/A</td>
+        </tr> 
+        <tr>
+            <td colspan="1" width="20%">N/A</td>
+            <td colspan="1" width="80%">N/A</td>
+        </tr> 
+    }
+    
+</table>
+
+<table>
+    <tr>
+        <th colspan="2" width="100%">CIERRE</th>
+    </tr>
+    @if(Model.ListRespuestasCierre != null)
+    {
+        foreach (var item in Model.ListRespuestasCierre)
+        {
+            <tr>
+                <td colspan="1" width="80%">@item.Pregunta</td>
+                <td colspan="1" width="20%">
+                    @if(item.Opcion == true)
+                    {
+                        <p>SI</p>
+                    }
+                    @if (item.Opcion == false)
+                    {
+                        <p>NO</p>
+                    }
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+             <td colspan="1" width="100%">N/A</td>
+        </tr>
+    }
+</table>

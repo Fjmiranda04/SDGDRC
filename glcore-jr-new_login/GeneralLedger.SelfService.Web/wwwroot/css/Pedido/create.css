@@ -1,0 +1,23 @@
+.tab-link {
+    color: #000;
+    text-decoration: none;
+    border-width: 2px;
+    transition: .3s;
+}
+
+.tab-link:hover {
+    color: #292e55;
+}
+
+.tab-link.active {
+    color: #292e55;
+    border: #292e55 solid 2px;
+}
+
+.item-card {
+    transition: .3s;
+}
+
+.item-card:hover {
+    background-color: #dfdfe9;
+}

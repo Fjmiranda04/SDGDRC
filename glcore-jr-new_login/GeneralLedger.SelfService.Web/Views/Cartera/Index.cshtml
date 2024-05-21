@@ -1,0 +1,675 @@
+﻿@{
+    ViewData["title"] = "Mi Estado de Cuenta";
+    var today = DateTime.Now.ToString("yyyy-MM-dd");
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card border-0 px-0 py-0 my-0">
+            <div class="col-md-12 px-2 pt-2">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Gestión de Cartera</a></li>
+                    <li class="breadcrumb-item active">Mi Estado de Cuenta</li>
+                </ul>
+            </div>
+            <div class="card-body px-0 py-0 my-0">
+                <div class="row">
+                    
+                    <div class="col-md-12">
+                         
+                        <ul class="nav nav-tabs nav-tabs-v2 px-1">
+                            <li class="nav-item me-3"><a href="#Facturas" class="nav-link active" data-bs-toggle="tab">Facturas</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+
+                            <div class="tab-pane fade active show" id="Facturas">
+                                <div class="row">
+
+
+                                    <div class="col-md-12">
+                                        <div class="row mx-2 my-2">
+                                            <div class="col-6 col-md-3">
+                                                <div class="form-group">
+                                                    <label for="" class="form-label">Buscar</label>
+                                                    <div class="input-group">
+                                                        <input type="text" id="search-t" name="search-t" class="form-control form-control-sm" />
+                                                        <span class="input-group-text"><i class="fas fa-search"></i> </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-6 col-md-2">
+                                                <div class="form-group">
+                                                    <label for="" class="form-label">Rango de Días</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="fa fa-signal"></i> </span>
+                                                        <select name="range-day" id="range-day" class="form-select form-select-sm" data-index="5">
+                                                            <option value="0">30 Días</option>
+                                                            <option value="1">60 Días</option>
+                                                            <option value="2" selected>90 Días</option>
+                                                            <option value="3">120 Días</option>
+                                                            <option value="4">180 Días</option>
+                                                            <option value="5">360 Días</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 col-md-2">
+                                                <div class="form-group">
+                                                    <label for="" class="form-label">Fecha Corte</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="fa fa-calendar"></i> </span>
+                                                        <input type="date" id="fecha-corte" name="fecha-corte" class="form-control form-control-sm" value="@today" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-6 col-md-2">
+                                                <label class="form-label" for="cancel"></label>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="" id="check-cancel" name="check-cancel">
+                                                    <label class="form-label" for="cancel">
+                                                        Incluir Facturas Canceladas
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-3">
+                                                <div class="card border-1 shadow-sm">
+                                                    <div class="card-body m-0 p-0">
+                                                        <div class="row m-0 p-0">
+                                                            <div class="col-md-12 d-flex justify-content-center align-items-center m-0">
+                                                                <i class="fas fa-money-bill-alt fa-lg text-success"></i>
+                                                                <span class="badge fw-bold text-dark" style="font-size:1.2rem">Total Cartera</span>
+                                                            </div>
+                                                            <div class="col-md-12 m-0">
+                                                                <h4 id="totalcartera" class="text-center">$0,00</h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <table id="table-estado-cuenta" class="table table-borderless align-middle table-hover table-sm w-100">
+                                            <thead>
+                                                <tr>
+                                                    <th align="center" width="5%" style="text-align: center;"></th>
+                                                    <th align="center" width="10%" style="text-align: center;">NIT</th>
+                                                    <th align="center" width="20%" style="text-align: center;">CLIENTE</th>
+                                                    <th align="center" width="10%" style="text-align: center;">DOCUMENTO</th>
+                                                    <th align="center" width="10%" style="text-align: center;">ESTADO</th>
+                                                    <th align="center" width="15%" style="text-align: center;">FECHA</th>
+                                                    <th align="center" width="15%" style="text-align: center;">VENCE</th>
+                                                    <th align="center" width="10%" style="text-align: center;">DÍAS VEN</th>
+                                                    <th align="center" width="10%" style="text-align: center;">VALOR</th>
+                                                    <th align="center" width="15%" style="text-align: center;">ACCIONES</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--***************************************MODAL RANGO FECHA*************************************************************************-->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-date-range">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Rango de Fecha a Consultar</h5>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="" class="form-label">Fecha Inicial</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-calendar"></i> </span>
+                                <input type="date" id="date-cancel-start" name="date-cancel-start" class="form-control form-control-sm" value="@today"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="" class="form-label">Fecha Final</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-calendar"></i> </span>
+                                <input type="date" id="date-cancel-end" name="date-cancel-end" class="form-control form-control-sm" value="@today"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="ChangeFilter()">Aceptar</button>
+                <button type="button" class="btn btn-default" onclick="CloseModalDateRange()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--***************************************MODAL FICHA TECNICA*************************************************************************-->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-data-sheet">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-body m-0 p-0">
+                <div class="row px-4">
+                    <div class="col-md-12">
+                        <ul class="nav nav-tabs nav-tabs-v2">
+                            <li class="nav-item me-3"><a href="#data-general" class="nav-link active fs-5" data-bs-toggle="tab">Ficha Técnica de Factura</a></li>
+                            @*<li class="nav-item me-3"><a href="#pay-done" class="nav-link" data-bs-toggle="tab">PAGOS REALIZADOS</a></li>*@
+                        </ul>
+                        <div class="tab-content pt-3">
+                            <div class="tab-pane fade active show" id="data-general">
+                                <div class="row mb-2">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="form-label fs-5">Factura No:</label>
+                                            <div class="border p-1">
+                                                <span id="nfactura" class="fw-semibold fs-5"></span>
+                                            </div>
+                                            @* <input id="nfactura" name="nfactura" type="text" class="form-control form-control-sm" readonly/> *@
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="form-label fs-5">Saldo:</label>
+                                            <div class="border p-1">
+                                                <span id="saldo" class="fw-semibold fs-5"></span>
+                                            </div>
+                                            @* <input id="saldo" name="saldo" type="text" class="form-control form-control-sm" readonly/> *@
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="form-label fs-5">Fecha Vencimiento:</label>
+                                            <div class="border p-1">
+                                                <span id="fechavenci" class="fw-semibold fs-5"></span>
+                                            </div>
+                                            @* <input id="fechavenci" name="fechavenci" type="text" class="form-control form-control-sm" readonly/> *@
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="form-label fs-5">Estado Actual:</label>
+                                            <div class="border p-1">
+                                                <span id="estado" class="fw-semibold fs-5"></span>
+                                            </div>
+                                            @* <input id="estado" name="estado" type="text" class="form-control form-control-sm" readonly/> *@
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="form-label fs-5">Valor Factura:</label>
+                                            <div class="border p-1">
+                                                <span id="total" class="fw-semibold fs-5"></span>
+                                            </div>
+                                            @* <input id="total" name="total" type="text" class="form-control form-control-sm" readonly/> *@
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="form-label fs-5">Valor Abono:</label>
+                                            <div class="border p-1">
+                                                <span id="abono" class="fw-semibold fs-5"></span>
+                                            </div>
+                                            @* <input id="abono" name="abono" type="text" class="form-control form-control-sm" readonly/> *@
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="form-label fs-5">Fecha Expedición:</label>
+                                            <div class="border p-1">
+                                                <span id="fecha" class="fw-semibold fs-5"></span>
+                                            </div>
+                                            @* <input id="fecha" name="fecha" type="text" class="form-control form-control-sm" readonly/> *@
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label fs-5">Observaciones:</label>
+                                            <textarea id="detalle" name="detalle" class="form-control" cols="1" rows="3" readonly style="resize: none;"></textarea>
+                                        </div>
+                                    </div>
+                                </div>       
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <ul class="nav nav-tabs nav-tabs-v2">
+                            <li class="nav-item me-3"><a href="#data-pay-done" class="nav-link active fs-5" data-bs-toggle="tab">Pagos Realizados</a></li>
+                        </ul>
+                        <div class="tab-content pt-3">
+                            <div class="tab-pane fade active show" id="data-pay-done">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table id="table-pagos" class="table table-borderless align-middle table-hover table-sm w-100" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th width="10%">DOCUMENTO</th>
+                                                    <th width="10%">FECHA</th>
+                                                    <th width="30%">BANCO</th>
+                                                    <th width="10%">VALOR</th>
+                                                    <th width="10%">T. PAGO</th>
+                                                    <th width="10%">RETENCIONES</th>
+                                                    <th width="10%">DESCUENTO</th>
+                                                    <th width="10%">ACCIONES</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        var tableEstadoCuenta;
+        var tableImputaciones;
+        var tablePagos;
+        var modalDateRange = new bootstrap.Modal(document.getElementById("modal-date-range"), {});
+        var modalDataSheet = new bootstrap.Modal(document.getElementById("modal-data-sheet"), {}); 
+
+        
+
+        $(document).ready(()=>
+        {           
+            $("#range-day").on('change', () => {
+                ChangeFilter();
+            });
+
+            $("#check-cancel").on('change', () => {
+                if ($("#check-cancel").is(":checked")) {
+                    modalDateRange.show();
+                }
+                else {
+                    ChangeFilter();
+                }
+            });
+
+            $("#fecha-corte").on('change', () => {
+                ChangeFilter();
+            });
+
+            $(document).on('click', () => {
+                AdjustColumnsTableEC();
+            });
+
+            $("#search-t").keypress(function (event) {
+                if (event.which === 13) {
+                    ChangeFilter();
+                }
+            });
+
+            LoadEstadoCuenta("", $("#fecha-corte").val(), "", $("#range-day").val(), false);
+        });
+
+        function AdjustColumnsTableEC() 
+        {
+             setTimeout(() => 
+             {
+                $(".dataTables_scrollHeadInner").width("100%"); 
+                
+             },800)  
+        }
+
+        function AdjustColumnsTableP() 
+        {
+             setTimeout(() => 
+             {
+                $(".dataTables_scrollHeadInner").width("100%"); 
+                tablePagos.columns.adjust();
+             },800)  
+        }
+
+        function ChangeFilter()
+        {
+            let dRange  = $("#range-day").val();
+            let cancel  = $("#check-cancel").is(":checked");
+            let eDate   = $("#fecha-corte").val();
+            let sDate   = $("#date-cancel-start").val();
+            let search  = "";
+            search = $("#search-t").val();
+            
+            if (cancel) 
+            {
+                eDate = $("#date-cancel-end").val();
+            }
+            modalDateRange.hide();
+            LoadEstadoCuenta(search,eDate,sDate,dRange,cancel);
+        }
+
+        function CloseModalDateRange() 
+        {
+             $("#check-cancel").prop('checked', false);
+             modalDateRange.hide();
+        }
+
+        function OpenModalDataSheet(nroFactura)
+        {
+            modalDataSheet.show();
+            $.ajax({
+                url: "@Url.Action("GetFichaTecnica","Cartera")",
+                type: "GET",
+                data: {"nroFactura": nroFactura},
+                beforeSend: function () 
+                {
+                   LoaderScreenShow();
+                },
+                success: function (response) 
+                {
+                    if (response.result) 
+                    {
+                        //$("#nfactura").val(response.data.nFactura);
+                        $("#nfactura").text(response.data.nFactura);
+                        $("#saldo").text(formatterPeso.format(response.data.saldo));
+                        $("#fechavenci").text(formatDate(new Date(response.data.fechaVenci)));
+                        $("#estado").text(response.data.estado);
+                        $("#total").text(formatterPeso.format(response.data.total));
+                        $("#abono").text(formatterPeso.format(response.data.abono));
+                        $("#fecha").text(formatDate(new Date(response.data.fecha)));
+                        $("#detalle").val(response.data.detalle);
+                        //LoadTableImputaciones(response.data.listImputaciones);
+                        LoadTablePagos(response.data.listPagos);
+                        LoaderScreenHide();
+                         
+                        AdjustColumnsTableP();
+                       
+                    } 
+                    else 
+                    {
+                        LoaderScreenHide();
+                        ToastAlert.fire({icon: 'error',title: response.message});
+                    }
+                },
+                complete: function () 
+                {
+                   LoaderScreenHide();
+                }
+            });  
+        }
+
+        function LoadEstadoCuenta(search,endDate,startDate,daysRange,cancel) 
+        {
+            endDate = endDate.replace("-","").replace("-","");
+            startDate = startDate.replace("-","").replace("-","");
+
+            $.ajax({
+                url: "@Url.Action("GetEstadoCuenta", "Cartera")",
+                type: "GET",
+                dataType: "json",
+                data: { "search": search, "endDate": endDate, "startDate": startDate, "daysRange": daysRange, "cancel": cancel },
+                success: function (response)
+                {
+                    tableEstadoCartera = $("#table-estado-cuenta").DataTable({
+                        dom: "t<'d-flex align-items-center'<'me-auto pb-2 mx-2'i><'mb-0 pb-2 mx-2'p>>",
+                        responsive: true,
+                        scrollCollapse: true,
+                        destroy: true,
+                        paging: true,
+                        lengthMenu: [15, 25, 50, 100],
+                        language: {
+                            url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json",
+                        },
+                        data: response.data,
+                        columns: [
+                            {
+                                "data": "diasVen",
+                                render: function (data, type, row) {
+                                    var color = (data <= 0) ? "text-white" : (data >= 1 && data <= 30) ? "text-success" : (data >= 31 && data <= 60) ? "text-yellow" : (data >= 61 && data <= 90) ? "text-warning" : "text-danger";
+                                    return `<div class="text-center"><i class="fas fa-flag text-center ${color}"></i></div>`;
+                                }
+                            },
+                            {
+                                "data": "nit",
+                                render: function (data, type, row) {
+                                    return `
+                                            <div class="tex-center">
+                                                <span class="text-center fw-bold fs-6">${data}</div>
+                                            </div>`;
+                                }
+                            },
+                            {
+                                "data": "cliente",
+                                render: function (data, type, row) {
+                                    return `
+                                            <div class="tex-center">
+                                                <span class="text-center fw-bold fs-6">${data}</div>
+                                            </div>`;
+                                }
+                            },
+                            {
+                                "data": "documento",
+                                render: function (data, type, row) {
+                                    return `
+                                            <div class="tex-center">
+                                                <span class="text-center fw-bold fs-6">${data}</div>
+                                            </div>`;
+                                }
+                            },
+                            {
+                                "data": "estadoFactura",
+                                render: function (data, type, row) {
+                                    return `
+                                            <div class="text-center">
+                                                <span class="text-center fw-bold fs-6">${data}</span>
+                                            </div>
+                                            `;
+                                }
+                            },
+                            {
+                                "data": "fecha",
+                                render: function (data, type, row) {
+                                    let fecha = new Date(data);
+                                    fecha = formatDate(fecha);
+                                    return `
+                                            <div class="text-center">
+                                                <span class="badge bg-success bg-opacity-20 text-success fw-bold text-center" style="font-size:0.8rem">
+                                                    <i class="far fa-calendar-plus fa-lg"></i>
+                                                    ${fecha}
+                                                </span>
+                                            </div>`;
+                                }
+                            },
+                            {
+                                "data": "vence",
+                                render: function (data, type, row) {
+                                    let fecha = new Date(data);
+                                    fecha = formatDate(fecha);
+                                    return `
+                                            <div class="text-center">
+                                                <span class="badge bg-success bg-opacity-20 text-success fw-bold text-center" style="font-size:0.8rem">
+                                                    <i class="far fa-calendar-plus fa-lg"></i>
+                                                    ${fecha}
+                                                </span>
+                                            </div>`;
+                                }
+                            },
+                            {
+                                "data": "diasVen",
+                                render: function (data, type, row) {
+                                    return `
+                                            <div class="text-center">
+                                                <span class="text-center fw-bold fs-6">${data}</span>
+                                            </div>
+                                    `;
+                                }
+                            },
+                            {
+                                "data": "valor",
+                                render: function (data, type, row) {
+                                    return `
+                                            <div class="text-end">
+                                                <span class="text-end fw-bold fs-6">${formatterPeso.format(data)}</span>
+                                            </div>`;
+                                }
+                            },
+                            {
+                                "data": "documento",
+                                render: function (data, type, row) {
+                                    return `<div class="text-end">
+                                                <button class="btn btn-sm"><i class="fas fa-print"></i></button>
+                                                <button type="button" class="btn btn-sm" onclick="OpenModalDataSheet('${data}')"><i class="fas fa-eye"></i></button>
+                                            </div>
+                                            `;
+                                }
+                            },
+                        ],
+
+                    });
+
+                    let totalCartera = 0;
+                    let totalPendiente = 0;
+
+                    response.data.forEach(obj =>
+                    {
+                        totalCartera += (obj.subTotal + obj.valorIva);
+                        totalPendiente = totalPendiente + (obj.saldo  );
+                    });
+
+                    console.log(response.data);
+
+                    $("#totalcartera").text("$ " + totalPendiente.toLocaleString());
+                }
+            });
+            
+            AdjustColumnsTableEC();
+        }
+    
+        function LoadTableImputaciones(data)
+        {
+            tableImputaciones = $("#table-imputaciones").DataTable({
+                dom: "t<'d-flex align-items-center'<'me-auto pb-2 mx-2'i><'mb-0 pb-2 mx-2'p>>",
+                responsive: true,
+                scrollY: 400,
+                scrollCollapse: true,
+                destroy: true,
+                paging: false,
+                language: {
+                    url : "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json",
+                },
+                data: data,
+                columns:[
+                    {"data":"codigo"},
+                    {"data":"cuenta"},
+                    {"data":"debito"},
+                    {"data":"credito"},
+                    {"data":"terceNombre"},
+                    {"data":"centroCosto"},
+                ],
+                
+            });
+        }
+
+        function LoadTablePagos(data)
+        {
+            tablePagos = $("#table-pagos").DataTable({
+                dom: "t<'d-flex align-items-center'<'me-auto pb-2 mx-2'i><'mb-0 pb-2 mx-2'p>>",
+                responsive: true,
+                scrollY: 400,
+                scrollCollapse: true,
+                destroy: true,
+                paging: false,
+                language: {
+                    url : "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json",
+                },
+                data: data,
+                columns:[
+                    {"data":"recNro"},
+                    {
+                        "data":"recFec",
+                        render:function(data,type,row)
+                        {
+                            let fecha = new Date(data);
+                            fecha = formatDate(fecha);
+                            return `${fecha}`;
+                        }
+                    },
+                    {"data":"banNom"},
+                    {
+                        "data":"recVlr",
+                        render: function (data, type, row) {
+                            return `<div class="text-end">
+                                        <span class="text-end fw-bold fs-6">${formatterPeso.format(data)}</span>
+                                    </div>`;
+                        }
+                    },
+                    {"data":"tipPag"},
+                    {
+                        "data":"recrtFte",
+                        render: function (data, type, row) {
+                            return `<div class="text-end">
+                                                <span class="text-end fw-bold fs-6">${formatterPeso.format(data)}</span>
+                                            </div>`;
+                        }
+                    },
+                    {
+                        "data":"recdescto",
+                        render: function (data, type, row) {
+                            return `<div class="text-end">
+                                                        <span class="text-end fw-bold fs-6">${formatterPeso.format(data)}</span>
+                                                    </div>`;
+                        }
+                    },
+                    {
+                        "data":"recNro",
+                        render:function()
+                        {
+                            return `<button class="btn btn-sm"><i class="fas fa-print"></i></button>`;
+                        }
+                    },
+                ],
+                
+            });
+        }
+
+        function sumarColumna(dataTable, columnIndex) 
+        {
+            // Obtener los datos de la columna especificada
+            var columnaDatos = dataTable.column(columnIndex).data();
+
+            // Calcular la suma de la columna
+            var sumaColumna = columnaDatos.reduce(function (a, b) {
+                return parseFloat(a) + parseFloat(b);
+            }, 0);
+
+            return sumaColumna;
+        }
+    </script>
+}

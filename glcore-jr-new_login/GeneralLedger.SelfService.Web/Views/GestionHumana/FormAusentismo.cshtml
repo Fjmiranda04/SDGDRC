@@ -1,0 +1,204 @@
+﻿@model GeneralLedger.SelfServiceCore.Data.DTOs.AusentismoEmpleadoDTO
+
+@{
+    ViewData["Title"] = "Crear Solicitud de Ausentismo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Crear Solicitud de Ausentismo</h1>
+
+<form id="formAusentismo" method="post" action="@Url.Action("SaveSolicitudAusentismoEmpleado", "GestionHumana")">
+    <div class="form-group row">
+        <div class="col-md-4">
+            <label for="CodigoEmpleado">Código de Empleado:</label>
+            <input type="text" class="form-control" id="CodigoEmpleado" name="CodigoEmpleado">
+        </div>
+        <div class="col-md-4">
+            <label for="NombreEmpleado">Nombre de Empleado:</label>
+            <input type="text" class="form-control" id="NombreEmpleado" name="NombreEmpleado" readonly>
+        </div>
+        <div class="col-md-4">
+            <label for="PrestacionServicio">Prestación de Servicio:</label>
+            <input type="text" class="form-control" id="PrestacionServicio" name="PrestacionServicio" readonly>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-6">
+            <label for="CodigoTipoAusentismo">Código de Tipo de Ausentismo:</label>
+            <input type="text" class="form-control" id="CodigoTipoAusentismo" name="CodigoTipoAusentismo">
+        </div>
+        <div class="col-md-6">
+            <label for="NombreTipoAusentismo">Nombre de Tipo de Ausentismo:</label>
+            <input type="text" class="form-control" id="NombreTipoAusentismo" name="NombreTipoAusentismo" readonly>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="FechaInicioAusentismo">Fecha de Inicio:</label>
+        <input type="date" class="form-control" id="FechaInicioAusentismo" name="FechaInicioAusentismo" required>
+    </div>
+    <div class="form-group">
+        <label for="FechaFinAusentismo">Fecha de Fin:</label>
+        <input type="date" class="form-control" id="FechaFinAusentismo" name="FechaFinAusentismo" required>
+    </div>
+    <div class="form-group">
+        <label for="DetalleAusentismo">Detalle:</label>
+        <textarea class="form-control" id="DetalleAusentismo" name="DetalleAusentismo" rows="3" required></textarea>
+    </div>
+   
+    <button type="submit" class="btn btn-primary">Enviar Solicitud</button>
+</form>
+<!-- Modal -->
+<div class="modal fade" id="employeeModal" tabindex="-1" role="dialog" aria-labelledby="employeeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="employeeModalLabel">Empleados Disponibles</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
+                <!-- Contenido de la tabla de empleados -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ausentismoModal" tabindex="-1" role="dialog" aria-labelledby="ausentismoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ausentismoModalLabel">Tipos de Ausentismo Disponibles</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
+                <!-- Contenido de la tabla de tipos de ausentismo -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $("#CodigoEmpleado").keydown(function (event) {
+            // Verifica si la tecla presionada es "Enter"
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                var identificacion = $(this).val();
+                $.ajax({
+                    url: '@Url.Action("GetAllEmpleadosDisponibles", "GestionHumana")',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.result) {
+                            // Construye dinámicamente la tabla de empleados
+                            var tableHtml = '<table class="table">';
+                            tableHtml += '<thead><tr><th>Código</th><th>Nombre</th><th>Prestación de Servicio</th></tr></thead><tbody>';
+
+                            $.each(data.empleados, function (index, empleado) {
+                                // Verifica si los valores NroIdEmp, NombreCompleto y PrestacionServicio están definidos
+                                if (empleado.nroIdEmp && empleado.nombreCompleto && empleado.eps) {
+                                    tableHtml += '<tr class="employee-row" data-codigo="' + empleado.nroIdEmp + '" data-nombre="' + empleado.nombreCompleto + '" data-prestacion="' + empleado.eps + '">';
+                                    tableHtml += '<td>' + empleado.nroIdEmp + '</td>';
+                                    tableHtml += '<td>' + empleado.nombreCompleto + '</td>';
+                                    tableHtml += '<td>' + empleado.eps + '</td>';
+                                    tableHtml += '</tr>';
+                                }
+                            });
+
+                            tableHtml += '</tbody></table>';
+
+                            // Agrega la tabla al cuerpo del modal y muestra el modal
+                            $("#employeeModal .modal-body").html(tableHtml);
+                            $("#employeeModal").modal("show");
+                        } else {
+                            // Muestra un mensaje de error si no se encontraron empleados
+                            alert(data.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
+        });
+
+        // Maneja la selección de un empleado en la tabla
+        $(document).on("click", ".employee-row", function () {
+            var codigoEmpleado = $(this).data("codigo");
+            var nombreEmpleado = $(this).data("nombre");
+            var prestacionServicio = $(this).data("prestacion");
+            $("#CodigoEmpleado").val(codigoEmpleado);
+            $("#NombreEmpleado").val(nombreEmpleado);
+            $("#PrestacionServicio").val(prestacionServicio);
+            $("#employeeModal").modal("hide");
+        });
+
+
+        // Maneja el evento keydown en el campo de código de tipo de ausentismo
+        $("#CodigoTipoAusentismo").keydown(function (event) {
+            // Verifica si la tecla presionada es "Enter"
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                // Obtiene el código del tipo de ausentismo ingresado por el usuario
+                var codigoTipoAusentismo = $(this).val();
+                // Realiza una solicitud AJAX para obtener los tipos de ausentismo disponibles
+                $.ajax({
+                    url: '@Url.Action("GetAllTiposAusentismo", "GestionHumana")',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.result) {
+                            // Construye dinámicamente la tabla de tipos de ausentismo
+                            var tableHtml = '<table class="table">';
+                            tableHtml += '<thead><tr><th>Código</th><th>Nombre</th></tr></thead><tbody>';
+                            // Itera sobre los tipos de ausentismo recibidos en la respuesta
+                            $.each(data.tiposAusentismo, function (index, tipoAusentismo) {
+                                // Verifica si los valores CodigoAusentismo y NombreAusentismo están definidos
+                                if (tipoAusentismo.codigoAusentismo && tipoAusentismo.nombreAusentismo) {
+                                    // Agrega una fila a la tabla con los datos del tipo de ausentismo
+                                    tableHtml += '<tr class="ausentismo-row" data-codigo="' + tipoAusentismo.codigoAusentismo + '" data-nombre="' + tipoAusentismo.nombreAusentismo + '">';
+                                    tableHtml += '<td>' + tipoAusentismo.codigoAusentismo + '</td>';
+                                    tableHtml += '<td>' + tipoAusentismo.nombreAusentismo + '</td>';
+                                    tableHtml += '</tr>';
+                                }
+                            });
+                            tableHtml += '</tbody></table>';
+                            // Agrega la tabla al cuerpo del modal y muestra el modal
+                            $("#ausentismoModal .modal-body").html(tableHtml);
+                            $("#ausentismoModal").modal("show");
+                        } else {
+                            // Muestra un mensaje de error si no se encontraron tipos de ausentismo
+                            alert(data.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
+        });
+
+        // Maneja la selección de un tipo de ausentismo en la tabla
+        $(document).on("click", ".ausentismo-row", function () {
+            var codigoTipoAusentismo = $(this).data("codigo");
+            var nombreTipoAusentismo = $(this).data("nombre");
+            // Rellena automáticamente el campo de código de tipo de ausentismo
+            $("#CodigoTipoAusentismo").val(codigoTipoAusentismo);
+            // Rellena automáticamente el campo de nombre de tipo de ausentismo
+            $("#NombreTipoAusentismo").val(nombreTipoAusentismo);
+            // Oculta el modal de tipos de ausentismo
+            $("#ausentismoModal").modal("hide");
+        });
+
+    </script>
+}

@@ -1,0 +1,144 @@
+﻿@using GeneralLedger.SelfServiceCore.Services.Profilers;
+@using GeneralLedger.SelfService.Web.Areas.Identity.Data
+@using Microsoft.AspNetCore.Identity;
+@using Microsoft.AspNetCore.Http;
+@using Common;
+@inject UserManager<ApplicationUser> UserManager
+@inject IProfilerService profilerService;
+@inject IHttpContextAccessor contextAccessor
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var KeyConnection = SessionHelper.GetValue(contextAccessor.HttpContext.User, "KeyConnection");
+    var user = await profilerService.GetInstancia().proUserManager.FindByNameAsync(User.Identity.Name,KeyConnection); 
+    ViewBag.Permisos = await profilerService.GetInstancia().ProConfiguracion.GetPermisosUsuario(user.Id,KeyConnection);
+   
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="form-group">
+                    <label for="" class="form-label">Buscar</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-search"></i> </span>
+                        <input type="text" name="search-agente" id="search-agente" class="form-control form-control-sm">
+                    </div>
+                </div>
+            </div>
+            @foreach (var item in ViewBag.Permisos)
+            {
+                if (item.Codigo == "000005" && item.Activo)
+                {
+                    <div class="col-md-2 ms-auto d-flex justify-content-end align-items-center mt-4">
+                        <a id="btn-n-agente" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle fa-fw me-1"></i> Nuevo Agente </a>
+                    </div>
+                    break;
+                }
+            }
+            
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="card border-0">
+            <div class="card-body">
+                <table id="table-agentes" class="table table-borderless align-middle table-hover table-sm w-100">
+                    <thead>
+                        <tr>
+                            <th nowrap align="center" width="10%">Código</th>
+                            <th nowrap align="center" width="10%">NIT</th>
+                            <th nowrap align="center" width="40%">Agente</th>
+                            <th nowrap align="center" width="20%">Área</th>
+                            <th nowrap align="center" width="10%">Email</th>
+                            <th nowrap width="10%">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--=======================================MODAL NUEVO USUARIO=======================================-->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-agentes">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nuevo Agente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="form-new-agente" method="post">
+                    <div class="row px-5">
+                        <div class="col-md-6 mb-1">
+                            <div class="form-group">
+                                <label class="form-label">Nro Identificación</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-address-card"></i>
+                                    </span>
+                                    <input id="NroId" name="NroId" class="form-control"/>
+                                    <input type="hidden" id="Id" name="Id" class="form-control" />
+                                    <input type="hidden" id="NitEmpresa" name="NitEmpresa" class="form-control" />
+                                    <input type="hidden" id="delmrk" name="delmrk" class="form-control" />
+                                    <input type="hidden" id="Codigo" name="Codigo" class="form-control" />
+                                    <input type="hidden" id="RecibeEmail" name="RecibeEmail">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-1">
+                            <div class="form-group">
+                                <label class="form-label">Nombre de Agente</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                    <input id="NombreCompleto" name="NombreCompleto" class="form-control" readonly/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-1">
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-envelope"></i>
+                                    </span>
+                                    <input id="Email" name="Email" class="form-control" readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-1">
+                            <div class="form-group">
+                                <label class="form-label">Área</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                    <select id="Area" name="Area" class="form-select">
+                                        
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                                             
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button id="btn-save-new-agente" type="button" class="btn btn-success">Guardar</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

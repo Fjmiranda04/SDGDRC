@@ -1,0 +1,396 @@
+﻿@*@model IEnumerable<GeneralLedger.SelfServiceCore.Data.DTOs.DTOsGL.CanvasShowDTO>*@
+@using GeneralLedger.SelfService.Web.Areas.Identity.Data
+@using GeneralLedger.SelfServiceCore.Data.DTOs
+@using GeneralLedger.SelfServiceCore.Services
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+@inject RoleManager<IdentityRole> RoleManager
+@{
+    ViewData["Title"] = "Canvas de Seguimiento";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var user = await UserManager.FindByNameAsync(User.Identity.Name);
+    var rol =  UserManager.GetRolesAsync(user).Result.FirstOrDefault();
+}
+
+<div class="row">
+    <div class="d-flex align-items-center mb-md-3 mb-2">
+        <div class="flex-fill">
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">HOME</a></li>
+                <li class="breadcrumb-item active">DASHBOARD</li>
+            </ul>
+            @* <h1 class="page-header mb-0">DASHBOARD</h1>*@
+        </div>
+        <div class="ms-auto fs-16px">
+            Último Seguimiento:  
+            <span class="badge bg-success"> 0 a 2 días</span>
+            <span class="badge bg-yellow">3 a 6 días</span>
+            <span class="badge bg-warning">7 a 9 días</span>
+            <span class="badge bg-danger">10 o más días</span>
+        </div>
+    </div>
+</div>
+
+@if(rol.Equals("ADMIN"))
+{
+    <div class="row">
+        <div class="col-md-3 px-3">
+            <div class="form-group">
+                <label class="form-label">Usuarios:</label>
+                <select id="users" name="users" class="form-select form-select-sm filter-table">
+                    <option value="" selected>Seleccionar usuario</option>
+                    <option value="all">Todos</option>
+                    @foreach (var item in ViewBag.UsuariosGL)
+                   {
+                       <option value="@item.Codigo">@item.Usuario - @item.Nombre</option>
+                   }
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3 px-3">
+            <div class="form-group">
+                <label class="form-label">Centros de Costos:</label>
+                <select id="cco" name="cco" class="form-select form-select-sm filter-table">
+                    <option value="" selected>Seleccionar Subcentro</option>
+                    <option value="all">Todos</option>
+                    @foreach (var item in ViewBag.SubCentroGL)
+                   {
+                       <option value="@item.CodigoSub">@item.NombreSub</option>
+                   }
+                </select>
+            </div>
+        </div>
+    </div>
+}
+
+
+<div class="row">
+    <div class="col-md-9">
+        <table class="table table-borderless" width="100%" id="table-canvas">
+            <thead class="m-0 p-0 w-100">
+                <tr style="padding-block:0px; padding-top:0px">
+                    <th width="33%" style="padding-block:0px; padding-top:0px">
+                        <div class="bg-secondary  bg-opacity-25 m-0 py-2 px-2 rounded d-flex justify-content-center align-items-center">
+                            <h5 class="fs-6">COTIZACIONES</h5>
+                        </div>
+                    </th>
+                    <th width="33%" style="padding-block:0px; padding-top:0px">
+                        <div class="bg-secondary  bg-opacity-25 m-0 py-2 px-2 rounded d-flex justify-content-center align-items-center">
+                            <h5 class="fs-6">PEDIDOS</h5>
+                        </div>
+                    </th>
+                    <th width="34%" style="padding-block:0px; padding-top:0px">
+                        <div class="bg-secondary  bg-opacity-25 m-0 py-2 px-2 rounded d-flex justify-content-center align-items-center">
+                            <h5 class="fs-6">ORDENES DE TRABAJO</h5>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+               @* @foreach (var item in Model)
+                {
+                    var days = (DateTime.Now - item.CotizacionLastUpdate);
+                    var color = (days.TotalDays < 3) ? "success" : (days.TotalDays >= 3 &&  days.TotalDays < 7)?  "yellow": (days.TotalDays >= 7 &&  days.TotalDays < 10)? "warning":"danger";
+
+                     var days2 = (DateTime.Now - item.PedidoLastUpdate);
+                     var color2 = (days2.TotalDays < 3) ? "success" : (days2.TotalDays >= 3 &&  days2.TotalDays < 7)?  "yellow": (days2.TotalDays >= 7 &&  days2.TotalDays < 10)? "warning":"danger";
+
+                     var days3 = (DateTime.Now - item.OrdenLastUpdate);
+                     var color3 = (days3.TotalDays < 3) ? "success" : (days3.TotalDays >= 3 &&  days3.TotalDays < 7)?  "yellow": (days3.TotalDays >= 7 &&  days3.TotalDays < 10)? "warning":"danger";
+
+                    <tr>
+                        <td  width="33%" style="padding-block:0px; padding-top:0px">
+                            @if(!string.IsNullOrEmpty(item.Cotizacion))
+                            {
+                                <div class="card shadow border-0 m-1" onclick="ShowCotizacion('@item.Cotizacion')">
+                                    <div class="card-body p-0">
+                                        <div class="border-start border-5 border-@color list-group-item-action d-flex align-items-center border-0 p-2">
+                                            <div class="flex-fill">
+                                                <div class="fs-18px fw-600"># @item.Cotizacion</div>
+                                                <div class="fs-12px text-muted">@item.OrdenCliente</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            }
+                            @if(string.IsNullOrEmpty(item.Cotizacion))
+                            {
+                                <div class="card shadow border-0 m-1">
+                                    <div class="card-body p-0">
+                                        <div class="border-start border-5 list-group-item-action d-flex align-items-center border-0 p-2">
+                                            <div class="flex-fill">
+                                                <div class="fs-18px fw-600 text-center">SIN COTIZACIÓN</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </td>
+                        <td  width="33%" style="padding-block:0px; padding-top:0px">
+                            @if(!string.IsNullOrEmpty(item.Pedido))
+                            {
+                                <div class="card shadow border-0 m-1" onclick="ShowCotizacion('@item.Pedido')">
+                                    <div class="card-body p-0">
+                                        <div class="border-start border-5 border-@color2 list-group-item-action d-flex align-items-center border-0 p-2">
+                                            <div class="flex-fill">
+                                                <div class="fs-18px fw-600"># @item.Pedido</div>
+                                                <div class="fs-12px text-muted">@item.PedidoCliente</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                            @if(string.IsNullOrEmpty(item.Pedido))
+                            {
+                                <div class="card shadow border-0 m-1">
+                                    <div class="card-body p-0">
+                                        <div class="border-start border-5 list-group-item-action d-flex align-items-center border-0 p-2">
+                                            <div class="flex-fill">
+                                                <div class="fs-18px fw-600 text-center">SIN PEDIDO</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </td>
+                        <td  width="34%" style="padding-block:0px; padding-top:0px">
+                            <div class="card shadow border-0 m-1" onclick="ShowCotizacion('@item.NroOrden')">
+                                <div class="card-body p-0">
+                                    <div class="border-start border-5 border-@color3 list-group-item-action d-flex align-items-center border-0 p-2">
+                                        <div class="flex-fill">
+                                            <div class="fs-18px fw-600"># @item.NroOrden</div>
+                                            <div class="fs-12px text-muted">@item.OrdenCliente</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }*@
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-md-3">
+        <table class="table table-borderless" width="100%" id="table-canvas-fact">
+            <thead class="m-0 p-0 w-100">
+                <tr>
+                    <th width="100%" style="padding-block:0px; padding-top:0px">
+                        <div class="bg-secondary  bg-opacity-25 m-0 py-2 px-2 rounded d-flex justify-content-center align-items-center">
+                            <h5 class="fs-6">POR FACTURAR</h5>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @*@foreach (var item in ViewBag.OtFacturar)
+                {
+                    var days = (DateTime.Now - item.OrdenLastUpdate);
+                    var color = (days.TotalDays < 3) ? "success" : (days.TotalDays >= 3 &&  days.TotalDays < 7)?  "yellow": (days.TotalDays >= 7 &&  days.TotalDays < 10)? "warning":"danger";
+
+                    <tr>
+                        <td  width="34%" style="padding-block:0px; padding-top:0px">
+                            <div class="card shadow border-0 m-1" onclick="ShowCotizacion('@item.NroOrden')">
+                                <div class="card-body p-0">
+                                    <div class="border-start border-5 border-@color list-group-item-action d-flex align-items-center border-0 p-2">
+                                        <div class="flex-fill">
+                                            <div class="fs-18px fw-600"># @item.NroOrden</div>
+                                            <div class="fs-12px text-muted">@item.OrdenCliente</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }*@
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+       
+        $(document).ready( function () {
+            LoadDataCanvas();
+        });
+
+        //$("#table-canvas-fact").DataTable({
+        //    searching: false,
+        //    ordering: false,
+        //    responsive : true,
+        //    paging: false,
+        //    dom: "t<'d-flex align-items-center'<'me-auto pb-2 mx-2'i><'mb-0 pb-2 mx-2'p>>",
+        //    lengthMenu: [[20, 50, 100, -1], [20, 50, 100, "Todas"]],
+        //    scrollY: 400,
+        //    language:
+        //    {
+        //        url : "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json",
+        //    },
+        //    buttons: 
+        //    [
+            
+        //    ],
+        //});
+
+        $(".filter-table").on("change",function()
+        {
+            console.log("cambio");
+            LoadDataCanvas();
+        });
+
+
+        function LoadDataCanvas() 
+        {
+            let usuario = $("#users").val();
+            let subcentro = $("#cco").val();
+
+            console.log(usuario);
+            console.log(subcentro);
+
+            $("#table-canvas").DataTable({
+                searching: false,
+                ordering: false,
+                responsive : true,
+                destroy: true,
+                dom: "t<'d-flex align-items-center'<'me-auto pb-2 mx-2'i><'mb-0 pb-2 mx-2'p>>",
+                lengthMenu: [[20, 50, 100, -1], [20, 50, 100, "Todas"]],
+                ajax: {
+                    "url": "@Url.Action("GetCanvas", "Canvas")",
+                    "type": "GET",
+                    "datatype": "json",
+                    "data": {"usuario": usuario,"subcentro":subcentro}
+                },
+                columns: 
+                [
+                    {
+                        data: "cotizacion",
+                        render: function(data, type, row) 
+                        {
+                            let html = "";
+                            let colorCot = (row.cotizacionDias < 3) ? "success" : (row.cotizacionDias >= 3 &&  row.cotizacionDias < 7)?  "yellow": (row.cotizacionDias >= 7 &&  row.cotizacionDias < 10)? "warning":"danger";
+
+                            if (data != null || data != "") 
+                            {
+                                html =
+                                    `<div class="card shadow border-0 m-1" onclick="ShowCotizacion('${data}')">
+                                    <div class="card-body p-0">
+                                        <div class="border-start border-5 border-${colorCot} list-group-item-action d-flex align-items-center border-0 p-2">
+                                            <div class="flex-fill">
+                                                <div class="fs-18px fw-600"># ${data}</div>
+                                                <div class="fs-12px text-muted">${row.ordenCliente}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`;
+                            }else
+                            {
+                                html =
+                                    `
+                                    <div class="card shadow border-0 m-1">
+                                        <div class="card-body p-0">
+                                            <div class="border-start border-5 list-group-item-action d-flex align-items-center border-0 p-2">
+                                                <div class="flex-fill">
+                                                    <div class="fs-18px fw-600 text-center">SIN COTIZACIÓN</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    `;
+                            }
+
+                            return html;
+                        }
+                    },
+                    {
+                        data: "pedido",
+                        render: function(data, type, row) 
+                        {
+                            let html = "";
+                            let colorPed = (row.pedidoDias < 3) ? "success" : (row.pedidoDias >= 3 &&  row.pedidoDias < 7)?  "yellow": (row.pedidoDias >= 7 &&  row.pedidoDias < 10)? "warning":"danger";
+
+                            if (data != null || data != "") 
+                            {
+                                html =
+                                    `<div class="card shadow border-0 m-1" onclick="ShowCotizacion('${data}')">
+                                        <div class="card-body p-0">
+                                            <div class="border-start border-5 border-${colorPed} list-group-item-action d-flex align-items-center border-0 p-2">
+                                                <div class="flex-fill">
+                                                    <div class="fs-18px fw-600"># ${data}</div>
+                                                    <div class="fs-12px text-muted">${row.pedidoCliente}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`;
+                            }else
+                            {
+                                html =
+                                    `
+                                    <div class="card shadow border-0 m-1">
+                                        <div class="card-body p-0">
+                                            <div class="border-start border-5 list-group-item-action d-flex align-items-center border-0 p-2">
+                                                <div class="flex-fill">
+                                                    <div class="fs-18px fw-600 text-center">SIN PEDIDO</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    `;
+                            }
+
+                            return html;
+                        }
+                    },
+                    {
+                        data: "nroOrden",
+                        render: function(data, type, row) 
+                        {
+                             let html = "";
+                             let colorOrd = (row.ordenDias < 3) ? "success" : (row.ordenDias >= 3 &&  row.ordenDias < 7)?  "yellow": (row.ordenDias >= 7 &&  row.ordenDias < 10)? "warning":"danger";
+
+                            if (data != null || data != "") 
+                            {
+                                html =
+                                    `<div class="card shadow border-0 m-1" onclick="ShowCotizacion('${data}')">
+                                    <div class="card-body p-0">
+                                        <div class="border-start border-5 border-${colorOrd} list-group-item-action d-flex align-items-center border-0 p-2">
+                                            <div class="flex-fill">
+                                                <div class="fs-18px fw-600"># ${data}</div>
+                                                <div class="fs-12px text-muted">${row.ordenCliente}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`;
+                            }else
+                            {
+                                html =
+                                    `
+                                    <div class="card shadow border-0 m-1">
+                                        <div class="card-body p-0">
+                                            <div class="border-start border-5 list-group-item-action d-flex align-items-center border-0 p-2">
+                                                <div class="flex-fill">
+                                                    <div class="fs-18px fw-600 text-center">SIN ORDEN</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    `;
+                            }
+
+                            return html;
+                        }
+                    },
+                ],
+                buttons: 
+                [
+            
+                ],
+            });
+        }
+
+    </script>
+}

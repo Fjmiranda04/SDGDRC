@@ -1,0 +1,766 @@
+﻿@model GeneralLedger.SelfServiceCore.Data.DTOs.AspNetUserShowDTO
+@{
+    ViewData["Title"] = "Editar usuario";
+}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card border-0">
+            <div class="col-md-12 px-2 pt-2">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Configuraciones</a></li>
+                    <li class="breadcrumb-item active">Usuarios</li>
+                    <li class="breadcrumb-item active">Editar Usuario</li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-md-12 pb-3">
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-center">
+                                <img src="~/icon/user.png" alt="Imagen de usuario">
+                            </div>
+                            <div class="col-12 text-center pt-1">
+                                <h5 class="fw-bold">@Model.UserName</h5>
+                            </div>
+                            <div class="col-12 text-center">
+                                <span class="badge bg-primary bg-opacity-20 text-primary fw-bold" style="font-size:0.8rem">@Model.Rol</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row py-1 px-2">
+                            <div class="col-6">
+                                <h5 class="text-dark">Detalles</h5>
+                            </div>
+                            <div class="col-6 d-flex justify-content-end">
+                                <button id="btn-edit-user" type="button" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i>Editar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-12 py-2">
+                                <h6 class="fw-bold text-dark py-0 my-0">Identificación</h6>
+                                <h6 class="text-black-50 py-0 my-0">@Model.NroId</h6>
+                            </div>
+                            <div class="col-12 py-2">
+                                <h6 class="fw-bold text-dark py-0 my-0">Email</h6>
+                                <h6 class="text-black-50 py-0 my-0">@Model.Email</h6>
+                            </div>
+                            <div class="col-12 py-2">
+                                <h6 class="fw-bold text-dark py-0 my-0">Dirección</h6>
+                                <h6 class="text-black-50 py-0 my-0">@Model.Direccion</h6>
+                            </div>
+                            <div class="col-12 py-2">
+                                <h6 class="fw-bold text-dark py-0 my-0">Celular</h6>
+                                <h6 class="text-black-50 py-0 my-0">@Model.Celular</h6>
+                            </div>
+                            <div class="col-12 py-2">
+                                <h6 class="fw-bold text-dark py-0 my-0">Telefono</h6>
+                                <h6 class="text-black-50 py-0 my-0">@Model.Telefono</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card border-0">
+            <div class="card-body px-2 py-1">
+                <ul class="nav nav-tabs nav-tabs-v2">
+                    <li class="nav-item me-3"><a href="#menus" class="nav-link active" data-bs-toggle="tab">MENUS</a></li>
+                    <li class="nav-item me-3"><a href="#permisos" class="nav-link" data-bs-toggle="tab">PERMISOS</a></li>
+                    <li class="nav-item me-3"><a href="#roles" class="nav-link" data-bs-toggle="tab">ROLES</a></li>
+                    <li class="nav-item me-3"><a href="#security" class="nav-link" data-bs-toggle="tab">SEGURIDAD</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="tab-content pt-3">
+            <div class="tab-pane fade active show" id="menus">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div class="row">
+                            <div id="list-menus">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="permisos">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <table id="table-permisos" class="table table-borderless" width="100%">
+                            <thead>
+                                <tr>
+                                    <th width="90%">Permiso</th>
+                                    <th width="10%">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="roles">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <table id="table-roles" class="table table-borderless" width="100%">
+                            <thead>
+                                <tr>
+                                    <th width="90%">Rol</th>
+                                    <th width="10%">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="security">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-12 py-2">
+                                        <div class="form-group">
+                                            <label class="form-label">Email</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-envelope"></i>
+                                                </span>
+                                                <input class="form-control" value="@Model.Email" readonly/>
+                                                <button type="button" id="btn-edit-email" class="input-group-text btn-secondary"><i class="fas fa-edit"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 py-2">
+                                        <div class="form-group">
+                                            <label class="form-label">Contraseña</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-key"></i>
+                                                </span>
+                                                <input type="password" class="form-control" value="@Model.Password" readonly/>
+                                                <button type="button" id="btn-edit-password" class="input-group-text btn-secondary"><i class="fas fa-edit"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 py-2">
+                                        <div class="form-group">
+                                            <label class="form-label">Rol</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-id-badge"></i>
+                                                </span>
+                                                <input type="text" class="form-control" value="@Model.Rol" readonly/>
+                                                <button type="button" id="btn-edit-rol" class="input-group-text btn-secondary"><i class="fas fa-edit"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--=======================================MODAL USER=======================================-->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-user">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row px-2">
+                    <form id="form-edit-user" method="post">
+                        <div class="col-md-12 mb-1">
+                            <div class="form-group">
+                                <label class="form-label">Nro Identificación</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-address-card"></i>
+                                    </span>
+                                    <input id="NroId" name="NroId" class="form-control" readonly/>
+                                    <input type="hidden" id="Id" name="Id" class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 mb-1">
+                            <div class="form-group">
+                                <label class="form-label">Nombre de Usuario</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                    <input id="UserName" name="UserName" class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+
+                         <div class="col-md-12 mb-1">
+                            <div class="form-group">
+                                <label class="form-label">Usuario GL</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                    @* <select id="UserGL" name="UserGL" class="form-select">
+                                        <option value="NA">Seleccionar usuario</option>
+                                        @foreach (var item in ViewBag.UserGl)
+                                        {
+                                           <option value="@item.Codigo">@item.Usuario - @item.Nombre</option>
+                                        }
+                                    </select> *@
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 mb-1">
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-envelope"></i>
+                                    </span>
+                                    <input type="email" id="Email" name="Email" class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 mb-1">
+                            <div class="form-group">
+                                <label class="form-label">Celular</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-phone"></i>
+                                    </span>
+                                    <input type="text" id="Celular" name="Celular" class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 mb-1">
+                            <div class="form-group">
+                                <label class="form-label">Telefono</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-phone"></i>
+                                    </span>
+                                    <input type="text" id="Telefono" name="Telefono" class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 mb-1">
+                            <div class="form-group">
+                                <label class="form-label">Dirección</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </span>
+                                    <input type="text" id="Direccion" name="Direccion" class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="btn-save-user" type="button" class="btn btn-success">Guardar</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--=======================================MODAL EMAIL=======================================-->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-edit-email">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Actualizar Email</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                   <div class="col-12">
+                       <div class="alert alert-warning">
+                            <strong>Advertencia</strong>
+                            Tenga en cuenta que se requiere una dirección de correo electrónico válida 
+                            para completar la verificación de correo electrónico.
+                        </div>
+                   </div>
+                   <div class="col-12 px-2">
+                       <label class="form-label">Email</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                            <input id="newemail" name="newemail" class="form-control" value="@Model.Email"/>
+                        </div>
+                   </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-save-email" type="button" class="btn btn-success">Guardar</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--=======================================MODAL PASSWORD=======================================-->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-edit-password">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Actualizar Contraseña</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                   <div class="col-12">
+                       <div class="alert alert-warning">
+                            <strong>Advertencia</strong>
+                            Minimo 6 caracteres
+                        </div>
+                   </div>
+                    <div class="col-12 px-2">
+                        <label class="form-label">Contraseña Actual</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="fas fa-key"></i>
+                            </span>
+                            <input type="password" id="oldpassword" name="oldpassword" class="form-control" />
+                        </div>
+                    </div>
+                   <div class="col-12 px-2">
+                       <label class="form-label">Nueva Contraseña</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="fas fa-key"></i>
+                            </span>
+                            <input type="password" id="newpassword" name="newpassword" class="form-control" />
+                        </div>
+                   </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-save-password" type="button" class="btn btn-success">Guardar</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--=======================================MODAL ROL=======================================-->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-edit-rol">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Actualizar Rol de Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                   <div class="col-12">
+                       <div class="alert alert-warning">
+                            <strong>Advertencia</strong>
+                           Tenga en cuenta que al cambiar de rol, este usuario perderá todos 
+                           los privilegios que se le asignaron con el rol anterior.
+                        </div>
+                   </div>
+                   <div class="col-12 px-2">
+                       <label class="form-label">Rol</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="fas fa-id-badge"></i>
+                            </span>
+                            <select name="newrol" id="newrol" class="form-select"></select>
+                        </div>
+                   </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-save-rol" type="button" class="btn btn-success">Guardar</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        var modal = "";
+        $(document).ready(()=>{
+            LoadMenusUser("@Model.NroId");
+            LoadRoles();
+            LoadPermisosUsuarios();
+            LoadRolesUsuarios();
+
+            $("#btn-edit-email").on('click',()=>{OpenModal("modal-edit-email");});
+            $("#btn-edit-password").on('click',()=>{OpenModal("modal-edit-password");});
+            $("#btn-edit-rol").on('click',()=>{OpenModal("modal-edit-rol");});
+            $("#btn-edit-user").on('click',()=>{OpenModal("modal-user");});
+
+            $("#btn-save-user").on('click',()=>{EditUser()});
+            $("#btn-save-email").on('click',()=>{EditEmail()});
+            $("#btn-save-password").on('click',()=>{ChangePassword()});
+            $("#btn-save-rol").on('click',()=>{ChangeRol()});
+        });
+
+
+        function LoadMenusUser(nroidUser){ 
+            $.ajax({
+                url: "@Url.Action("GetMenusByUsuario","Configuration")",
+                type: "GET",
+                data: {nroid: nroidUser},                
+                contentType: "application/json",
+                success: function (response) {
+                    let listmenu = $("#list-menus");
+                    listmenu.empty();
+                    let html = '';
+
+                    html += `<div class="accordion" id="accordionFlushExample">`;
+                    for(var m in response.data){     
+                        if(response.data[m].depMnu == "NO"){
+                            html += `<div class="accordion-item">
+                                        <h2 class="accordion-header" id="flush-heading${response.data[m].codMnu}">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse${response.data[m].codMnu}" aria-expanded="false" aria-controls="flush-collapseOne">
+                                                <input class="form-check-input me-1" onchange="OnOffMenu('${response.data[m].codMnu}','${nroidUser}',${response.data[m].activo})" type="checkbox" ${(response.data[m].activo)? 'checked':''} value="${response.data[m].codMnu}" data-u="${nroidUser}"> 
+                                                <i class="${response.data[m].icoMnu}"> </i> 
+                                                ${"  "+response.data[m].nomMnu}
+                                            </button>
+                                        </h2>
+                                        <div id="flush-collapse${response.data[m].codMnu}" class="accordion-collapse collapse show" aria-labelledby="flush-heading${response.data[m].codMnu}" data-bs-parent="#accordionFlushExample">
+                                            <div class="accordion-body">
+                                                <div class="list-group m-1">`;
+                            for(var s in response.data){
+                                if(response.data[s].depMnu == response.data[m].codMnu){
+                                    html += `<label class="list-group-item">
+                                                <input class="form-check-input me-1" onchange="OnOffMenu('${response.data[s].codMnu}','${nroidUser}',${response.data[s].activo})" type="checkbox" ${(response.data[s].activo)? 'checked':''}>
+                                                <i class="${response.data[s].icoMnu}"></i>
+                                                ${response.data[s].nomMnu}
+                                            </label>`;
+                                }
+                            }
+                            html += `           </div>
+                                            </div>   
+                                        </div>
+                                    </div>`;
+                        }
+ 
+                    }
+                    html += `</div>`;
+
+                    listmenu.append(html);
+                },
+            })
+        }
+
+        function OnOffMenu(codMnu, nroIdUser,value){
+            $.ajax({
+                url: '@Url.Action("AddDeleteMenuUser","Configuration")',
+                type: "GET",
+                data: {codMnu: codMnu,nroIdUser: nroIdUser,value:value}, 
+                datatype: "json",
+                contentType: "application/json",
+                success: function (response) {
+                    if (response.result) {
+                        ToastAlert.fire({icon: 'success',title: response.message});
+                        LoadMenusUser(nroIdUser);
+                    } else {
+                        ToastAlert.fire({icon: 'error',title: response.message});
+                    }
+                },
+            });
+        }
+
+        function LoadRoles(){
+            $.ajax({
+                url: '@Url.Action("GetRoles","Configuration")',
+                type: "GET", 
+                datatype: "json",
+                contentType: "application/json",
+                success: function (response) {
+                    $("#newrol").empty();
+                    let option = "";
+            
+                    option += `<option value="" ${("@Model.IdRol" == "")? 'selected':''}>SIN ASIGNAR</option>`;
+
+                    for(var i in response.data){
+                        if("@Model.IdRol" == ""){
+                            option += `<option value="${response.data[i].id}">${response.data[i].rol}</option>`;
+                        }else{
+                            option += `<option value="${response.data[i].id}" ${(response.data[i].id == "@Model.IdRol")? 'selected': ''} >${response.data[i].rol}</option>`;
+                        }
+                    }
+                    $("#newrol").append(option);
+                },
+            });
+        }
+
+        function OpenModal(choosedModal){
+            modal = new bootstrap.Modal(document.getElementById(choosedModal), {});
+            if(choosedModal == "modal-user"){
+                $.ajax({
+                    url: "@Url.Action("GetUser","Configuration")",
+                    type: "GET",
+                    data: {nroId : "@Model.NroId"},
+                    contentType: "application/json",
+                    success: function (response) {
+                        if (response.result) {
+                            $("#NroId").val("@Model.NroId");
+                            $("#UserName").val(response.data.name);
+                            $("#Email").val(response.data.email);
+                            $("#Telefono").val(response.data.telefono);
+                            $("#Celular").val(response.data.celular);
+                            $("#Direccion").val(response.data.direccion);
+                            $("#UserGL option[value="+ response.data.userGL +"]").attr("selected",true);
+                        } else {
+                            ToastAlert.fire({icon: 'error',title: response.message}); 
+                        }
+                    },
+                });  
+            }
+            modal.show();
+        }
+
+        function EditUser(){
+            $.ajax({
+                url: "@Url.Action("EditUser","Configuration")",
+                type: "POST",
+                data: $("#form-edit-user").serialize(),
+                beforeSend: function () {
+                    $('#btn-save-user').prop('disabled', true);
+                },
+                success: function (response) {
+                    if (response.result) {
+                        modal.hide();
+                        ToastAlert.fire({icon: 'success',title: response.message}); 
+                    } else {
+                        ToastAlert.fire({icon: 'error',title: response.message}); 
+                    }
+                },
+                complete: function () {
+                    $('#btn-save-user').prop('disabled', false);
+                }
+            });  
+        }
+
+        function EditEmail(){
+            $.ajax({
+                url: "@Url.Action("EditEmailUser","Configuration")",
+                type: "POST",
+                data: {newEmail: $("#newemail").val(),nroIdUser: "@Model.NroId"},
+                beforeSend: function () {
+                    $('#btn-save-email').prop('disabled', true);
+                },
+                success: function (response) {
+                    if (response.result) {
+                        modal.hide();
+                        ToastAlert.fire({icon: 'success',title: response.message}); 
+                    } else {
+                        ToastAlert.fire({icon: 'error',title: response.message}); 
+                    }
+                },
+                complete: function () {
+                    $('#btn-save-email').prop('disabled', false);
+                }
+            });  
+        }
+
+        function ChangePassword(){
+            $.ajax({
+                url: "@Url.Action("ChangePassword","Configuration")",
+                type: "POST",
+                data: { newPassword: $("#newpassword").val(), oldPassword: $("#oldpassword").val(), nroIdUser: "@Model.NroId" },
+                beforeSend: function () {
+                    $('#btn-save-password').prop('disabled', true);
+                },
+                success: function (response) {
+                    if (response.result) {
+                        modal.hide();
+                        ToastAlert.fire({icon: 'success',title: response.message}); 
+                    } else {
+                        ToastAlert.fire({icon: 'error',title: response.message}); 
+                    }
+                },
+                complete: function () {
+                    $('#btn-save-password').prop('disabled', false);
+                }
+            });  
+        }
+
+        function ChangeRol(){
+            $.ajax({
+                url: "@Url.Action("ChangeRolUser","Configuration")",
+                type: "POST",
+                data: {newRol: $("#newrol").val(),nroIdUser: "@Model.NroId"},
+                beforeSend: function () {
+                    $('#btn-save-rol').prop('disabled', true);
+                },
+                success: function (response) {
+                    if (response.result) {
+                        modal.hide();
+                        ToastAlert.fire({icon: 'success',title: response.message}); 
+                    } else {
+                        ToastAlert.fire({icon: 'error',title: response.message}); 
+                    }
+                },
+                complete: function () {
+                    $('#btn-save-rol').prop('disabled', false);
+                }
+            });  
+        }
+
+        function LoadPermisosUsuarios()
+        {
+            $.ajax({
+                url: "/Configuration/GetPermisosUsuario",
+                type: 'GET',
+                dataType: 'json',
+                data: {idUsuario: "@Model.Id"},
+                success: function (data) {
+
+                    tablePermisos = $('#table-permisos').DataTable({
+                        dom: "t<'d-none align-items-center'<'me-auto pb-2 mx-2'i><'mb-0 pb-2 mx-2'p>>",
+                        data: data.data,
+                        responsive: true,
+                        scrollCollapse: true,
+                        destroy: true,
+                        paging: true,
+                        lengthMenu: [15, 25, 50, 100],
+                        language: {
+                            url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json",
+                        },
+                        columns: [
+                            { "data": "permiso" },
+                            {
+                                "data": "activo",
+                                render: function (data, type, row) {
+                                    return ` <input class="form-check-input me-1" onchange="OnOffPermiso('${row.id}','')" type="checkbox" ${(data) ? 'checked' : ''}> `;
+                                }
+                            },
+                        ],
+                        columnDefs: [
+                            { "width": "90%", "targets": 0 },
+                            { "width": "10%", "targets": 1 },
+                        ],
+                    });
+
+                }
+            });
+        }
+
+        function OnOffPermiso(id)
+        {
+            $.ajax({
+                url: "@Url.Action("SavePermisoUsuario","Configuration")",
+                type: "POST",
+                data: { idUsuario: "@Model.Id", idPermiso: id },
+                beforeSend: function () {
+                    
+                },
+                success: function (response) {
+                    if (response.result) {
+                        LoadPermisosUsuarios();
+                        ToastAlert.fire({icon: 'success',title: response.message}); 
+                    } else {
+                        ToastAlert.fire({icon: 'error',title: response.message}); 
+                    }
+                },
+                complete: function () {
+                    $('#btn-save-user').prop('disabled', false);
+                }
+            });  
+        }
+
+        function LoadRolesUsuarios() {
+            $.ajax({
+                url: "/Configuration/GetRolesUsuario",
+                type: 'GET',
+                dataType: 'json',
+                data: { idUsuario: "@Model.Id" },
+                success: function (data) {
+
+                    tableRoles = $('#table-roles').DataTable({
+                        dom: "t<'d-none align-items-center'<'me-auto pb-2 mx-2'i><'mb-0 pb-2 mx-2'p>>",
+                        data: data.data,
+                        responsive: true,
+                        scrollCollapse: true,
+                        destroy: true,
+                        paging: true,
+                        lengthMenu: [15, 25, 50, 100],
+                        language: {
+                            url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json",
+                        },
+                        columns: [
+                            { "data": "nombreRol" },
+                            {
+                                "data": "activo",
+                                render: function (data, type, row) {
+                                    return ` <input class="form-check-input me-1" onchange="OnOffRol('${row.idRol}')" type="checkbox" ${(data) ? 'checked' : ''}> `;
+                                }
+                            },
+                        ],
+                        columnDefs: [
+                            { "width": "90%", "targets": 0 },
+                            { "width": "10%", "targets": 1 },
+                        ],
+                    });
+
+                }
+            });
+        }
+
+        function OnOffRol(idRol)
+        {
+            $.ajax({
+                url: "@Url.Action("SaveRolUsuario","Configuration")",
+                type: "POST",
+                data: { idUsuario: "@Model.Id", idRol: idRol },
+                beforeSend: function () {
+                    
+                },
+                success: function (response) {
+                    if (response.result) {
+                        LoadRolesUsuarios();
+                        ToastAlert.fire({icon: 'success',title: response.message}); 
+                    } else {
+                        ToastAlert.fire({icon: 'error',title: response.message}); 
+                    }
+                },
+                complete: function () {
+                    $('#btn-save-user').prop('disabled', false);
+                }
+            });  
+        }
+
+    </script>
+}

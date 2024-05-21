@@ -1,0 +1,239 @@
+﻿@{
+    ViewData["Title"] = "Roles de Usuario";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card border-0">
+            <div class="col-md-12 px-2 pt-2">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Configuraciones</a></li>
+                    <li class="breadcrumb-item active">Roles</li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-search"></i>
+                                        </span>
+                                        <input type="text" name="Search" id="Search" class="form-control form-control-sm" placeholder="Buscar...">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8 d-flex">
+                                <button type="button" class="btn btn-primary btn-sm ms-auto" data-bs-toggle="modal" data-bs-target="#modal-rol"><i class="fas fa-plus"> </i> Nuevo</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <table id="table-perfiles" class="table table-borderless">
+                            <thead>
+                                <tr>
+                                    <th>Rol</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--=======================================MODAL PERFILES=======================================-->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-rol">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nuevo Rol</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Nombre de Rol</label>
+                    <input id="namerol" name="namerol" class="form-control" />
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="btn-save-rol" type="button" class="btn btn-success">Guardar</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--=======================================MODAL MENUS=======================================-->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-menu-roles">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Menus de Rol</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                   <div class="col-md-12">
+                       <div id="list-menus" class="px-2 py-2"></div>
+                   </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        var rolModal = new bootstrap.Modal(document.getElementById("modal-rol"), {});
+        var menuRolModal = new bootstrap.Modal(document.getElementById("modal-menu-roles"), {});
+        var tablePerfiles ="";
+
+        $(document).ready(()=>{
+            LoadRoles();
+        });
+
+        $("#btn-save-rol").on("click",()=>{
+            $.ajax({
+                url: "@Url.Action("CreateRol","Configuration")",
+                type: "POST",
+                data: {nameRol:$("#namerol").val()},
+                success: function (response) {
+                    if (response.result) {
+                        ToastAlert.fire({icon: 'success',title: response.message});
+                        $("#nombrerol").val("");
+                        LoadRoles();
+                        rolModal.hide();
+                    } else {
+                        ToastAlert.fire({icon: 'error',title: response.message}); 
+                    }
+                },
+            });
+        });
+
+        function LoadRoles(){
+
+            tablePerfiles = $("#table-perfiles").DataTable({
+                dom: "t<'d-flex align-items-center'<'me-auto pb-2 mx-2'i><'mb-0 pb-2 mx-2'p>>",
+                responsive: true,
+                paging: false,
+                destroy: true,
+                language: {
+                    "url" : "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json",
+                },
+                ajax: {
+                    "url": '@Url.Action("GetRoles","Configuration")',
+                    "type": "GET",
+                    "datatype": "json",
+                },
+                columns:[
+                    {"data": "rol"},
+                    {
+                        "data": "id",
+                        render: function(data,type,row){
+                            return `
+                                <div class="btn-group btn-group-sm">
+                                    <button type="button" class="btn btn-secondary btn-sm" onclick="OpenModalMenuRol('${data}')"><i class="fas fa-list"></i></button>
+                                </div>
+                            `;
+                        }
+                    },
+                ],
+                columnDefs: [
+                    { "orderable": false, "targets": 0 },
+                    { "orderable": false, "targets": 1 },
+                ],
+            });
+        }
+
+        function OpenModalMenuRol(idRol){
+            LoadMenusRol(idRol);
+            menuRolModal.show();
+        }
+
+        function LoadMenusRol(idRol){ 
+            $.ajax({
+                url: "@Url.Action("GetMenusByRol","Configuration")",
+                type: "GET",
+                data: {idRol: idRol},                
+                contentType: "application/json",
+                success: function (response) {
+                    let listmenu = $("#list-menus");
+                    listmenu.empty();
+                    let html = '';
+
+                    html += `<div class="accordion" id="accordionFlushExample">`;
+                    for(var m in response.data){     
+                        if(response.data[m].depMnu == "NO"){
+                            html += `<div class="accordion-item">
+                                        <h2 class="accordion-header" id="flush-heading${response.data[m].codMnu}">
+                                            <button class="accordion-button collapsed bg-info" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse${response.data[m].codMnu}" aria-expanded="false" aria-controls="flush-collapseOne">
+                                                <input class="form-check-input me-1" onchange="OnOffMenuRol('${response.data[m].codMnu}','${idRol}',${response.data[m].activo})" type="checkbox" ${(response.data[m].activo)? 'checked':''} value="${response.data[m].codMnu}" data-u="${idRol}"> 
+                                                <i class="${response.data[m].icoMnu}"> </i> 
+                                                ${"  "+response.data[m].nomMnu}
+                                            </button>
+                                        </h2>
+                                        <div id="flush-collapse${response.data[m].codMnu}" class="accordion-collapse collapse show" aria-labelledby="flush-heading${response.data[m].codMnu}" data-bs-parent="#accordionFlushExample">
+                                            <div class="accordion-body">
+                                                <div class="list-group m-1">`;
+                            for(var s in response.data){
+                                if(response.data[s].depMnu == response.data[m].codMnu){
+                                    html += `<label class="list-group-item">
+                                                <input class="form-check-input me-1" onchange="OnOffMenuRol('${response.data[s].codMnu}','${idRol}',${response.data[s].activo})" type="checkbox" ${(response.data[s].activo)? 'checked':''}>
+                                                <i class="${response.data[s].icoMnu}"></i>
+                                                ${response.data[s].nomMnu}
+                                            </label>`;
+                                }
+                            }
+                            html += `           </div>
+                                            </div>   
+                                        </div>
+                                    </div>`;
+                        }
+ 
+                    }
+                    html += `</div>`;
+
+                    listmenu.append(html);
+                },
+            })
+        }
+
+        function OnOffMenuRol(codMnu, idRol,value){
+            $.ajax({
+                url: '@Url.Action("AddDeleteMenuRol","Configuration")',
+                type: "GET",
+                data: {codMnu: codMnu,idRol: idRol,value:value}, 
+                datatype: "json",
+                contentType: "application/json",
+                success: function (response) {
+                    if (response.result) {
+                        ToastAlert.fire({icon: 'success',title: response.message});
+                        LoadMenusRol(idRol);
+                    } else {
+                        ToastAlert.fire({icon: 'error',title: response.message});
+                    }
+                },
+            });
+        }
+
+    </script>
+}

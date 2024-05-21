@@ -1,0 +1,230 @@
+﻿@model IEnumerable<GeneralLedger.SelfServiceCore.Data.ModelsGL.ComprobantePagoEmpleado>
+@using GeneralLedger.SelfService.Web.Areas.Identity.Data
+@using GeneralLedger.SelfServiceCore.Services.Profilers.Implements
+@using Microsoft.AspNetCore.Identity
+@using GeneralLedger.SelfServiceCore.Services.Profilers
+@using System.Globalization
+@inject UserManager<ApplicationUser> userManager
+@inject IProfilerService profilerService
+@{
+    Layout = null;
+    var userInSession = await userManager.GetUserAsync(User);
+    var empresa = await profilerService.GetInstancia().ProEmpresa.GetEmpresaGL(userInSession.KeyConnection);
+    var empleado = Model.FirstOrDefault();
+    int fila = 1;
+    var TotalDeducciones = Model.Where(x => x.novdeb < 0).Sum(x => (x.novdeb * -1));
+    var TotalDevengados = Model.Where(x => x.novdeb >= 0).Sum(x => x.novdeb);
+    var TotalPagar = TotalDevengados - TotalDeducciones;
+    var fechaI = TempData["FechaI"] as string;
+    var fechaF = TempData["FechaF"] as string;
+}
+
+<style>
+    *{
+        font-family: Tahoma, Helvetica, sans-serif;
+    }
+    table {
+      width: 100%;
+      background-color: #ffffff;
+      border-collapse: collapse;
+      border-width: 0px;
+      border-color: #FFFFFF;
+      border-style: solid;
+      color: #000000;
+    }
+
+/*     table td, table th {
+      border-width: 2px;
+      border-color: #000000;
+      border-style: solid;
+      padding: 3px;
+    } */
+
+    table thead {
+      background-color: #ffffff;
+    }
+
+    .img-fluid {
+        max-width: 100%;
+        height: auto;
+    }
+</style>
+
+
+<div width="100%" style="padding:40px;">
+    <table  width="100%" >
+        <tbody>
+            <tr style="height: 20px;">
+                <td width="25%" style="padding-top:5px; padding-bottom:5px">
+                    <img src="@empresa.Logo" class="img-fluid">
+                </td>
+
+                <td  width="70%" style="text-align: left; padding-top:5px; padding-bottom:5px">
+                    <p style="margin:0px;font-weight:bold;text-align: left;">@empresa.Nombre</p>
+                    <p style="margin:0px;text-align: left;">Nit. @empresa.Nit</p>
+                    <p style="margin:0px;text-align: left;">Comprobante de Pago Periodo: [@fechaI - @fechaF]</p>
+                </td>
+
+                <th width="5%" style="text-align: center; padding-top:5px; padding-bottom:5px">
+
+                </th>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <table  width="100%" style="margin-top:40px">
+        <tbody>
+            <tr style="height: 15px;">
+                <td width="25%" style="padding-top:5px; padding-bottom:5px;text-align: left">Empleado:</th>
+                <th width="75%" style="padding-top:5px; padding-bottom:5px;text-align: left">@empleado.empnom</th>
+            </tr>
+
+            <tr style="height: 15px;">
+                <td width="25%" style="padding-top:5px; padding-bottom:5px;text-align: left">C&eacute;dula:</th>
+                <td width="75%" style="padding-top:5px; padding-bottom:5px;text-align: left">@empleado.empCed</th>
+            </tr>
+
+            <tr style="height: 15px;">
+                <td width="25%" style="padding-top:5px; padding-bottom:5px;text-align: left">Cargo:</th>
+                <td width="75%" style="padding-top:5px; padding-bottom:5px;text-align: left">@empleado.NomCargo</th>
+            </tr>
+
+            <tr style="height: 15px;">
+                <td width="25%" style="padding-top:5px; padding-bottom:5px;text-align: left">Sueldo B&aacute;sico:</th>
+                <td width="75%" style="padding-top:5px; padding-bottom:5px;text-align: left">@empleado.empSuelBas.ToString("C", CultureInfo.CurrentCulture)</th>
+            </tr>
+
+            @* <tr style="height: 20px;">
+                <th width="25%" style="padding-top:5px; padding-bottom:5px">Tipo de N&oacute;mina:</th>
+                <th width="75%" style="padding-top:5px; padding-bottom:5px"></th>
+            </tr>
+
+            <tr style="height: 20px;">
+                <th width="25%" style="padding-top:5px; padding-bottom:5px">Empleado:</th>
+                <th width="75%" style="padding-top:5px; padding-bottom:5px"></th>
+            </tr> *@
+        </tbody>
+    </table>
+
+    <table width="100%" style="margin-top:10px;border-style: solid; border-color: #9C9C9C;padding:4px">
+        <tbody>
+            <tr style="height: 20px; border:2px solid #9C9C9C ">
+                <td width="40%" style="padding-top:5px; padding-bottom:5px;text-align: left">CONCEPTOS</td>
+                <td width="10%" style="padding-top:5px; padding-bottom:5px">D&Iacute;AS/HORAS</td>
+                <td width="25%" style="padding-top:5px; padding-bottom:5px; text-align:center;">DEVENGADOS</td>
+                <td width="25%" style="padding-top:5px; padding-bottom:5px; text-align:center;">DEDUCCIONES</td>
+            </tr>
+
+           @foreach (var comprobante in Model)
+            {
+                if (fila%2==0)
+                {
+                    <tr style="background-color:#F0F0F0;">
+                        <td>
+                            <p style="padding:5px">@comprobante.novnom</p>
+                        </td>
+                        <td style="text-align:center">
+                            <p style="padding:5px"> @comprobante.novdhc</p>
+                        </td>
+                        <td style="text-align:end">
+                            @if (comprobante.novdeb > 0)
+                            {
+                                <p style="padding:5px">
+                                    @(comprobante.novdeb.ToString("C", CultureInfo.CurrentCulture))
+                                </p>
+                            }
+                        </td>
+                        <td style="text-align:end">
+                            @if (comprobante.novdeb < 0)
+                            {
+                                <p style="padding:5px">
+                                    @((comprobante.novdeb * -1).ToString("C", CultureInfo.CurrentCulture))
+                                </p>
+                            }
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>
+                            <p style="padding:5px">@comprobante.novnom</p>
+                        </td>
+                        <td style="text-align:center">
+                            <p style="padding:5px">@comprobante.novdhc</p>
+                        </td>
+                        <td style="text-align:end">
+                            @if (comprobante.novdeb > 0)
+                            {
+                                <p style="padding:5px">
+                                    @(comprobante.novdeb.ToString("C", CultureInfo.CurrentCulture))
+                                </p>
+                            }
+                        </td>
+                        <td style="text-align:end">
+                            @if (comprobante.novdeb < 0)
+                            {
+                                <p style="padding:5px">
+                                    @((comprobante.novdeb * -1).ToString("C", CultureInfo.CurrentCulture))
+                                </p>
+                            }
+                        </td>
+                    </tr>
+                }
+                fila++;
+            }
+
+        </tbody>
+    </table>
+    <table width="100%" style="margin-top:2px;margin-bottom:30px;">
+        <tbody>
+            <tr style="height: 20px;">
+                <td width="50%" style="padding-top:5px; padding-bottom:5px;">
+                    
+                </td>
+
+                <td width="20%" style="text-align: left; padding-top:5px; padding-bottom:5px;border-style: solid; border-color: #9C9C9C;">
+                    <p style="padding:5px">Total Devengados</p>
+                </td>
+
+                <td width="30%" style="text-align: right; padding-top:5px; padding-bottom:5px;border-style: solid; border-color: #9C9C9C;">
+                    <p style="padding:5px">@TotalDevengados.ToString("C", CultureInfo.CurrentCulture)</p>
+                </td>
+            </tr>
+
+            <tr style="height: 20px;">
+                <td width="50%" style="padding-top:5px; padding-bottom:5px">
+                    
+                </td>
+
+                <td width="20%" style="text-align: left; padding-top:5px; padding-bottom:5px;border-style: solid; border-color: #9C9C9C;">
+                    <p style="padding:5px">Total Deducidos</p>
+                </td>
+
+                <td width="30%" style="text-align: right; padding-top:5px; padding-bottom:5px;border-style: solid; border-color: #9C9C9C;">
+                    <p style="padding:5px">@TotalDeducciones.ToString("C", CultureInfo.CurrentCulture)</p>
+                </td>
+            </tr>
+
+            <tr style="height: 20px;">
+                <td width="50%" style="padding-top:5px; padding-bottom:5px">
+
+                </td>
+
+                <td width="20%" style="text-align: left; padding-top:5px; padding-bottom:5px;border-style: solid; border-color: #9C9C9C;">
+                    <p style="padding:5px">Total a Pagar</p>
+                </td>
+
+                <td width="30%" style="text-align: right; padding-top:5px; padding-bottom:5px;border-style: solid; border-color: #9C9C9C;">
+                    <p style="padding:5px">@TotalPagar.ToString("C", CultureInfo.CurrentCulture)</p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+</div>
+
+<p style="margin-top:15px;">____________________________________________</p>
+<p>RECIBI CONFORME Y C.C.</p>

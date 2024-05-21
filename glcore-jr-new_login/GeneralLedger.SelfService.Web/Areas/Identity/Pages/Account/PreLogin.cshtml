@@ -1,0 +1,53 @@
+﻿@page
+@model GeneralLedger.SelfService.Web.Areas.Identity.Pages.Account.PreLoginModel
+@{
+    ViewData["Title"] = "Login";
+    var error = ViewData["ErrorMessage"] as string;
+}
+
+<div class="container">
+    <div class="row d-flex justify-content-center align-items-center">
+       <div class="col-md-5">
+            <div class="card border-0 mt-5">
+                <div class="card-body">
+                    <form id="account" method="POST">
+                        <div class="row p-4">
+                            <div class="col-12 text-center">
+                                <img src="~/img/LogoGLpb.png" class="img-fluid" width="300" height="300" alt="PowerBy General Ledger"/>
+                            </div>
+                            <div class="col-12 text-center my-2">
+                                <h3 class="h3">Iniciar Sesión</h3>
+                            </div>
+                            <div class="col-12 my-2">
+                               <div class="form-group">
+                                    <label for="" class="form-label">Correo electrónico</label>
+                                    <input asp-for="Input.Email" class="form-control" placeholder="Escriba aquí su dirección de correo...">
+                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                               </div>
+                            </div>
+                             @if (!string.IsNullOrEmpty(error))
+                            {
+                                <div class="col-md-12 text-center my-2">
+                                    <span class="bg-danger bg-opacity-10 text-danger d-inline-block rounded-sm px-2">
+                                        <i class="fa fa-exclamation-circle text-danger fs-12px"></i>
+                                        <span class="text-danger">@error</span>
+                                    </span>
+                                </div>
+                            }
+                            <div class="col-12 my-2">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <a asp-page="./ChooseProfile" asp-route-returnUrl="@Model.ReturnUrl" class="btn btn-default text-success w-75">Regitrarse</a>
+                                    </div>
+                                    <div class="col-6 text-end">
+                                        <button type="submit" class="btn btn-primary w-75" id="btn-iniciar">Siguiente</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+       </div>
+    </div>
+</div>

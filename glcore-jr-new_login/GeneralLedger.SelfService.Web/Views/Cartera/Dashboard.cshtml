@@ -1,0 +1,389 @@
+﻿@{
+    ViewData["Title"] = "Dashboard Cuentas Por Cobrar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div  class="row">
+
+    <div class="col-md-12">
+        <div class="card border-0 px-0 py-0 my-0">
+            <div class="col-md-12 px-2 pt-2">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Gestión de Cartera</a></li>
+                    <li class="breadcrumb-item active">Dashboard Cuentas Por Cobrar</li>
+                </ul>
+            </div>
+
+            <div class="card-body">
+                <div  class="row">
+                    <div class="col-12 col-sm-12 col-md-2">
+                        <div class="form-group">
+                            <label for="" class="form-label">Fecha Corte</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-calendar"></i> </span>
+                                <input type="date" id="fecha-corte" name="fecha-corte" class="form-control form-control-sm" value="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-2">
+                        <div class="form-group">
+                            <label for="" class="form-label">Rango de Días</label>
+                            <select name="srangodias" id="srangodias" class="form-select form-select-sm">
+                                <option value="0">30 Días</option>
+                                <option value="1">60 Días</option>
+                                <option value="2">90 Días</option>
+                                <option value="3">120 Días</option>
+                                <option value="4">180 Días</option>
+                                <option value="5">360 Días</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card shadow-sm border-0">
+                                    <div class="card-body m-0 p-0">
+                                        <div class="row">
+                                            <div class="col-md-12 text-center">
+                                                <span class="badge fw-bold text-dark" style="font-size:1rem">Total Cartera </span> <i class="fas fa-info-circle text-success"></i>
+                                            </div>
+                                            <div class="col-md-12 text-center">
+                                                <h4 id="totalCartera" class="fs-4 text-success">$ 0</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card shadow-sm border-0">
+                                    <div class="card-body m-0 p-0">
+                                        <div class="row">
+                                            <div class="col-md-12 text-center">
+                                                <span class="badge fw-bold text-dark" style="font-size:1rem">Pendiente por Cobrar</span> <i class="fas fa-info-circle text-success"></i>
+                                            </div>
+                                            <div class="col-md-12 text-center">
+                                                <h4 id="totalPendiente" class="fs-4 text-danger">$ 0</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card shadow-sm border-0">
+                                    <div class="card-body m-0 p-0">
+                                        <div class="row">
+                                            <div class="col-md-12 text-center">
+                                                <span class="badge fw-bold text-dark" style="font-size:1rem">Facturas por Cobrar</span> <i class="fas fa-info-circle text-success"></i>
+                                            </div>
+                                            <div class="col-md-12 text-center">
+                                                <h4 id="totalFacturas" class="fs-4">0</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!--GENERAL-->
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-6 mt-2">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div id="apexOne">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-6 mt-2">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div id="apexTwo">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-4 mt-2">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div id="apexThree">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-12 col-md-4 mt-2">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div id="apexFour">
+
+                        </div>                       
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-12 col-md-4 mt-2">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div id="apexFive">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        
+
+        <hr />
+
+        <!--CLIENTE-->
+
+        <div class="row">
+            <div class="col-md-12 mt-2">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div class="row">
+                           <div class="col-md-1">
+                                <h5>Clientes</h5>
+                           </div>
+                            <div class="col-md-3">
+                                <div class="card shadow-sm border-0">
+                                    <div class="card-body m-0 p-0">
+                                        <div class="row">
+                                            <div class="col-md-12 text-center">
+                                                <span class="badge fw-bold text-dark" style="font-size:1rem">Total Cartera</span> <i class="fas fa-info-circle text-success"></i>
+                                            </div>
+                                            <div class="col-md-12 text-center">
+                                                <h4 id="totalCarteraCliente" class="fs-4 text-success">$ 0</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card shadow-sm border-0">
+                                    <div class="card-body m-0 p-0">
+                                        <div class="row">
+                                            <div class="col-md-12 text-center">
+                                                <span class="badge fw-bold text-dark" style="font-size:1rem">Pendiente por Cobrar</span> <i class="fas fa-info-circle text-success"></i>
+                                            </div>
+                                            <div class="col-md-12 text-center">
+                                                <h4 id="totalPendienteCliente" class="fs-4 text-danger">$ 0</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="card shadow-sm border-0">
+                                    <div class="card-body m-0 p-0">
+                                        <div class="row">
+                                            <div class="col-md-12 text-center">
+                                                <span class="badge fw-bold text-dark" style="font-size:1rem">Facturas por Cobrar</span> <i class="fas fa-info-circle text-success"></i>
+                                            </div>
+                                            <div class="col-md-12 text-center">
+                                                <h4 id="totalFacturaCliente" class="fs-4">0</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Cliente</label>
+                                    <select name="scliente" id="scliente" class="form-select form-select-sm">
+                                        <option value="na">NINGUNO</option>
+                                        @foreach (var item in ViewBag.Clientes)
+                                        {
+                                            <option value="@item.Clicod">@item.Clinom</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mt-2">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div id="apexSix">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mt-2">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div id="apexSeven">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mt-2">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div id="apexEight">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr />
+
+        <!--DEPENDENCIA-->
+
+        <div class="row">
+            <div class="col-md-12 mt-2">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-1">
+                                <h5>Dependencias</h5>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card shadow-sm border-0">
+                                    <div class="card-body m-0 p-0">
+                                        <div class="row">
+                                            <div class="col-md-12 text-center">
+                                                <span class="badge fw-bold text-dark" style="font-size:1rem">Total Cartera</span> <i class="fas fa-info-circle text-success"></i>
+                                            </div>
+                                            <div class="col-md-12 text-center">
+                                                <h4 id="totalCarteraDependencia" class="fs-4 text-success">$ 0</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card shadow-sm border-0">
+                                    <div class="card-body m-0 p-0">
+                                        <div class="row">
+                                            <div class="col-md-12 text-center">
+                                                <span class="badge fw-bold text-dark" style="font-size:1rem">Pendiente por Cobrar</span> <i class="fas fa-info-circle text-success"></i>
+                                            </div>
+                                            <div class="col-md-12 text-center">
+                                                <h4 id="totalPendienteDependencia" class="fs-4 text-danger">$ 0</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="card shadow-sm border-0">
+                                    <div class="card-body m-0 p-0">
+                                        <div class="row">
+                                            <div class="col-md-12 text-center">
+                                                <span class="badge fw-bold text-dark" style="font-size:1rem">Facturas por Cobrar</span> <i class="fas fa-info-circle text-success"></i>
+                                            </div>
+                                            <div class="col-md-12 text-center">
+                                                <h4 id="totalFacturaDependencia" class="fs-4">0</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Dependencias</label>
+                                    <select name="sdependencia" id="sdependencia" class="form-select form-select-sm">
+                                        <option value="na">NINGUNA</option>
+                                        @foreach (var item in ViewBag.Dependencias)
+                                        {
+                                            <option value="@item.Depcod">@item.Depnom</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mt-2">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div id="apexNine">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mt-2">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div id="apexTen">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mt-2">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div id="apexEleven">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="row">
+            <div class="col-12 col-md-12 mt-2">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div class="row">
+                           <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Año</label>
+                                    <select name="saniorecaudo" id="saniorecaudo" class="form-select form-select-sm">
+                                        @for(int i = 1900; i <= DateTime.Now.Year; i++)
+                                        {
+                                            <option value="@i">@i</option>
+                                        }
+                                    </select>
+                                </div>
+                           </div>
+                        </div>
+                        <div id="apexRecaudo">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts
+{
+    <script src="~/scripts/Cartera/dashboard.js" type="text/javascript"></script>
+
+}

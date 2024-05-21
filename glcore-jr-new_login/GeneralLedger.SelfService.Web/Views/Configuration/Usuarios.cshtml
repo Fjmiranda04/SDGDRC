@@ -1,0 +1,359 @@
+﻿@{
+    ViewData["Title"] = "Usuarios";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card border-0">
+            <div class="col-md-12 px-2 pt-2">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Configuraciones</a></li>
+                    <li class="breadcrumb-item active">Usuarios</li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-6 col-md-4">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-search"></i>
+                                        </span>
+                                        <input type="text" name="Search" id="Search" class="form-control form-control-sm" placeholder="Buscar...">
+                                    </div>
+                                </div>
+                            </div>
+                            @foreach (var item in ViewBag.Permisos)
+                            {
+                                if (item.Codigo == "000004" && item.Activo)
+                                {
+                                    <div class="col-6 col-md-8 d-flex justify-content-end">
+                                        <button id="btn-open-modal-user" type="button" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle fa-fw me-1"></i> Nuevo Usuario</button>
+                                    </div>
+                                    break;
+                                }
+                            }
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <table id="table-users" class="table table-borderless">
+                            <thead>
+                                <tr>
+                                    <th>Nro. Id</th>
+                                    <th>Usuario</th>
+                                    <th>Correo</th>
+                                    <th>Telefono</th>
+                                    <th>Perfil</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--=======================================MODAL NUEVO USUARIO=======================================-->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-new-user">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nuevo Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="form-new-user" method="post">
+                    <div class="row px-5">
+                        <div class="col-md-6 mb-1">
+                            <div class="form-group">
+                                <label class="form-label">Nro Identificación</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-address-card"></i>
+                                    </span>
+                                    <input id="NroId" name="NroId" class="form-control" required/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-1">
+                            <div class="form-group">
+                                <label class="form-label">Nombre de Usuario</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                    <input id="UserName" name="UserName" class="form-control" required/>
+                                    <input type="hidden" id="PriNombre" name="PriNombre" class="form-control" />
+                                    <input type="hidden" id="SegNombre" name="SegNombre" class="form-control" />
+                                    <input type="hidden" id="PriApellido" name="PriApellido" class="form-control" />
+                                    <input type="hidden" id="SegApellido" name="SegApellido" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-1">
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-envelope"></i>
+                                    </span>
+                                    <input id="Email" name="Email" class="form-control" required/>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-1">
+                            <div class="form-group">
+                                <label class="form-label">Celular</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-phone"></i>
+                                    </span>
+                                    <input id="Celular" name="Celular" class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-1">
+                            <div class="form-group">
+                                <label class="form-label">Telefono</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-phone"></i>
+                                    </span>
+                                    <input id="Telefono" name="Telefono" class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-1">
+                            <div class="form-group">
+                                <label class="form-label">Rol de usuario</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-id-badge"></i>
+                                    </span>
+                                    <select id="IdRol" name="IdRol" class="form-select">
+
+                                    </select>
+                                </div>
+                            
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button id="btn-save-new-user" type="button" class="btn btn-success">Guardar</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+         var newUSerModel = new bootstrap.Modal(document.getElementById("modal-new-user"), {});
+         var tableUsers ="";
+
+        $(document).ready(()=>{       
+            LoadUsers();
+            LoadRoles();
+
+            $("#btn-open-modal-user").on('click',()=>{
+                $("#NroId").val("");
+                $("#UserName").val("");
+                $("#PriNombre").val("");
+                $("#SegNombre").val("");
+                $("#PriApellido").val("");
+                $("#SegApellido").val("");
+                $("#Email").val("");
+                $("#Telefono").val("");
+                newUSerModel.show();
+            });
+
+            $("#btn-save-new-user").on('click',()=>{
+                SaveNewUser();
+            });
+
+            $("#NroId").keypress(function (event) {
+                if (event.which === 13) {
+                    Search($("#NroId").val());
+                }
+            });
+
+            $("#NroId").blur(function () {
+                Search($("#NroId").val());
+            });
+        });
+
+        function OnOffUser(value,message){
+            let nroid = ""+value;
+            Swal.fire({
+                title: `¿Esta seguro de ${message} este usuario?`,
+                showCancelButton: true,
+                icon: 'warning',
+                confirmButtonText: 'Aceptar',
+                confirmButtonColor: '#028824',
+                cancelButtonText: 'Cancelar',
+                cancelButtonColor: '#e6180d',
+            
+            }).then((result) => {
+                if (result.isConfirmed){
+                    $.ajax({
+                        url: "@Url.Action("OnOffUser","Configuration")",
+                        type: "POST",
+                        data: JSON.stringify(nroid),                
+                        contentType: "application/json",
+                        success: function (response) {
+                            if (response.result) {
+                                ToastAlert.fire({icon: 'success',title: response.message});
+                                LoadUsers();
+                            } else {
+                                ToastAlert.fire({icon: 'error',title: response.message});
+                            }
+                        },
+                    });
+                } 
+            })
+        }
+
+        function LoadRoles(){
+            $.ajax({
+                url: '@Url.Action("GetRoles","Configuration")',
+                type: "GET", 
+                datatype: "json",
+                contentType: "application/json",
+                success: function (response) {
+                    $("#IdRol").empty();
+                    let option = "";
+            
+                    for(var i in response.data){
+                        option += `<option value="${response.data[i].id}">${response.data[i].rol}</option>`;
+                    }
+                    $("#IdRol").append(option);
+                },
+            });
+        }
+
+        function LoadUsers(){
+
+            tableUsers = $("#table-users").DataTable({
+                dom: "t<'d-flex align-items-center'<'me-auto pb-2 mx-2'i><'mb-0 pb-2 mx-2'p>>",
+                responsive: true,
+                paging: true,
+                lengthMenu: [15, 25, 50, 100],
+                scrollCollapse: true,
+                destroy: true,
+                language: {
+                    "url" : "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json",
+                },
+                ajax: {
+                    "url": '@Url.Action("GetUsers","Configuration")',
+                    "type": "GET",
+                    "datatype": "json",
+                },
+                columns:[
+                    {"data": "nroId"},
+                    {"data": "nombre"},
+                    {"data": "correo"},
+                    {"data": "telefono"},
+                    {"data": "rol"},
+                    {
+                        "data": "estado",
+                        render: function(data,type,row){
+                            return `
+                                <div class="d-flex justify-content-center">
+                                    <button type="button" onclick="OnOffUser(${row.nroId},'${(data)? 'Desactivar':'Activar'}')" ${(data)? 'class="btn btn-success btn-sm check-btn"':'class="btn btn-danger btn-sm check-btn"'}> ${(data)? 'Activo':'Inactivo'}</button>
+                                </div>
+                            `;
+                        }
+                    },
+                    {
+                        "data": "nroId",
+                        render: function(data,type,row){
+                            return `
+                                <div class="btn-group btn-group-sm">
+                                    <a href="Configuration/EditUser?nroid=${row.nroId}" class="btn btn-secondary btn-sm"><i class="fas fa-edit"></i></a>
+                                </div>
+                            `;
+                        }
+                    },
+                ],
+                columnDefs: [
+                    { "orderable": false, "targets": 1 },
+                    { "orderable": false, "targets": 2 },
+                    { "orderable": false, "targets": 3 },
+                    { "orderable": false, "targets": 4 },
+                ],
+            });
+        }
+
+        function SaveNewUser(){
+
+            if ($("#NroId").val() == "" || $("#UserName").val() == "") {
+                ToastAlert.fire({ icon: 'error', title: "Por favor, diligencie los datos del formulario" });
+                return;
+            }
+
+            $.ajax({
+                url: "@Url.Action("CreateUser","Configuration")",
+                type: "POST",
+                data: $("#form-new-user").serialize(),
+                beforeSend: function () {
+                    $('#btn-save-new-user').prop('disabled', true);
+                },
+                success: function (response) {
+                    if (response.result) 
+                    {
+                        newUSerModel.hide();
+                        ToastAlert.fire({icon: 'success',title: response.message});
+                        LoadUsers();
+                    } else {
+                        ToastAlert.fire({icon: 'error',title: response.message}); 
+                    }
+                    $('#btn-save-new-user').prop('disabled', false);
+                },
+                complete: function () {
+                    $('#btn-save-new-user').prop('disabled', false);
+                }
+            });  
+        }
+
+        function Search(nroId){
+            $.ajax({
+                url: '@Url.Action("GetEmployee","Configuration")',
+                type: "GET", 
+                data: {nroId: nroId},
+                success: function (response) {
+                    if(response.result){
+                        $("#NroId").val(response.data.ternit);
+                        $("#UserName").val(response.data.ternom);
+                        $("#PriNombre").val(response.data.terPriNom);
+                        $("#SegNombre").val(response.data.terSegNom);
+                        $("#PriApellido").val(response.data.terPriApe);
+                        $("#SegApellido").val(response.data.terSegApe);
+                        $("#Email").val(response.data.termail);
+                        $("#Telefono").val(response.data.tertel);
+                    }
+                },
+            });
+        }
+
+    </script>
+}

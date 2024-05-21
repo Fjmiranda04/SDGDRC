@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Botón con Parámetros</title>
+</head>
+<body>
+    <button id="btnglPage">Abrir Página de General Ledger</button>
+    <button id="btnkolcemPage">Abrir Página de Kolcem</button>
+
+    <script>
+        document.getElementById('btnglPage').addEventListener('click', function() {
+            // Define los parámetros que deseas incluir en la URL
+            var parametro1 = 'A880018E73F3CDEA0D05377BA782C04D';
+
+            // Construye la URL con los parámetros
+            var nuevaUrl = 'https://localhost:44300/Identity/Account/Empleados?urlcompany=' + parametro1;
+
+            // Redirige el navegador a la nueva URL
+            window.location.href = nuevaUrl;
+        });
+
+        document.getElementById('btnkolcemPage').addEventListener('click', function() {
+            // Define los parámetros que deseas incluir en la URL
+            var parametro1 = 'KOLCEMSELFSERVICE_KEY';
+
+            // Construye la URL con los parámetros
+            var nuevaUrl = 'https://localhost:44300/Identity/Account/Login2?Empleados=' + parametro1;
+
+            // Redirige el navegador a la nueva URL
+            window.location.href = nuevaUrl;
+        });
+    </script>
+</body>
+</html>

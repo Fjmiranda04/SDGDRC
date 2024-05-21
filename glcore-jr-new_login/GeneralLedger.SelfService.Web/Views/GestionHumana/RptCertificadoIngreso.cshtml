@@ -1,0 +1,155 @@
+﻿@using GeneralLedger.SelfService.Web.Areas.Identity.Data
+@using GeneralLedger.SelfServiceCore.Services.Profilers
+@using Microsoft.AspNetCore.Identity
+@model GeneralLedger.SelfServiceCore.Data.DTOs.CertificadoLaboralSShowDTO
+@inject UserManager<ApplicationUser> userManager
+@inject IProfilerService profilerService
+@{
+    Layout = null;
+    var userInSession = await userManager.GetUserAsync(User);
+    var empresa = await profilerService.GetInstancia().ProEmpresa.GetEmpresaGL(userInSession.KeyConnection);
+}
+
+<style>
+    *{
+        font-family: Tahoma, Helvetica, sans-serif;
+    }
+    table {
+      width: 100%;
+      background-color: #ffffff;
+      border-collapse: collapse;
+      border-style: solid;
+      border:0px;
+      color: #000000;
+    }
+
+    table th {
+      border-width: 2px;
+      border-color: #000000;
+      border-style: solid;
+      padding: 3px;
+    }
+
+    table thead {
+      background-color: #ffffff;
+    }
+
+    .img-fluid {
+        max-width: 100%;
+        height: auto;
+    }
+</style>
+
+<div width="100%" style="padding:40px;">
+
+    <table width="100%">
+        <tbody>
+            <tr style="height: 20px;">
+                <td width="25%" style="padding-top:5px; padding-bottom:5px">
+                    <img src="@empresa.Logo" class="img-fluid">
+                </td>
+
+                <td width="75%" style="text-align: left; padding-top:5px; padding-bottom:5px">
+                    <p style="margin:0px;font-weight:bold;text-align: left;">@empresa.Nombre</p>
+                    <p style="margin:0px;text-align: left;">Nit. @empresa.Nit</p>
+                    <p style="margin:0px;text-align: left;">CERTIFICADO DE INGRESOS Y RETENCIONES</p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+@*     <div style="width:100%; padding-top:40px;text-align:center">
+        <h4><b>@Model.NombreEmpresa</b></h4>
+    </div>
+    <div style="width:100%; padding-top:10px;text-align:center">
+        <p>@Model.NitEmpresa</p>
+    </div>
+    <div style="width:100%; padding-top:20px;text-align:center">
+        <h4>CERTIFICADO DE INGRESOS Y RETENCIONES</h4>
+            <hr />
+    </div> *@
+
+    <div style="width:100%; padding-top:20px;">
+        <p>CEDULA: <b style="font-weight:normal">@Model.CTSCedula</b> </p> 
+        <p>NOMBRE: <b style="font-weight:normal">@Model.CTSNombreEmpleado</b></p> 
+        <p>PERIODO: <b style="font-weight:normal">@Model.Periodo</b></p> 
+
+    </div> 
+    <div style="width:100%; padding-top:30px;">
+        <table>
+            <thead>
+                <tr style="text-align:center">
+                    <th width="80%">CONCEPTOS DE LOS INGRESOS</th>
+                    <th width="20%">VALOR</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>SALARIOS</td>                   
+                    <td>@String.Format("{0:C}", Model.Salario)</td>
+                </tr>
+                <tr>
+                    <td>CESANTIAS E INTERESES SOBRE CESANTIAS EFECTIVAMENTE PAGADAS EN EL PERIODO</td>
+                    <td>@String.Format("{0:C}", Model.Cesantias)</td>
+                </tr>
+                <tr>
+                    <td>GASTOS DE REPRESENTACION</td>
+                    <td>@String.Format("{0:C}", 0)</td>
+                </tr>
+                <tr>
+                    <td>PENSIONES POR JUBILACION, VEJEZ O INVALIDEZ</td>
+                    <td>@String.Format("{0:C}", 0)</td>
+                </tr>
+                <tr>
+                    <td>OTROS INGRESOS ORIGINADOS EN LA RELACION LABORAL</td>
+                    <td>@String.Format("{0:C}", Model.OtrosIng)</td>
+                </tr>
+                <tr>
+                    <td><b>TOTAL INGRESOS BRUTOS</b></td>
+                    <td><b>@String.Format("{0:C}", Model.TotalIng)</b></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="width:100%; padding-top:30px;">
+        <table>
+            <thead>
+                <tr style="text-align:center">
+                    <th width="80%">CONCEPTOS DE LOS APORTES</th>
+                    <th width="20%">VALOR</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>APORTES OBLIGATORIOS POR SALUD</td>                   
+                    <td>@String.Format("{0:C}", Model.Salud)</td>
+                </tr>
+                <tr>
+                    <td>APORTES OBLIGATORIOS A FONDOS DE PENSIONES Y SOLIDARIDAD PENSIONAL</td>
+                    <td>@String.Format("{0:C}", Model.Pension)</td>
+                </tr>
+                <tr>
+                    <td>APORTES VOLUNTARIOS A FONDDOS DE PENSIONES Y CUENTAS AFC</td>
+                    <td>@String.Format("{0:C}", Model.PensionVoluntaria)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><b>VALOR DE LA RETENCION EN LA FUENTE POR SALARIOS Y DEMAS PAGOS LABORALES</b></td>
+                    <td><b>@String.Format("{0:C}", Model.Retencion)</b></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="width:50%; padding-top:60px;text-align:left">
+        <p>Cordialmente,</p>
+    </div>
+    <div style="width:50%; padding-top:10px;text-align:left">
+        <hr />
+        <p>Frima Autorizada</p>
+    </div>
+
+</div>

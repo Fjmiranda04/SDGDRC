@@ -1,0 +1,109 @@
+﻿@model GeneralLedger.SelfServiceCore.Data.DTOs.CertificadoLaboralSShowDTO
+@using GeneralLedger.SelfService.Web.Areas.Identity.Data
+@using GeneralLedger.SelfServiceCore.Services.Profilers
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> userManager
+@inject IProfilerService profilerService
+@{
+    Layout = null;
+    var userInSession = await userManager.GetUserAsync(User);
+    var empresa = await profilerService.GetInstancia().ProEmpresa.GetEmpresaGL(userInSession.KeyConnection);
+}
+<style>
+    *{
+        font-family: Tahoma, Helvetica, sans-serif;
+    }
+    table {
+      width: 100%;
+      background-color: #ffffff;
+      border-collapse: collapse;
+      border-width: 2px;
+      border-color: #000000;
+      border-style: solid;
+      color: #000000;
+    }
+
+    table td, table th {
+      border-width: 2px;
+      border-color: #000000;
+      border-style: solid;
+      padding: 3px;
+    }
+
+    table thead {
+      background-color: #ffffff;
+    }
+
+    .img-fluid {
+        max-width: 100%;
+        height: auto;
+    }
+</style>
+
+<div width="100%" style="padding:40px;">
+    <table  width="100%">
+        <tbody>
+            <tr style="height: 20px;">
+                <th rowspan="3" width="33%" style="padding-top:5px; padding-bottom:5px">
+                    <img src="@empresa.Logo" class="img-fluid">
+                </th>
+                <th rowspan="3" width="33%" style="text-align: center; padding-top:5px; padding-bottom:5px">CERTIFICADO LABORAL</th>
+                <th rowspan="1" width="33%" style="text-align: left; padding-top:5px; padding-bottom:5px">C&oacute;digo:</th>
+            </tr>
+
+            <tr >
+                <th rowspan="1" style="text-align: left; padding-top:5px; padding-bottom:5px">Versi&oacute;n:</th>
+            </tr>
+            <tr >
+                <th rowspan="1" style="text-align: left; padding-top:5px; padding-bottom:5px">Fecha de Vigencia:</th>
+            </tr>
+        </tbody>
+    </table>
+
+    <div style="padding-left: 40px; padding-right:40px;">
+        <div style="width:100%; padding-top:15px;">
+            <p style="font-size:15px">@Model.Conciudad , @Model.FechaCertificado</p>
+        </div>
+
+        <div style="width:100%; padding-top:90px;text-align:center">
+            <h4><b>@empresa.Nombre</b></h4>
+        </div>
+        <div style="width:100%; padding-top:25px;text-align:center">
+            <h4><b>CERTIFICA</b></h4>
+        </div>
+
+        <div style="width:100%; padding-top:25px;">
+            <p style="text-align:justify">
+                Que el/la señor(a) @Model.CTSNombreEmpleado , identificado con número de cedula @Model.CTSCedula ,
+                labora como @Model.CTSCargo, desde el @Model.CTSFechaIngreso , con contrato @Model.CTSTipoContrato ,
+                tiempo en el cual demostró responsabilidad, honestidad y cumplimiento en todas las labores encomendadas.
+            </p>
+        </div>
+
+        <div style="width:100%; padding-top:20px;">
+            <p style="text-align:justify">
+                Que devenga un salario de @Model.CTSSueldoEscrito 
+                ( @String.Format("{0:C}", Model.CTSSueldoPromedio) ) mensual promedio
+            </p>
+        </div>
+
+        <div style="width:100%; padding-top:10px;">
+            <p style="text-align:justify">
+               Para constancia se firma a solicitud del interesado a los @Model.FechaCertificado .
+            </p>
+        </div>
+        <div style="width:100%; padding-top:10px;">
+            <p style="text-align:justify">
+               Atentamente, 
+            </p>
+        </div>
+
+
+        <div style="width:100%; padding-top:100px;">
+            <hr />
+            <h4 style="text-align:center">@Model.RepresentanteLegal</h4>
+            <p style="text-align:center">@Model.CargoRepresentanteLegal</p>
+            <h4 style="text-align:center">@Model.NombreEmpresa</h4>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,203 @@
+﻿@{
+    ViewData["Title"] = "Mis PQRSF Asignadas";
+}
+
+<div class="row">
+      @* TABLE *@
+    <div class="col-md-12 px-1 py-0">
+        <div class="card border-0 px-0 py-0" id="card-table">
+            <div class="col-md-12 px-2 pt-2">
+                <ul class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="#">PQRSF</a></li>
+                    <li class="breadcrumb-item active">@ViewBag.Estado</li>
+                </ul>
+            </div>
+            <div class="card-body px-0 py-0 my-0">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-borderless table-hover table-lg" id="table-pqrsf" style=" min-width: 100%;width: 100%;"> 
+                            <thead class="m-0 p-0 w-100">
+                                <tr>
+                                    <th width="3%" align="center" style="min-width: 3%;"><input type="checkbox" class="form-check-input"/></th>
+                                    <th width="7%" align="center" style="min-width: 7%;">#</th>
+                                    <th width="30%" style="min-width: 30%;">Cliente</th>
+                                    <th width="30%" style="min-width: 30%;">Asunto</th>
+                                    <th width="10%" style="min-width: 10%;">Estado</th>
+                                    <th width="10%" style="min-width: 10%;">Prioridad</th>
+                                    <th width="10%" style="min-width: 10%;">Responsable</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach(var item in Model)
+                                {
+                                    <tr class="list-select" style="cursor: pointer;">
+                                        <td width="3%" style="vertical-align:middle;" nowrap ><input type="checkbox" class="form-check-input" value="@item.Id"/></td>
+                                        @* NUMERO *@
+                                        <td width="7%" class="py-0" style="vertical-align:middle;" align="center">
+                                                <a asp-action="Profiler" asp-controller="PQRSF" asp-route-id="@item.Id" style="text-decoration: none;">
+                                                    <div class="list-group list-group-flush bg-transparent">
+                                                        <div class="list-group-item d-flex px-0 bg-transparent">
+                                                            <div class="flex-fill">
+                                                                <div class="d-flex justify-content-center align-items-center">
+                                                                    <div class="my-0 py-0">
+                                                                        <span class="badge bg-info fw-bold" style="font-size:0.7rem"># @item.Id</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                        </td>
+                                        @* CLIENTE *@
+                                        <td width="30%" class="py-0" style="vertical-align:middle;">
+                                            <a asp-action="Profiler" asp-controller="PQRSF" asp-route-id="@item.Id" style="text-decoration: none;">
+                                                <div class="list-group list-group-flush bg-transparent">
+                                                    <div class="list-group-item d-flex px-0 py-1 my-1 bg-transparent">
+                                                        <div class="m-0 p-0">
+                                                            <div class="w-30px h-30px d-flex align-items-center justify-content-center bg-secondary text-white rounded-circle ms-n1">
+                                                                <i class="fa-solid fa-user fa-lg"></i>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="flex-fill">
+                                                            <div class="py-0 px-2 mx-0 my-0">
+                                                                <p class="text-truncate fw-bold py-0 px-0 mx-0 my-0" style="font-size: 0.8rem;">@item.NombreCliente</p>
+                                                            </div>
+                                                            <div class="py-0 px-2 mx-0 my-0">
+                                                                <p class="fw-light py-0 px-0 mx-0 my-0" style="font-size: 0.8rem;">@item.Email</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </td>
+                                        @* ASUNTO *@
+                                        <td width="30%" class="py-0" style="vertical-align:middle;" onclick="Redirect('@item.Id')">
+                                            <div class="list-group list-group-flush bg-transparent">
+                                                <div class="list-group-item d-flex px-0 py-1 my-1 bg-transparent">
+                                                    <div class="flex-fill">
+                                                        <div class="my-0 py-0">
+                                                            <span class="d-inline-block text-truncate fw-bold py-0 px-0 mx-0 my-0" style="font-size: 0.8rem;max-width: 250px;">@item.Asunto</span>
+                                                        </div>
+                                                        <div class="my-0 py-0">
+                                                            @if(item.TipoSituacion == "PETICIÓN"){
+                                                                <span class="badge bg-teal bg-opacity-20 text-teal fw-bold" style="font-size:0.8rem">@item.TipoSituacion</span>
+                                                            }
+
+                                                            @if(item.TipoSituacion == "QUEJA"){
+                                                                <span class="badge bg-indigo bg-opacity-20 text-indigo fw-bold" style="font-size:0.8rem">@item.TipoSituacion</span>
+                                                            }
+
+                                                            @if(item.TipoSituacion == "RECLAMO"){
+                                                                <span class="badge bg-purple bg-opacity-20 text-purple fw-bold" style="font-size:0.8rem">@item.TipoSituacion</span>
+                                                            }
+
+                                                            @if(item.TipoSituacion == "SUGERENCIA"){
+                                                                <span class="badge bg-yellow bg-opacity-20 text-yellow fw-bold" style="font-size:0.8rem">@item.TipoSituacion</span>
+                                                            }
+
+                                                            @if(item.TipoSituacion == "FELICITACIÓN"){
+                                                                <span class="badge bg-info bg-opacity-20 text-info fw-bold" style="font-size:0.8rem">@item.TipoSituacion</span>
+                                                            }
+                                                            <span class="badge bg-success bg-opacity-20 text-success fw-bold" style="font-size:0.8rem"> 
+                                                                <i class="far fa-calendar-plus fa-lg"></i>
+                                                                @String.Format("{0:MMM dd yyyy}", item.Fecha).ToUpper()
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        @* Estado *@
+                                        <td width="10%" class="py-0" style="vertical-align:middle;">
+                                                <div class="list-group list-group-flush bg-transparent">
+                                                <div class="list-group-item d-flex px-0 py-1 my-1 bg-transparent">
+                                                    <div class="flex-fill">
+                                                        @if(item.Estado == "Abierta")
+                                                        {
+                                                            <span class="badge bg-success bg-opacity-20 text-success" style="font-size:0.8rem"><i class="fas fa-heartbeat fa-lg"></i> @item.Estado</span>
+                                                        }
+                                                        @if(item.Estado == "Cerrada")
+                                                        {
+                                                            <span class="badge bg-dark bg-opacity-20 text-dark" style="font-size:0.8rem"><i class="fas fa-heartbeat fa-lg"></i> @item.Estado</span>
+                                                        }
+                                                        @if(item.Estado == "En Gestión")
+                                                        {
+                                                            <span class="badge bg-warning bg-opacity-20 text-warning" style="font-size:0.8rem"><i class="fas fa-heartbeat fa-lg"></i> @item.Estado</span>
+                                                        }
+                                                        @if(item.Estado == "Nueva")
+                                                        {
+                                                            <span class="badge bg-primary bg-opacity-20 text-primary" style="font-size:0.8rem"><i class="fas fa-heartbeat fa-lg"></i> @item.Estado</span>
+                                                        }
+                                                    </div>
+                                                </div>
+                                                </div>
+                                        </td>
+                                        @* Prioridad *@
+                                        <td width="10%" class="py-0" style="vertical-align:middle;">
+                                            <div class="list-group list-group-flush bg-transparent">
+                                                <div class="list-group-item d-flex px-0 py-1 my-1 bg-transparent">
+                                                    <div class="flex-fill">
+                                                        @if(item.Prioridad == "Baja")
+                                                        {
+                                                            <span class="badge bg-success bg-opacity-20 text-success rounded" style="font-size:0.8rem"><i class="fa fa-circle fs-9px fa-fw me-5px"></i>@item.Prioridad</span>
+                                                        }
+                                                        @if(item.Prioridad == "Media")
+                                                        {
+                                                            <span class="badge bg-yellow bg-opacity-20 text-yellow rounded" style="font-size: 0.8rem;"><i class="fa fa-circle fs-9px fa-fw me-5px"></i>@item.Prioridad</span>
+                                                        }
+                                                        @if(item.Prioridad == "Alta")
+                                                        {
+                                                            <span class="badge bg-orange bg-opacity-20 text-orange rounded" style="font-size: 0.8rem;"><i class="fa fa-circle fs-9px fa-fw me-5px"></i>@item.Prioridad</span>
+                                                        }
+                                                        @if(item.Prioridad == "Urgente")
+                                                        {
+                                                            <span class="badge bg-danger bg-opacity-20 text-danger rounded" style="font-size:0.8rem"><i class="fa fa-circle fs-9px fa-fw me-5px"></i>@item.Prioridad</span>
+                                                        }
+                                                        @if(item.Prioridad == "Sin Asignar")
+                                                        {
+                                                            <span class="badge bg-dark bg-opacity-20 text-dark rounded" style="font-size:0.8rem"><i class="fa fa-circle fs-9px fa-fw me-5px"></i>@item.Prioridad</span>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td width="10%" class="py-0" style="vertical-align:middle;">
+                                            <div class="list-group list-group-flush bg-transparent">
+                                                <div class="list-group-item d-flex align-items-center justify-content-center px-0 py-1 my-1 bg-transparent">
+                                                    <div class="flex-fill">
+                                                        <p class="fw-bold py-0 px-0 mx-0 my-0" style="font-size: 0.8rem;">@item.NombreAgente</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(()=>{
+
+            var tablePQRSF = $("#table-pqrsf").DataTable({
+                dom: "t<'d-flex align-items-center'<'me-auto pb-2 mx-2'i><'mb-0 pb-2 mx-2'p>>",
+                responsive: true,
+                paging: false,
+                "language": {
+                    "url" : "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json",
+                },
+                buttons: [ 
+                    
+                ],
+            }); 
+        }); 
+    </script>
+}

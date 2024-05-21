@@ -1,0 +1,124 @@
+﻿@model IEnumerable<GeneralLedger.SelfServiceCore.Data.ModelsGL.HistorialLaboralEmpleado>
+@using GeneralLedger.SelfService.Web.Areas.Identity.Data
+@using GeneralLedger.SelfServiceCore.Services.Profilers
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> userManager
+@inject IProfilerService profilerService
+@{
+    Layout = null;
+    var userInSession = await userManager.GetUserAsync(User);
+    var empresa = await profilerService.GetInstancia().ProEmpresa.GetEmpresaGL(userInSession.KeyConnection);
+    int fila = 1;
+}
+
+<style>
+    * {
+        font-family: Tahoma, Helvetica, sans-serif;
+    }
+
+    table {
+        width: 100%;
+        background-color: #ffffff;
+        border-collapse: collapse;
+        border-style: solid;
+        border: 0px;
+        color: #000000;
+    }
+
+    table th {
+        border-width: 2px;
+        border-color: #000000;
+        border-style: solid;
+        padding: 3px;
+    }
+
+    table thead {
+        background-color: #ffffff;
+    }
+
+    .img-fluid {
+        max-width: 100%;
+        height: auto;
+    }
+</style>
+
+<div width="100%" style="padding:40px;">
+    <table width="100%">
+        <tbody>
+            <tr style="height: 20px;">
+                <td width="25%" style="padding-top:5px; padding-bottom:5px">
+                    <img src="@empresa.Logo" class="img-fluid">
+                </td>
+
+                <td width="75%" style="text-align: left; padding-top:5px; padding-bottom:5px">
+                    <p style="margin:0px;font-weight:bold;text-align: left;">@empresa.Nombre</p>
+                    <p style="margin:0px;text-align: left;">Nit. @empresa.Nit</p>
+                    <p style="margin:0px;text-align: left;">HISTORIAL LABORAL</p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div style="width:100%; padding-top:15px;">
+        <p style="font-size:15px">@empresa.Ciudad , @DateTime.Now.ToString("MMMM dd 'de' yyyy")</p>
+    </div>
+
+    <div style="width:100%; padding-top:90px;text-align:center">
+        <h4><b>@empresa.Nombre</b></h4>
+    </div>
+    <div style="width:100%; padding-top:25px;text-align:center">
+        <h4><b>CERTIFICA</b></h4>
+    </div>
+
+    <div style="width:100%; padding-top:25px;">
+        <p style="text-align:justify">
+            El/La señor(a) @Model.First().NombreEmpleado , identificado(a) con número de cédula @Model.First().CedulaEmpleado, 
+            ha trabajado en nuestra organización bajo los siguientes contratos:
+        </p>
+    </div>
+
+    <table width="100%" style="margin-top:10px;border-style: solid; border-color: #9C9C9C;padding:4px">
+        <tbody>
+            <tr style="height: 20px; border:2px solid #9C9C9C ">
+                <td width="25%" style="padding-top:5px; padding-bottom:5px;text-align: center;">FECHA INICIO</td>
+                <td width="25%" style="padding-top:5px; padding-bottom:5px;text-align: center;">FECHA FIN</td>
+                <td width="50%" style="padding-top:5px; padding-bottom:5px;text-align: left;">MOTIVO RETIRO</td>
+            </tr>
+
+            @foreach (var historial in Model)
+            {
+                if (fila % 2 == 0)
+                {
+                    <tr style="background-color:#F0F0F0;">
+                        <td>
+                            <p style="padding:5px">@historial.FechaInicial.ToString("dd/MM/yyyy")</p>
+                        </td>
+                        <td style="text-align:center">
+                            <p style="padding:5px"> @historial.FechaFinal.ToString("dd/MM/yyyy")</p>
+                        </td>
+                        <td style="text-align:center">
+                            <p style="padding:5px"> @historial.Motivo</p>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>
+                            <p style="padding:5px">@historial.FechaInicial.ToString("dd/MM/yyyy")</p>
+                        </td>
+                        <td style="text-align:center">
+                            <p style="padding:5px">@historial.FechaFinal.ToString("dd/MM/yyyy")</p>
+                        </td>
+                        <td style="text-align:center">
+                            <p style="padding:5px">@historial.Motivo</p>
+                        </td>
+                    </tr>
+                }
+                fila++;
+            }
+
+        </tbody>
+    </table>
+    
+</div>

@@ -1,0 +1,29 @@
+﻿@page
+@{
+    ViewData["Title"] = "Confirmando";
+    ViewData["AppClass"] = "app-full-height app-without-header app-full-width";
+    ViewData["AppWithoutHeader"] = true;
+    ViewData["AppWithoutSidebar"] = true;
+    ViewData["AppWithoutFotter"] = true;
+    ViewData["AppWithoutContainer"] = true;
+    var url = TempData["UrlEmpresa"] as string;
+    var logo = TempData["Logo"] as string;
+    var email = TempData["EmailSend"] as string;
+}
+<div class="container-fluid fixed-top d-flex justify-content-start my-2">
+    <img src="@logo" width="200px" height="30px" class="img-fluid" alt="Logo PowerBy GeneralLedger">
+</div>
+
+<div class="error-page" style="padding:0">
+    <div class="error-page-content" style="padding:0">
+        <div class="error-img">
+            <img src="~/icon/email.svg" alt="" />
+        </div>
+
+        <h1>¡Ya casi!</h1>
+        <h3>Estamos validando tu identidad.</h3>
+        <h3>Hemos enviado un correo a <b>@email</b> con un enlace de acceso. Por favor, revisa tu bandeja de entrada y sigue las instrucciones para acceder.</h3>
+    </div>
+</div>
+
+

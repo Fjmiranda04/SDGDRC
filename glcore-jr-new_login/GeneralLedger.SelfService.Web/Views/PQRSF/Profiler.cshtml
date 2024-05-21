@@ -1,0 +1,1108 @@
+@model GeneralLedger.SelfServiceCore.Data.DTOs.PQRSFProfilerDTO
+@using GeneralLedger.SelfServiceCore.Services
+@inject IConfiguracionService configuracionService
+@{
+    ViewData["Title"] = "Perfilación de PQRSF #" + Model.Id;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["DateNow"] = DateTime.Now.ToString("yyyy-MM-dd");
+    var estado = (Model.IdEstado == 4)? "disabled":"";
+
+    var configuraciones = await configuracionService.GetAll();
+    var nombreEmpresa = configuraciones.Where(x => x.Clave == "NAME_EMPRESA").Select(x => x.Valor).FirstOrDefault();
+}
+
+<div class="row">
+    <div class="col-md-9 m-0 p-0 pb-2">
+        <div class="card border-0">
+            <div class="col-md-12 px-2 mt-2">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">PQRSF</a></li>
+                    <li class="breadcrumb-item active">Perfilación de PQRSF</li>
+                </ul>
+            </div>
+            <div class="col-md-12 my-0 py-0 px-2">
+                <div class="col-md-12">
+                    @if(Model.IdEstado != 5)
+                    {
+                        <button class="btn btn-success btn-sm mx-1" id="cclo" type="button" data-bs-toggle="modal" data-bs-target="#modal-cierre-pqrsf">
+                            <i class="fas fa-check-circle"></i><span class="d-none d-sm-inline"> Cerrar</span> 
+                        </button>
+                    }
+                        <button id="note" class="btn btn-secondary btn-sm mx-1" type="button">
+                            <i class="fas fa-reply me-1"></i> <span class="d-none d-sm-inline"> Responder</span>
+                        </button>
+
+                        <button id="note-private2" class="btn btn-secondary btn-sm mx-1" type="button">
+                            <i class="far fa-sticky-note me-1"></i> <span class="d-none d-sm-inline"> Añadir Nota</span>
+                        </button>
+                    
+                        <button type="button" class="btn btn-secondary btn-sm mx-1" id="btn-tratamiento" data-bs-toggle="modal" data-bs-target="#modal-tratamiento">
+                            <i class="fas fa-th-list"></i> <span class="d-none d-sm-inline"> Tratamiento y/o Acciones</span>
+                    
+                        <button type="button" class="btn btn-secondary btn-sm mx-1" id="btn-seguimiento" data-bs-toggle="modal" data-bs-target="#modal-seguimiento">
+                            <i class="fas fa-search"></i> <span class="d-none d-sm-inline"> Seguimiento</span>
+                        </button>
+                
+                        <a asp-action="ReportPQRSFPDF" asp-route-id="@Model.Id" class="btn btn-danger bg-opacity-20 btn-sm mx-1" id="btn-seguimiento">
+                            <i class="fas fa-file-pdf fa-lg"></i>
+                        </a>
+                        <a asp-action="ReportPQRSFExcel" asp-route-id="@Model.Id" class="btn btn-success bg-opacity-20 btn-sm mx-1" id="btn-seguimiento">
+                            <i class="fas fa-file-excel fa-lg"></i>
+                        </a>
+                   
+                </div>
+            </div>
+            
+            <div class="card-body">
+                @*CONTENIDO DE LA PQRSF*@
+                <div class="row">
+                    
+                    <div class="col-md-12">
+                        <div class="list-group list-group-flush py-0 my-0">
+                            <div class="list-group-item d-flex align-items-center py-0 my-0">
+                                <div class="me-1 py-0 my-0">
+                                    <div class="w-30px h-30px d-flex align-items-center justify-content-center">
+                                        <i class="fas fa-inbox fa-lg"></i>
+                                    </div>
+                                </div>
+                                <div class="me-1 py-0 my-0">
+                                    <div class="py-0 my-0">
+                                        <h4 class="py-0 my-0">@Model.Asunto</h4>
+                                    </div>
+                                </div>
+                                <div class="ms-auto py-0 my-0">
+                                    @if(Model.Estado == "Nueva")
+                                    {
+                                        <span class="badge bg-primary bg-opacity-20 text-primary" style="font-size:0.8rem"><i class="fas fa-heartbeat fa-lg"></i> @Model.Estado</span>
+                                    }
+                                    @if(Model.Estado == "Cerrada")
+                                    {
+                                        <span class="badge bg-dark bg-opacity-20 text-dark" style="font-size:0.8rem"><i class="fas fa-heartbeat fa-lg"></i> @Model.Estado</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @* HEADER *@
+                    <div class="col-md-12">
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item d-flex px-3">
+                                <div class="me-1">
+                                    <div class="w-40px h-40px d-flex align-items-center justify-content-center bg-secondary text-white rounded-circle ms-n1">
+                                        <i class="fa-solid fa-user fa-lg"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-fill">
+                                    <div class="py-0 mx-0 my-0">
+                                        <div class="d-flex">
+                                            <div>
+                                                <p class="fw-bold py-0 px-0 mx-0 my-0" style="font-size: 0.9rem;">@Model.NombreCliente</p>
+                                            </div>
+                                            <div class="ms-auto">
+                                                <span class="badge bg-transparent bg-opacity-20 text-dark fw-bold" style="font-size:0.8rem"> 
+                                                        <i class="far fa-calendar-plus"></i>
+                                                        @String.Format("{0:MMM dd yyyy}", Model.Fecha).ToUpper() a las @String.Format("{0:t}", Model.Fecha).ToUpper()
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="py-0 mx-0 my-0">
+                                        <p class="fw-bold py-0 px-0 mx-0 my-0" style="font-size: 0.7rem;">@Model.EmailCliente</p>
+                                    </div>
+                                    <div class="py-0 mx-0 my-0">
+                                        <p class="fw-bold py-0 px-0 mx-0 my-0" style="font-size: 0.7rem;">Para: "@nombreEmpresa"</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    @* DESCRIPCION *@
+                    <div class="col-md-12 px-5 pb-3">
+                        <div class="row">
+                            <div class="col-md-12 my-0 py-0">
+                                <span class="badge bg-info bg-opacity-20 text-info fw-bold" style="font-size:0.9rem"># @Model.Id</span>
+                                @if(Model.TipoSituacion == "PETICIÓN"){
+                                    <span class="badge bg-teal bg-opacity-20 text-teal" style="font-size:0.9rem">@Model.TipoSituacion</span>
+                                }
+
+                                @if(Model.TipoSituacion == "QUEJA"){
+                                    <span class="badge bg-indigo bg-opacity-20 text-indigo" style="font-size:0.9rem">@Model.TipoSituacion</span>
+                                }
+
+                                @if(Model.TipoSituacion == "RECLAMO"){
+                                    <span class="badge bg-purple bg-opacity-20 text-purple" style="font-size:0.9rem">@Model.TipoSituacion</span>
+                                }
+
+                                @if(Model.TipoSituacion == "SUGERENCIA"){
+                                    <span class="badge bg-yellow bg-opacity-20 text-yellow" style="font-size:0.9rem">@Model.TipoSituacion</span>
+                                }
+
+                                @if(Model.TipoSituacion == "FELICITACIÓN"){
+                                    <span class="badge bg-info bg-opacity-20 text-info" style="font-size:0.9rem">@Model.TipoSituacion</span>
+                                }
+                            </div>
+
+                            <div class="col-md-12 py-3">
+                                @Html.Raw(Model.Descripcion.Replace("<img","<img class='img-fluid'"))
+                            </div>
+                            @*  *@
+                            <div class="col-md-6 p-0 m-0">
+                                <div class="list-group list-group-flush py-0 my-0">
+                                    <div class="list-group-item d-flex align-items-center py-0 my-0">
+                                        <div class="me-1 py-0 my-0">
+                                            <div class="w-30px h-30px d-flex align-items-center">
+                                                <i class="far fa-address-book fa-lg"></i>
+                                            </div>
+                                        </div>
+                                        <div class="py-0 my-0">
+                                            <div class="py-0 my-0">
+                                                <h6 class="py-0 my-0">@Model.NombreContacto</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="list-group list-group-flush py-0 my-0">
+                                    <div class="list-group-item d-flex align-items-center py-0 my-0">
+                                        <div class="me-1 py-0 my-0">
+                                            <div class="w-30px h-30px d-flex align-items-center">
+                                                <i class="fas fa-phone fa-lg"></i>
+                                            </div>
+                                        </div>
+                                        <div class="py-0 my-0">
+                                            <div class="py-0 my-0">
+                                                <h6 class="py-0 my-0">@Model.Telefono</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*  *@
+                            <div class="col-md-6 p-0 m-0">
+                                <div class="list-group list-group-flush py-0 my-0">
+                                    <div class="list-group-item d-flex align-items-center py-0 my-0">
+                                        <div class="me-1 py-0 my-0">
+                                            <div class="w-30px h-30px d-flex align-items-center">
+                                                <i class="fas fa-envelope fa-lg"></i>
+                                            </div>
+                                        </div>
+                                        <div class="py-0 my-0">
+                                            <div class="py-0 my-0">
+                                                <h6 class="py-0 my-0">@Model.Email</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="list-group list-group-flush py-0 my-0">
+                                    <div class="list-group-item d-flex align-items-center py-0 my-0">
+                                        <div class="me-1 py-0 my-0">
+                                            <div class="w-30px h-30px d-flex align-items-center">
+                                                <i class="fas fa-phone fa-lg"></i>
+                                            </div>
+                                        </div>
+                                        <div class="py-0 my-0">
+                                            <div class="py-0 my-0">
+                                                <h6 class="py-0 my-0">@Model.Celular</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    @* ARCHIVOS *@
+                    <div class="col-md-12 px-5">
+                        <div class="mailbox">                           
+                            <div class="mailbox-content p-0 m-0">
+                                <div class="mailbox-detail p-0 m-0">
+                                    <div class="mailbox-detail-content p-0 m-0">
+                                        <div class="mailbox-detail-attachment p-0 m-0">
+                                                 
+                                            @if (ViewBag.Archivos.Count > 0)
+                                            {
+                                                foreach (var archivo in ViewBag.Archivos)
+                                                { 
+                                                    <div class="mailbox-attachment">
+                                                        @* <a asp-action="DownLoadArchivo" asp-route-id="@archivo.Nombre&&&&@archivo.ContentType"></a> *@
+                                                        <div class="document-file">
+                                                            @if(archivo.ContentType.Contains("image"))
+                                                            {
+                                                                <img src="@archivo.Url" alt="@archivo.Nombre" onclick="ViewPicture('@archivo.Url','@archivo.Nombre')">
+                                                            }else
+                                                            {
+                                                                <i class="fa fa-file-archive"></i>
+                                                            }
+                                                        </div>
+                                                        <div class="document-name d-inline-block text-truncate" style="max-width: 120px;">
+                                                            <a asp-action="DownLoadArchivo" asp-route-id="@archivo.Nombre&&&&@archivo.ContentType&&&&@archivo.Url" class="text-truncate">@archivo.Nombre</a>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <div class="col-md-12">
+                                                    <label for="">No hay archivos adjuntos</label>
+                                                </div>
+                                            }
+                                            
+                                        </div>
+                                    </div>                         
+                                </div>                          
+                            </div>
+                        </div>
+                    </div>
+
+                    @*RESPUESTAS *@
+                    <div class="col-md-12 py-2 px-3">
+                        @if(ViewBag.Trazabilidad.Count > 0)
+                        {
+                            foreach(var item in ViewBag.Trazabilidad)
+                            {
+                                var bg = (item.Tipo == "NotaPrivada")? "bg-orange-100":"bg-light";
+                                var text = (item.Tipo == "NotaPrivada")? "añadió nota privada":"respondió";
+
+                                <div class="card border-0 @bg bg-opacity-20 mb-1">
+                                    <div class="card-body">
+                                        <div class="row bg-transparent">
+                                            <div class="col-md-12 bg-transparent">
+                                                <div class="list-group list-group-flush bg-transparent">
+                                                    <div class="list-group-item d-flex px-3 py-0 bg-transparent">
+                                                        <div class="me-1">
+                                                            <div class="w-40px h-40px d-flex align-items-center justify-content-center bg-secondary text-white rounded-circle ms-n1">
+                                                                <i class="fa-solid fa-user"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-fill">
+                                                            <div class="py-0 mx-0 my-0">
+                                                                <p class="fw-bold py-0 px-0 mx-0 my-0" style="font-size: 0.8rem;"><b class="text-primary fw-bold">@item.Autor</b>    <b class="fw-normal"> @text</b></p>  
+                                                                <span class="badge bg-transparent bg-opacity-20 text-dark fw-normal fst-italic py-0 my-0" style="font-size:0.7rem"> 
+                                                                        <i class="far fa-calendar-plus"></i>
+                                                                        @String.Format("{0:MMM dd yyyy}", item.Fecha).ToUpper() a las @String.Format("{0:t}", item.Fecha).ToUpper()
+                                                                </span>                                                                       
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">                                                     
+                                                <div class="list-group list-group-flush bg-transparent">
+                                                    <div class="list-group-item d-flex px-3 bg-transparent">
+                                                        <div class="me-1"> 
+                                                            <div class="w-40px h-40px d-flex align-items-center justify-content-center rounded-circle ms-n1">
+                                                                <i class="fa-solid fa-sticky-note"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-fill">
+                                                            <div class="py-0 mx-0 my-0">
+                                                                @Html.Raw(item.Nota.Replace("<img","<img class='img-fluid'"))
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>                                   
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+
+                    <div id="text-summernote" class="col-md-12 py-2 px-3" style="display: none;">
+                        <form id="form-answer-pqrsf" method="post">
+                            <div class="form-group">
+                                <textarea id="Nota" name="Nota" class="form-control" placeholder="Escribe aquí una respuesta..." cols="30" rows="4" style="resize: none;display:none"></textarea>
+                                <textarea class="summernote" name="summernote" id="summernote" cols="30" rows="10"></textarea>
+                                <input type="hidden" id="Tipo" name="Tipo"/>
+                                <input type="hidden" id="IdPQRSF" name="IdPQRSF" value="@Model.Id"/>
+                            </div>
+                            <div class="form-group d-flex justify-content-end border p-1">
+                                <button id="btn-cancel-answer" type="button" class="btn btn-default btn-sm mx-2">Cancelar</button>
+                                <button id="btn-answer" type="button" class="btn btn-success btn-sm">Enviar</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    @*BOTONES DE RESPUESTA*@
+                    <div class="col-md-12 py-2 px-5" id="target-answer">
+                        <button id="note2" class="btn btn-secondary btn-sm mx-2">
+                            <i class="fas fa-reply me-1"></i> Responder
+                        </button>
+                        <button id="note-private" class="btn btn-secondary btn-sm">
+                            <i class="far fa-sticky-note"></i> Añadir Nota
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 m-0 pe-0">
+        @* HERRAMIENTAS PROFILER *@
+        <div class="card border-0">
+            <div class="toast-header my-0">
+                <div class="col-md-12 my-0 py-0">
+                    <h5 class="mb-0">Propiedades</h5>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        @using(Html.BeginForm("Profiler","PQRSF",FormMethod.Post))
+                        {
+                            <div class="row">
+                                @* SCROLLER PROPIEDADES *@
+                                <div>
+                                    <div class="row">
+                                        <div class="col-6 col-md-12 mb-3">
+                                            <div class="form-group">
+                                                <label for="" class="form-label">Fecha de Cierre</label>
+                                                <input asp-for="FechaCierre" type="date" class="form-control">
+                                            </div>
+                                        </div>
+                                            
+                                        <div class="col-6 col-md-12 mb-3">
+                                            <div class="form-group">
+                                                <label for="" class="form-label">Etiquetas</label>
+                                                <select class="form-control" id="ex-multiselect" multiple="" style="display: none;">
+                                                    @{
+                                                        List<string> etiquetas = new List<string>();
+                                                        if (Model.Etiquetas != "" && Model.Etiquetas != null)
+                                                        {
+                                                            string[] etiq = @Model.Etiquetas.Split(",");
+                                                            etiquetas = etiq.ToList();
+                                                        }
+                                                        foreach (var item in ViewBag.Etiquetas)
+                                                        {
+                                                            if (etiquetas.Contains(item.Nombre))
+                                                            {
+
+                                                                <option value="@item.Nombre" selected>@item.Nombre</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@item.Nombre">@item.Nombre</option>
+                                                            }
+                                                        }
+                                                    }
+                                                </select>
+
+                                                <input asp-for="@Model.Etiquetas" type="hidden" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6 col-md-12 mb-3">
+                                            <div class="form-group">
+                                                <label for="" class="form-label">Estado</label>
+                                                <select asp-for="IdEstado" class="form-select">
+                                                    @foreach(var item in @ViewBag.Estados)
+                                                    {
+                                                        if(item.Id != 1){
+                                                            <option value="@item.Id">@item.Nombre</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6 col-md-12 mb-3">
+                                            <div class="form-group">
+                                                <label for="" class="form-label">Tipo de Proceso</label>
+                                                <select asp-for="IdProceso" class="form-select">
+                                                    @{
+                                                        foreach (var proceso in ViewBag.Procesos)
+                                                        {
+                                                            <option value="@proceso.Codare">@proceso.Nomare</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6 col-md-12 mb-3">
+                                            <div class="form-group">
+                                                <label for="" class="form-label">Prioridad</label>
+                                                <select asp-for="IdPrioridad" class="form-select">
+                                                    @foreach(var item in @ViewBag.Prioridades)
+                                                    {
+                                                        if(item.Id != 5){
+                                                            <option value="@item.Id">@item.Nombre</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6 col-md-12 mb-3">
+                                            <div class="form-group">
+                                                <label for="" class="form-label">Agente Responsable</label>
+                                                <select asp-for="NroIdResponsable" class="form-select" style="width: 100%">
+                                                    @{
+                                                        foreach (var agente in ViewBag.Agentes)
+                                                        {
+                                                            <option value="@agente.NroId">@agente.NombreCompleto</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                @foreach (var item in ViewBag.Permisos)
+                                {
+                                    if (item.Codigo == "000002" && item.Activo)
+                                    {
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <button id="btn-save-profiler" type="submit" class="btn btn-success w-100">Actualizar</button>
+                                            </div>
+                                        </div>
+                                        break;
+                                    }
+                                }
+                                
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--=======================================MODAL TRATAMIENTO=======================================-->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-tratamiento">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tratamiento y/o Toma de Acciones</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container">
+                    @if (Model.IdEstado != 5 && Model.Perfilacion)
+                    {
+                        <form id="form-tratamiento" method="post"> 
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label class="form-label">Fecha de Cumplimiento</label>
+                                                <input id="FechaCumplimiento" name="FechaCumplimiento" type="date"
+                                                class="form-control" value="@ViewData["DateNow"]" />
+                                                <input id="IdPQRSF" name="IdPQRSF" type="hidden" value="@Model.Id" />
+                                                <input id="Id" name="Id" type="hidden" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-7">
+                                            <div class="form-group">
+                                                <label class="form-label">Agente Responsable</label>
+                                                <select id="NroIdResponsable" name="NroIdResponsable" class="form-select">
+                                                    @{
+                                                        foreach (var agente in ViewBag.Agentes)
+                                                        {
+                                                            <option value="@agente.NroId">@agente.NombreCompleto</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="form-label">Nombre de actividad</label>
+                                                <input id="Actividad" name="Actividad" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-5">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="" class="form-label">Observaciones</label>
+                                                <textarea id="Observaciones" name="Observaciones" class="form-control"
+                                                cols="30" rows="4" placeholder="Escriba aqui una observación..."
+                                                style="resize: none;"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 mt-2">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @if (Model.IdEstado != 5)
+                                                {
+                                                    <button type="button" id="btn-save-tratamiento" class="btn btn-success ms-auto">Añadir</button>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr />
+                        </form>
+                    }
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table align-middle table-borderless table-hover table-sm w-100" id="table-tratamiento">
+                                <thead>
+                                    <tr>
+                                        <th width="30%">Fecha de Cumplimiento</th>
+                                        <th width="30%">Actividad</th>
+                                        <th width="20%">Agente Responsable</th>
+                                        <th width="20%">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--=======================================MODAL SEGUIMIENTO=======================================-->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-seguimiento">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Seguimiento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container">
+                    @if (Model.IdEstado != 5 && Model.Perfilacion)
+                    {
+                        <form id="form-seguimiento" method="post">
+                            <div class="row">
+                                <div class="col-md-3 mb-2">
+                                    <div class="form-group">
+                                        <label class="form-label">Fecha</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                            <input type="text" id="Fecha" name="Fecha" class="form-control" value="@ViewData["DateNow"]" readonly>
+                                        </div>
+                                        <input id="IdPQRSF" name="IdPQRSF" type="hidden" value="@Model.Id" />
+                                        <input id="Id" name="Id" type="hidden" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">Observaciones</label>
+                                        <textarea id="Observaciones" name="Observaciones" class="form-control" cols="30" rows="3" placeholder="Escriba aqui una observación..." style="resize: none;"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 mt-2">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @if (Model.IdEstado != 5)
+                                                {
+                                                    <button type="button" id="btn-save-seguimiento" class="btn btn-success ms-auto">Añadir</button>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                        </form>
+                    }
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table align-middle table-borderless table-hover table-sm w-100" id="table-seguimiento">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Observación</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--=======================================MODAL CERRAR PQRSF=======================================-->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-cierre-pqrsf">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cierre de PQRSF</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container">
+                    <form action="">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table table-borderless align-middle table-hover table-sm w-100" id="table-cierre-pqrsf">
+                                    <thead>
+                                        <tr>
+                                            <th>Pregunta</th>
+                                            <th>Respuesta</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                @if (Model.IdEstado != 5)
+                {
+                    <button id="btn-save-respuestas" type="button" class="btn btn-success">Guardar</button>
+                }
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--***************************************MODAL IMAGENES*************************************************************************-->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-picture-pqrsf">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            <div id="container-picture" class="container py-0 px-0 d-flex justify-content-center">
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+
+<script type="text/javascript">
+
+        $(document).ready(() => {
+            
+
+            //CARGUE DE LA TABLA TRATAMIENTO AND SEGUIMIENTO
+            LoadTableTratamiento();
+            LoadTableSeguimiento();
+            LoadTableCierrePQRSF();
+
+            $('.summernote').summernote({
+                height: 210,
+                minHeight: 210,             
+                maxHeight: 210,  
+                placeholder: 'Escriba una respuesta...',
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['fontname', ['fontname']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ],
+               callbacks: {
+                        onImageUpload: function (files) {
+                            var formData = new FormData();
+                            formData.append('file', files[0]);
+
+                            $.ajax({
+                                url: '/PQRSF/UploadImageSummerNote', // Ruta del controlador en ASP.NET Core
+                                method: 'POST',
+                                data: formData,
+                                processData: false,
+                                contentType: false,
+                                success: function (response) {
+                                    var imageUrl = response.filePath;
+                                    var image = $('<img>').attr('src', '/Temp/Trash' + imageUrl);
+                                    console.log(image);
+                                    $('.summernote').summernote('insertNode', image[0]);
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error(xhr.responseText);
+                                }
+                            });
+                        }
+                    }
+            });
+
+            $(".js-example-basic-single").select2({
+                theme: "bootstrap4",
+                language: "es"
+            });
+
+            //MENSAJE DE EXITO DE PERFILACION DE PQRSF
+            var message = "@TempData["MessageProfiler"]";
+            if (message != "" && message != null && message != undefined) {
+                ToastAlert.fire({icon: 'success',title: message}); 
+            }
+
+            //ASIGNACION DE FECHAS PERMITIDAS POR LOS CAMPOS DATE
+            if("@Model.Perfilacion"){
+                $("#FechaCierre").attr("min", "@Model.FechaCierre.ToString("yyyy-MM-dd")");
+                
+            }else{
+                $("#FechaCierre").attr("min", "@ViewData["DateNow"]");
+            }
+
+            $("#FechaCumplimiento").attr("min", "@ViewData["DateNow"]");
+            $("#FechaCumplimiento").attr("max", "@Model.FechaCierre.ToString("yyyy-MM-dd")");
+            $('#ex-multiselect').picker();
+
+            //SE AGREGAN LAS ETIQUETAS AL CAMPO INPUT ETIQUETAS
+            $("#ex-multiselect").on('sp-change', function () {
+                var etiquetas = "";
+                $('.pc-element').each(function () {
+                    if ($(this).attr('data-id') != undefined) {
+                        if (etiquetas == "") {
+                            etiquetas = $(this).attr('data-id');
+                        } else {
+                            etiquetas = etiquetas + "," + $(this).attr('data-id');
+                        }
+                    }
+                });
+                $("#Etiquetas").val(etiquetas);
+            });
+
+
+            $("#note, #note2").on("click",()=>{
+                $("#form-answer-pqrsf #Tipo").val("Nota");
+                $("#text-summernote").css("display", "block");
+                $("#target-answer").css("display","none");
+                $('html, body').animate({
+                    scrollTop: $("#text-summernote").offset().top
+                }, 300);
+            });
+
+            $("#note-private, #note-private2").on("click",()=>{
+                $("#form-answer-pqrsf #Tipo").val("NotaPrivada");
+                $("#text-summernote").css("display", "block");
+                $("#target-answer").css("display","none");
+                $('html, body').animate({
+                    scrollTop: $("#text-summernote").offset().top
+                }, 300);
+            });
+
+            $("#btn-cancel-answer").on("click",()=>{
+                $("#text-summernote").css("display", "none");
+                $("#target-answer").css("display","block");
+            });
+
+            //PARA GUARDAR UN NUEVO TRATAMIENTO DE LA PQRSF
+            $("#btn-save-tratamiento").on('click', ()=> {
+            
+                let form = $('#form-tratamiento');
+                let urlAction = "@Url.Action("SaveTratamiento", "PQRSF")";
+
+                $.ajax({
+                    url: urlAction,
+                    type: "POST",
+                    data: form.serialize(),
+                    beforeSend: function () {
+                        $('#btn-save-tratamiento').prop('disabled', true);
+                    },
+                    success: function (response) {
+                    
+                        if (response.result) {
+                            LoadTableTratamiento();
+                            ToastAlert.fire({icon: 'success',title: response.message}); 
+                            $("#Actividad").val("");
+                            $("#Observaciones").val("");
+                            $("#FechaCumplimiento").val("@ViewData["DateNow"]");
+                        } else {
+                            ToastAlert.fire({icon: 'error',title: response.message}); 
+                        }
+                    },
+                    complete: function () {
+                        $('#btn-save-tratamiento').prop('disabled', false);
+                    }
+                });
+            });
+
+            //PARA GUARDAR EL SEGUIMIENTO DE PQRSF
+            $("#btn-save-seguimiento").on("click",()=>{
+                var form = $('#form-seguimiento');
+                var urlAction = "@Url.Action("SaveSeguimiento", "PQRSF")";
+
+                $.ajax({
+                    url: urlAction,
+                    type: "POST",
+                    data: form.serialize(),
+                    beforeSend: function () {
+                        $('#btn-save-seguimiento').prop('disabled', true);
+                    },
+                    success: function (response) {
+                        if (response.result) {
+                            LoadTableSeguimiento();
+                            ToastAlert.fire({icon: 'success',title: response.message}); 
+                            $("#form-seguimiento #Observaciones").val("");
+                        } else {
+                            ToastAlert.fire({icon: 'error',title: response.message}); 
+                        }
+                    },
+                    complete: function () {
+                        $('#btn-save-seguimiento').prop('disabled', false);
+                    }
+                });
+            });
+
+            //PARA CERRAR UNA PQRSF Y RESPONDER LAS PREGUNTAS DE CIERRE
+            $("#btn-save-respuestas").on("click",()=>{
+                let respuestas = [];
+                $(".answers-pqrsf").each(function(i){
+                    let respuesta = {
+                                        Id:0,
+                                        IdPregunta: $($("input[id=check]")[i]).attr("data-p"),
+                                        IdPQRSF: $($("input[id=check]")[i]).attr("data-pqrsf"),
+                                        Observaciones: $($("textarea[id=obs]")[i]).val(),
+                                        Opcion: $($("input[id=check]")[i]).is(":checked"),
+                                    }
+                    respuestas.push(respuesta);
+                });
+                
+                var urlAction = "@Url.Action("SavePreguntas", "PQRSF")";
+
+                $.ajax({
+                    url: urlAction,
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(respuestas),
+                    beforeSend: function () {
+                        $('#btn-save-respuestas').prop('disabled', true);
+                    },
+                    success: function (response) {
+                        if (response.result) {
+                            ToastAlert.fire({icon: 'success',title: response.message}); 
+                            setTimeout(()=>{ window.location.href = response.redirect;},100);
+                        } else {
+                            ToastAlert.fire({icon: 'error',title: response.message}); 
+                        }
+                    },
+                    complete: function () {
+                        $('#btn-save-respuestas').prop('disabled', false); 
+                    }
+                });
+            });
+
+            //Respuestas de notas privadas y mensajes
+            $("#btn-answer").on("click",()=>{
+                let form = $('#form-answer-pqrsf');
+                let content = "";
+
+                if ($('#summernote').summernote('isEmpty') == false)
+                    content = $(".summernote").summernote("code");
+
+                $("#Nota").val(content);
+
+                $.ajax({
+                    url: "@Url.Action("AnswerPQRSF", "PQRSF")",
+                    type: "POST",
+                    data: form.serialize(),
+                    beforeSend: function () {
+                        $("#btn-answer").prop("disabled",true);
+                    },
+                    success: function (response) {
+                        
+                        if (response.result) {
+                            window.location.href = response.redirect;
+                        } else {
+                            ToastAlert.fire({icon: 'error',title: "Ups! Ha ocurrido algo inesperado, intente nuevamente"}); 
+                        }
+                    },
+                });
+            });
+
+        });
+
+        //FUNCTION PARA CARGAR LA TABLA TRATAMIENTOS
+        function LoadTableTratamiento() {
+            var table = $("#table-tratamiento").DataTable({
+                "dom": "<'row mb-3'<'col-sm-4'l><'col-sm-8 text-end'<'d-flex justify-content-end'fB>>>t<'d-flex align-items-center'<'me-auto'i><'mb-0'p>>",
+                "lengthMenu": [3, 4],
+                "responsive": true,
+                "buttons": [],
+                "destroy": true,
+                "language": {
+                    "url" : "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json",
+                },
+                "ajax": {
+                    "url": "@Url.Action("GetTratamiento", "PQRSF")" + "?id=" + "@Model.Id",
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+                    {
+                        "data": "fechaCumplimiento",
+                        render: function (data, type, row) {
+                             let fecha = new Date(data).toLocaleDateString();
+                             return `<span class="badge bg-success bg-opacity-20 text-success fw-bold" style="font-size:0.8rem"> 
+                                         <i class="far fa-calendar-plus"></i>
+                                         ${fecha}                 
+                                    </span>`
+                        }
+                    },
+                    { "data": "actividad" },
+                    { "data": "nombreResponsable" },
+                    {
+                        "data": "id",
+                        render: function (data, type, row) {
+                            let fechaTratamiento = new Date(row.fechaCumplimiento).toLocaleDateString();
+                            let fechaHoy = "@String.Format("{0:dd/M/yyyy}",DateTime.Now)";
+                            if(fechaTratamiento == fechaHoy &&  "@Model.IdEstado" != "5"){
+                                return  `<buttom onclick="DeleteTratamiento(${data})" class="btn btn-danger btn-sm"><i class="fa fa-trash icon-trash"></i></buttom>`;
+                            }
+                            return "";
+                        }
+                    }
+                ],
+            });
+        }
+
+         //FUNCION PARA CARGAR LOS SEGUIMIENTOS DE UNA PQRSF
+        function LoadTableSeguimiento() {
+            var table = $("#table-seguimiento").DataTable({
+                "dom": "<'row mb-3'<'col-sm-4'l><'col-sm-8 text-end'<'d-flex justify-content-end'fB>>>t<'d-flex align-items-center'<'me-auto'i><'mb-0'p>>",
+                "lengthMenu": [3, 4],
+                "responsive": true,
+                "buttons": [],
+                "destroy": true,
+                "language": {
+                    "url" : "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json",
+                },
+                "ajax": {
+                    "url": "@Url.Action("GetSeguimiento", "PQRSF")" + "?id=" + "@Model.Id",
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+                    {
+                        "data": "fecha",
+                        render: function (data, type, row) {
+                            let fecha = new Date(data).toLocaleDateString();
+                            return `<span class="badge bg-success bg-opacity-20 text-success fw-bold" style="font-size:0.8rem"> 
+                                        <i class="far fa-calendar-plus"></i>
+                                        ${fecha}                 
+                                    </span>`
+                        }
+                    },
+                    { "data": "observaciones" },
+                    {
+                        "data": "id",
+                        render: function (data, type, row) {
+                           
+                            if ("@Model.IdEstado" != "5") {
+                                return `<buttom onclick="DeleteTratamiento(${data})" class="btn btn-danger btn-sm"><i class="fa fa-trash icon-trash"></i></buttom>`;
+                            }
+                            return "";
+                            
+                        }
+                    }
+                ],
+            });
+        }
+
+         //FUNCTION PARA CARGAR LA TABLA TRATAMIENTOS
+        function LoadTableCierrePQRSF() {
+            var table = $("#table-cierre-pqrsf").DataTable({
+                "dom": "",
+                "language": {
+                    "url" : "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json",
+                },
+                "buttons": [],
+                "ajax": {
+                    "url": "@Url.Action("GetPreguntas", "PQRSF")",
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+                    {"data": "nomPregunta",},
+                    {
+                        "data": "id",
+                        render: function (data, type, row) {
+                            return `
+                                <div class="answers-pqrsf">
+                                    <div class="form-group">
+                                        <div class="d-flex justify-content-center">
+                                            <label class="form-check-label px-2" for="customSwitch1">NO</label>
+                                            <div class="form-check form-switch">
+                                                <input type="checkbox" class="form-check-input" id="check" data-p="${row.id}" data-pqrsf="@Model.Id">
+                                            </div>
+                                            <label class="form-check-label" for="customSwitch1">SI</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea id="obs" class="form-control" rows="1" style="resize:none" placeholder="Escriba aquí una observación..."></textarea>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    }
+                ],
+            });
+        }
+
+        //FUNCTION TO DELETE A TRATAMIENTO OF PQRSF
+        function DeleteTratamiento(id) {
+            var urlAction = "@Url.Action("DeleteTratamiento", "PQRSF")" + "?id=" + id;
+
+            $.ajax({
+                url: urlAction,
+                type: "POST",
+                datatype: "json",
+                success: function (response) {
+                    if (response.result) {
+                        LoadTableTratamiento();
+                        toastr.success(response.message, "¡Proceso exitoso!");
+                    }
+                }
+            });
+        }
+        
+        function ViewPicture(urlPicture,alt){
+            let pictureModal = new bootstrap.Modal(document.getElementById("modal-picture-pqrsf"), {});
+            let containerPicture = $("#container-picture");
+            containerPicture.empty();
+            containerPicture.append(`<img class="img-fluid" src="${urlPicture}" alt="${alt}">`);
+            pictureModal.show();
+        }
+    </script>
+}

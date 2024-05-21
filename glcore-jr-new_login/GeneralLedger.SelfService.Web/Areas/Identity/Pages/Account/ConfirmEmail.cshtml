@@ -1,0 +1,23 @@
+﻿@page
+@model ConfirmEmailModel
+@{
+    ViewData["Title"] = "Usuario Confirmado";
+    var logo = TempData["Logo"] as string;
+    var url = TempData["UrlEmpresa"] as string;
+}
+}
+
+<div class="container-fluid fixed-top d-flex justify-content-start my-2">
+    <img src="@logo" width="200px" height="30px" class="img-fluid" alt="Logo PowerBy GeneralLedger">
+</div>
+
+<div class="error-page" style="padding:0">
+    <div class="error-page-content" style="padding:0">
+        <div class="error-img">
+            <img src="~/icon/email.svg" alt="" />
+        </div>
+
+        <h1>¡Usuario Confirmado!</h1>
+        <a href="@url" class="btn btn-primary">Iniciar Sesión</a>
+    </div>
+</div>

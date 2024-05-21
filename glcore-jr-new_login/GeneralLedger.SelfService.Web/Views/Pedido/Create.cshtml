@@ -1,0 +1,768 @@
+@model GeneralLedger.SelfServiceCore.Data.DTOs.PedidoCreateDTO
+@{
+    ViewData["Title"] = "Nuevo Pedido";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var today = ViewData["DateNow"] = DateTime.Now.ToString("dd/MM/yyyy");
+}
+
+<div class="row">
+    <div class="card border-0">
+        <div class="row">
+            <div class="col-md-6 px-2 pt-2">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Pedido</a></li>
+                    <li class="breadcrumb-item active">Nuevo Pedido</li>
+                </ul>
+            </div>
+            <div class="col-md-6 px-3 pt-2 text-end">
+                 <h5 class="pb-2">Detalles del Pedido</h5>
+            </div>
+        </div>
+        <div class="card-body py-0">
+            <div class="row">
+                <div class="col-md-12">
+                   
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="form-label">Fecha Req.</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                    <input asp-for="FechaRequerido" class="form-control form-control-sm" type="text" value="@today" placeholder="dd/MM/yyyy" spellcheck="false" data-ms-editor="true" autocomplete="off" min="@today"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Cliente</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                    <input asp-for="NombreCliente" value="@Model.NombreCliente" class="form-control form-control-sm" readonly />
+                                    <input type="hidden" asp-for="CodigoCliente" value="@Model.CodigoCliente">
+                                    <input type="hidden" asp-for="CodigoEscala" value="@Model.CodigoEscala">
+                                    <input type="hidden" asp-for="CodigoVendedor" value="@Model.CodigoVendedor">
+                                    <input type="hidden" asp-for="CodigoPais" value="@Model.CodigoPais">
+                                    <input type="hidden" asp-for="CodigoPostal" value="@Model.CodigoPostal">
+                                    <input type="hidden" asp-for="CodigoCiudad" value="@Model.CodigoCiudad">
+                                    <input type="hidden" asp-for="NitCliente" value="@Model.NitCliente">
+                                    <input type="hidden" asp-for="IvaIncluido" value="@Model.IvaIncluido">
+                                    <textarea asp-for="Detalle" class="form-control" cols="30" rows="3"  style="resize:none;display:none"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Dirección de Envío</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa fa-map-marker-alt"></i></span>
+                                    <select asp-for="CodigoSucursal" class="form-select form-select-sm">
+                                        @foreach (var item in Model.Sucursales)
+                                       {
+                                           <option value="@item.CodigoSucursal">@item.Sucursal</option>
+                                       }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Solicitante</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa fa-id-badge"></i></span>
+                                    <select asp-for="CodigoSolicitante" class="form-select form-select-sm">
+                                        @foreach (var item in Model.Solicitantes)
+                                        {
+                                            <option value="@item.Id">@item.NombreContacto</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        @*<div class="col-md-2">
+                            <div class="form-group">
+                                <label class="form-label">Tipo de Cálculo</label>
+                                <select asp-for="IvaIncluido" class="form-select form-select-sm">
+                                    <option value="0">Sin IVA Incluido</option>
+                                    <option value="1">Con IVA Incluido</option>
+                                </select>
+                            </div>
+                        </div>*@
+                        @*<div class="col-md-2 ms-auto">
+                            <div class="form-group text-end">
+                                <h4 class="form-label">N° Pedido</h4>
+                                <h3 class="h3 text-danger">@Model.Consecutivo</h3>
+                            </div>
+                        </div>*@
+                    </div>
+                </div>
+            </div>
+            <div class="row pt-4">
+                <div class="col-md-6">
+                    <button id="btnArticulos" type="button" class="btn btn-sm"><i class="fas fa-cubes"></i> Artículos</button>
+                    <button id="btnServicios" type="button" class="btn btn-sm"><i class="fas fa-wrench"></i> Servicios</button>
+                    <button id="btnNotas" type="button" class="btn btn-sm ms-auto"><i class="fas fa-sticky-note"></i> Nota Aclaratoria</button>
+                    <button id="btnSave" type="button" class="btn btn-success btn-sm ms-auto"><i class="fas fa-paper-plane"></i> Envíar</button>
+                </div>
+                 <div class="col-md-6">
+                    <div class="row">
+                        <div class="ms-auto col-12">
+                            <div class="row">
+                                <div class="col-md-4 border d-flex align-items-center justify-content-end">
+                                    <h6 class="pt-2 px-1">SubTotal: </h6>
+                                    <h6 id="sub-total" class="pt-2"></h6>
+                                    <input type="hidden" asp-for="SubTotal">
+                                </div>
+                                <div class="col-md-4 border d-flex align-items-center justify-content-end">
+                                    <h6 class="pt-2 px-1">IVA: </h6>
+                                    <h6 id="iva" class="pt-2"></h6>
+                                    <input type="hidden" asp-for="ValorIva">
+                                </div>
+                                <div class="col-md-4 border d-flex align-items-center justify-content-end">
+                                    <h6 class="pt-2 px-1">Total: </h6>
+                                    <h6 id="total" class="pt-2"></h6>
+                                    <input type="hidden" asp-for="Total">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 my-2">
+                    <div class="row">
+                        <table class="table table-borderless align-middle table-hover table-sm w-100" id="table-pedidos" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>TIPO</th>
+                                    <th >CODIGO</th>
+                                    <th >DESCRIPCIÓN</th>
+                                    <th width="10%">CANTIDAD</th>
+                                    <th >MEDIDA</th>
+                                    <th >VALOR UNITARIO</th>
+                                    <th >SUBTOTAL</th>
+                                    <th>IVA</th>
+                                    <th ></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--***************************************MODAL ARTICULOS*************************************************************************-->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-articulos">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">ARTÍCULOS</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <form action="">
+                    <div class="row px-2">
+                        <div class="col-md-4 ms-auto">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+                                    <input type="text" id="search-articulo" name="search-articulo" class="form-control form-control-sm" placeholder="Buscar un artículo...">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-2">
+                            <table class="table table-borderless align-middle table-hover table-sm w-100" id="table-articulos" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>CÓDIGO</th>
+                                        <th>DESCRIPCIÓN</th>
+                                        <th>REFERENCIA</th>
+                                        <th>IVA</th>
+                                        <th>PRECIO</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button  type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--***************************************MODAL SERVICIOS*************************************************************************-->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-servicios">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">SERVICIOS</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <form action="">
+                    <div class="row px-2">
+                        <div class="col-md-4 ms-auto">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+                                    <input type="text" id="search-servicio" name="search-servicio" class="form-control form-control-sm" placeholder="Buscar un servicio...">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-2">
+                            <table class="table table-borderless align-middle table-hover table-sm w-100" id="table-servicios" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th width="10%">CÓDIGO</th>
+                                        <th width="20%">SERVICIO</th>
+                                        <th width="40%">DESCRIPCIÓN</th>
+                                        <th width="10%">IVA</th>
+                                        <th width="10%">PRECIO</th>
+                                        <th width="10%"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--***************************************MODAL NOTA ACLARATORIA*************************************************************************-->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-nota">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">NOTA ACLARATORIA</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <label class="form-label">Nota aclaratoria</label>
+                        <textarea id="nota-modal" name="nota-modal" class="form-control" cols="30" rows="6"  style="resize:none;"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="SaveNota()">Guardar</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/scripts/Pedido/create.js" type="text/javascript"></script>
+   @* <script type="text/javascript">
+        var modalArticulos = new bootstrap.Modal(document.getElementById("modal-articulos"), {});
+        var modalServicios = new bootstrap.Modal(document.getElementById("modal-servicios"), {});
+        var modalNota = new bootstrap.Modal(document.getElementById("modal-nota"), {});
+        var tableArticulos;
+        var tableServicios;
+        var tablePedido;
+        var details = [];
+        var isIva = false;
+
+
+        $(document).ready(() =>{
+        
+            Pedido();
+            GetArticulos();
+            GetServicios();
+            CalculateTotals();
+
+            $('a[data-toggle="tab"]').on( 'shown.bs.tab', function (e) {
+                $($.fn.dataTable.tables( true ) ).css('width', '100%');
+                $($.fn.dataTable.tables( true ) ).DataTable().columns.adjust().draw();
+            } );
+
+            $("#ivaincluido").on('change',()=>{
+                if($("#ivaincluido").val() == "1")
+                {
+                    isIva = true;
+                }else{
+                    isIva = false;
+                }
+                SwitchIva();
+            });
+            
+        });
+
+        function ReadArticulos()
+        {
+            let data = [];
+            $.ajax({
+                url: "@Url.Action("GetArticulos", "Pedido")",
+                type: "GET",
+                datatype: "json",
+                success: function (response) {
+                    data = response.data;
+                },
+            });
+
+            return data;
+        }
+
+        function Pedido()
+        {
+            tablePedido = $('#table-pedidos').DataTable({
+                dom:"t<'d-none align-items-center'<'me-auto pb-2 mx-2'i><'mb-0 pb-2 mx-2'p>>" ,
+                paging:false,
+                ordering: false,
+                destroy: true,
+                responsive: true,
+                autoWidth: true,
+                data: details,
+                columns: [
+                    {"data": "tipoMov"},
+                    {"data": "codigo"},
+                    {"data": "detalle"},
+                    {
+                        "data": "cantidad",
+                        render: function(data,type,row)
+                        {
+                            return `<input type="number" class="form-control form-control-sm amount" value="${data}" data-ref="${row.codigo}">`;
+                        }
+                    },
+                    {"data": "medida"},
+                    {
+                        "data": "vlrUni",
+                        render: function(data,type,row)
+                        {
+                            return `${formatterPeso.format(data)}`;
+                        }
+                    },
+                    {
+                        "data": "subtotal",
+                        render: function(data,type,row)
+                        {
+                            return `${formatterPeso.format(data)}`;
+                        }
+                    },
+                    {
+                        "data": "valorIva",
+                        render: function(data,type,row)
+                        {
+                            return `${formatterPeso.format(data)}`;
+                        }
+                    },
+                    {
+                        "data":"codigo",
+                        render: function (data,type,row)
+                        {
+                            return `<button type="button" class="btn btn-danger btn-sm" onclick="RemoveItem('${data}')"><i class="fas fa-trash"></i></button>`;
+                        }
+                    }
+                ]
+            });
+
+             $(".dataTables_scrollHeadInner").width("100%");
+
+            $(".amount").on('keyup change paste',function (e)
+            {   
+                Recalculate($(this).attr("data-ref"),$(this).val());
+            });
+        }
+
+        function GetArticulos()
+        {
+            tableArticulos = $('#table-articulos').DataTable({
+                dom:"t<'d-none align-items-center'<'me-auto pb-2 mx-2'i><'mb-0 pb-2 mx-2'p>>" ,
+                paging:false,
+                ordering: false,
+                destroy: true,
+                responsive: true,
+                scrollY: 400,
+                scrollCollapse: true,
+                autoWidth: true,
+                serverSide: true,
+                ajax: {
+                    url: "@Url.Action("GetArticulos", "Pedido")",
+                    type: "GET",
+                    datatype: "json",
+                },
+                columns:[
+                    {"data":"arcod"},
+                    {"data":"arespe"},
+                    {"data":"arref"},
+                    {
+                        "data":"arIva",
+                        render: function(data,type,row)
+                        {
+                            return `${data}%`;
+                        }
+                    },
+                    {
+                        "data":"precio",
+                        render: function(data,type,row)
+                        {
+                            return `${formatterPeso.format(data)}`;
+                        }
+                    },
+                    {
+                        "data":"arcod",
+                        render: function(data,type,row)
+                        {
+                            return `<button type="button" class="btn btn-primary btn-sm" onclick="AddArticulo('${data}')"><i class="fas fa-circle-plus"></i></button>`;
+                        }
+                    },
+                ],
+                
+            });
+        }
+
+        function GetServicios()
+        {
+            tableServicios = $('#table-servicios').DataTable({
+                dom:"t<'d-none align-items-center'<'me-auto pb-2 mx-2'i><'mb-0 pb-2 mx-2'p>>" ,
+                paging:false,
+                ordering: false,
+                destroy: true,
+                responsive: true,
+                scrollY: 400,
+                scrollCollapse: true,
+                autoWidth: true,
+                ajax: {
+                    url: "@Url.Action("GetServicios", "Pedido")",
+                    type: "GET",
+                    datatype: "json"
+                },
+                columns:[
+                    {"data":"tracod"},
+                    {"data":"tranom"},
+                    {"data":"trades"},
+                    {
+                        "data":"traiva",
+                        render: function(data,type,row)
+                        {
+                            return `${data}%`;
+                        }
+                    },
+                    {
+                        "data":"arprecio",
+                        render: function(data,type,row)
+                        {
+                            return `${formatterPeso.format(data)}`;
+                        }
+                    },
+                    {
+                        "data":"tracod",
+                        render: function(data,type,row)
+                        {
+                            return `<button type="button" class="btn btn-primary btn-sm" onclick="AddServicio('${data}')"><i class="fas fa-circle-plus"></i></button>`;
+                        }
+                    },
+                ]
+            });
+        }
+
+        function OpenModalArticulos()
+        {
+            modalArticulos.show();
+            $(".dataTables_scrollHeadInner").width("100%");
+        }
+
+        function OpenModalServicios()
+        {
+            modalServicios.show();
+            $(".dataTables_scrollHeadInner").width("100%");
+        }
+
+        function OpenModalNota() 
+        {
+            $("#nota-modal").val($("#detalle").val());
+            modalNota.show();
+        }
+
+        function AddArticulo(arcod)
+        {   
+            if(details.filter(a => a.codigo == arcod).length > 0)
+            {
+                ToastAlert.fire({icon: 'warning',title: "¡Este producto ya se agregó al pedido!"});    
+            }else
+            {
+                let dataArticulos = tableArticulos.rows().data();
+                let articulo;
+
+                dataArticulos.each(function (value, index) 
+                {
+                    if(value.arcod === arcod)
+                    {
+                        articulo = value;
+                        return false;
+                    }
+                });
+
+                var newArticulo = {
+                    codigo:     articulo.arcod,
+                    cantidad:   1,
+                    detalle:    articulo.arespe,
+                    medida:     articulo.armed,
+                    vlrUni:     articulo.precio,
+                    tipoMov:    "INV",
+                    cuentaInv:  articulo.ctaInventario,
+                    cuentaCos:  articulo.ctaCosto,
+                    cuentaIng:  articulo.ctaIngreso,
+                    tecnico:    "",
+                    iva:        articulo.arIva,
+                    costo:      articulo.arCosto,
+                    dependencia:"",
+                    escala:     "0001",
+                    porDescuento:0,
+                    tercero:     0,
+                    valorIva:   (articulo.arIva * (articulo.precio/100)),
+                    subtotal:   (articulo.arIva * (articulo.precio/100) + articulo.precio),
+                    cco:        "",
+                    NumDoc:      "",
+                    tipodoc_ped:"COT"
+                };
+
+                details.push(newArticulo);
+                Pedido();
+                CalculateTotals();
+                $(".dataTables_scrollHeadInner").width("100%");
+            }
+        }
+
+        function AddServicio(sercod)
+        {
+            if(details.filter(a => a.codigo == sercod).length > 0)
+            {
+                ToastAlert.fire({icon: 'warning',title: "¡Este servicio ya se agregó al pedido!"});    
+            }else
+            {
+                let dataServicios = tableServicios.rows().data();
+                let servicio;
+
+                dataServicios.each(function (value, index) 
+                {
+                    if(value.tracod === sercod)
+                    {
+                        servicio = value;
+                        return false;
+                    }
+                });
+
+                var newServicio = {
+                    codigo:     servicio.tracod,
+                    cantidad:   1,
+                    detalle:    servicio.tranom,
+                    medida:     servicio.tramed,
+                    vlrUni:     servicio.arprecio,
+                    tipoMov:    "SER",
+                    cuentaInv:  "",
+                    cuentaCos:  "",
+                    cuentaIng:  "",
+                    tecnico:    "",
+                    iva:        servicio.traiva,
+                    costo:      servicio.costo,
+                    dependencia:"",
+                    escala:     "0001",
+                    porDescuento:0,
+                    tercero:     0,
+                    valorIva:   (isIva)? ((servicio.arprecio) * (servicio.traiva/(servicio.traiva + 100))) : (servicio.traiva * (servicio.arprecio/100)),
+                    subtotal:   (isIva)? (servicio.arprecio - (servicio.arprecio) * (servicio.traiva/(servicio.traiva + 100))) : (servicio.arprecio),
+                    cco:        "",
+                    NumDoc:      "",
+                    tipodoc_ped:"COT"
+                };
+
+                details.push(newServicio);
+                Pedido();
+                CalculateTotals();
+                $(".dataTables_scrollHeadInner").width("100%");
+            }
+        }
+
+        function CalculateTotals()
+        {
+            let subTotal = 0.0;
+            let iva = 0.0;
+            let total = 0.0;
+
+            for(let i in details)
+            {
+                subTotal += parseFloat(details[i].subtotal);
+                iva += parseFloat(details[i].valorIva);
+            }
+            total += parseFloat(subTotal + iva);
+
+            $("#sub-total").text(" "+formatterPeso.format(subTotal));
+            $("#subtotal").val(subTotal);
+            $("#iva").text(" "+formatterPeso.format(iva));
+            $("#impuesto").val(iva);
+            $("#total").text(" "+formatterPeso.format(total));
+            $("#total").val(total);
+        }
+
+        function Recalculate(codigoItem,newCantidad)
+        {
+            newCantidad = parseInt(newCantidad);
+            for(let i in details)
+            {
+                if(details[i].codigo == codigoItem)
+                {
+                    details[i].cantidad = newCantidad;
+                    
+                    if(isIva)
+                    {
+                        details[i].valorIva = parseFloat((newCantidad * details[i].vlrUni) * details[i].iva / (details[i].iva + 100)).toFixed(2);
+                        details[i].subtotal = parseFloat((newCantidad * details[i].vlrUni) - details[i].valorIva).toFixed(2);
+                    }
+                        
+                    if(!isIva)
+                    {
+                        details[i].valorIva = parseFloat((newCantidad * details[i].vlrUni) * (details[i].iva / 100)).toFixed(2);
+                        details[i].subtotal = parseFloat(newCantidad * details[i].vlrUni);  
+                    } 
+                    break;
+                }
+            }
+            Pedido();
+            CalculateTotals();
+        }
+
+        function SwitchIva()
+        {
+            console.log(isIva);
+            for(let i in details)
+            {
+                if(isIva)
+                {
+                    details[i].valorIva = parseFloat((details[i].cantidad * details[i].vlrUni) * (details[i].iva / (details[i].iva + 100))).toFixed(2);
+                    details[i].subtotal = parseFloat((details[i].cantidad * details[i].vlrUni) - ((details[i].cantidad * details[i].vlrUni) * (details[i].iva / (details[i].iva + 100)))).toFixed(2);
+                }
+                    
+                if(!isIva)
+                {
+                    console.log("Solo cuando no esta el iva Incluido");
+                    details[i].valorIva = parseFloat((details[i].cantidad * details[i].vlrUni) * (details[i].iva / 100)).toFixed(2);
+                    details[i].subtotal = parseFloat((details[i].cantidad * details[i].vlrUni)).toFixed(2);
+                } 
+            }
+            Pedido();
+            CalculateTotals();
+        }
+
+        function SavePedido()
+        {
+            if(details.length <= 0)
+            {
+                ToastAlert.fire({icon: 'warning',title: "No hay articulos o servicios en el pedido!"});    
+                return true;
+            }
+
+            console.log($("#subtotal").val());
+            var DetallePedido = details;
+            var PedidoCreateDTO = {
+                TipoCliente:        "@Model.TipoCliente",
+                codCliente:         $("#codCliente").val(),
+                idSucursal:         $("#direccion").val(),
+                direccion:          $('select[id="direccion"] option:selected').text(),
+                fecha:              new Date(),
+                codDependencia:     "",
+                codVendedor:        "",
+                codEscala:          "@Model.CodigoEscala",
+                subtotal:           parseFloat($("#subtotal").val()),
+                subtotalString:     $("#subtotal").val(),
+                descuento:          0,
+                flete:              0,
+                impuesto:           parseFloat($("#impuesto").val()),
+                impuestoString:     $("#impuesto").val(),
+                total:              parseFloat($("#total").val()),
+                totalString:        $("#total").val(),
+                usuario:            "",
+                redondedo:          0,
+                detalle:            $("#detalle").val(),
+                cadena:             "",
+                formapago:          "CONTADO",
+                ivaFlete:           0,
+                ivaincluido:        $("#ivaincluido").val(),
+                ivaPorcFlete:       0,
+                fechaReq:           $("#fechaReq").val(),
+                solicitante:        "",
+                NroCotizacion:      "",
+                detalles:           DetallePedido,
+            }
+
+            $.ajax({
+                url: "@Url.Action("Create","Pedido")",
+                type: "POST",
+                data: {pedido : PedidoCreateDTO},
+                beforeSend: function(){
+
+                },
+                success: function(response)
+                {
+                    if(response.result)
+                    {
+                        window.location.href = response.redirect;
+                    }else
+                    {
+                        ToastAlert.fire({icon: 'error',title: "Error"});  
+                    }
+                }
+            });
+        }
+
+        function SaveNota(){
+            $("#detalle").val($("#nota-modal").val());
+            modalNota.hide();
+        }
+
+        function RemoveItem(itemcod)
+        {
+            details = details.filter(item => item.codigo != itemcod);
+            Pedido();
+            CalculateTotals();
+            console.log(details);
+        }
+
+        function Query()
+        {
+            $.ajax( {
+                url: "@Url.Action("GetArticulos", "Pedido")",
+                type: "GET",
+                datatype: "json",
+                success: function(response)
+                {
+                    console.log(response);
+                }
+            });
+        }
+    </script>*@
+}
