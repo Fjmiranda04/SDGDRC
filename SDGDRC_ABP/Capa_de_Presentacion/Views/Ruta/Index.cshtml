@@ -1,0 +1,78 @@
+<<<<<<< HEAD
+﻿@model IEnumerable<Capa_de_Datos.Models.ViewModels.RutaIndexViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/StyleRuta.css">
+</head>
+<div class="content-container route-list">
+    <h1>Listado de Rutas</h1>
+
+    <p>
+        <a asp-controller="Ruta" asp-action="Crear" class="btn btn-primary">Crear Nueva Ruta</a>
+    </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Coordinador</th>
+                <th>Voluntario</th>
+                <th>Latitud</th>
+                <th>Longitud</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ruta in Model)
+            {
+                <tr>
+                    <td>@ruta.Fecha.ToShortDateString()</td>
+                    <td>@ruta.NombreCoordinador</td>
+                    <td>@ruta.NombreVoluntario</td>
+                    <td>@ruta.Latitud</td>
+                    <td>@ruta.Longitud</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+=======
+﻿@model IEnumerable<Capa_de_Datos.Models.ModelsDTO.RutaIndexViewModel>
+
+
+
+<h2>Listado de Rutas</h2>
+
+<p>
+    <a asp-controller="Ruta" asp-action="Crear" class="btn btn-primary">Crear Nueva Ruta</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Coordinador</th>
+            <th>Voluntario</th>
+            <th>Latitud</th>
+            <th>Longitud</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ruta in Model)
+        {
+            <tr>
+                <td>@ruta.Fecha.ToShortDateString()</td>
+                <td>@ruta.NombreCoordinador</td>
+                <td>@ruta.NombreVoluntario</td>
+                <td>@ruta.Latitud</td>
+                <td>@ruta.Longitud</td>
+            </tr>
+        }
+    </tbody>
+</table>
+>>>>>>> ba3530e52b780c9f309df0acce60ad2366138fa7

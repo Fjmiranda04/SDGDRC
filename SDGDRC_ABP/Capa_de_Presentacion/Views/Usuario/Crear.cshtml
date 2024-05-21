@@ -1,0 +1,244 @@
+﻿@model Capa_de_Datos.Models.ModelsDTO.UsuarioCreateDTO
+<<<<<<< HEAD
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/StyleFormUsuario.css" />
+</head>
+<body>
+<div class="content-container user-list">
+    <form asp-action="Crear" method="post">
+        <div class="container">
+            <h2>Crear Nuevo Usuario</h2>
+            <div class="content">
+                <div class="input-box">
+                    <label asp-for="Nombre" class="control-label">Nombre</label>
+                    <input asp-for="Nombre" class="form-control" placeholder="Enter full name" required>
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                </div>
+                <div class="input-box">
+                    <label asp-for="Apellido" class="control-label">Apellido</label>
+                    <input asp-for="Apellido" class="form-control" placeholder="Enter full username" required>
+                    <span asp-validation-for="Apellido" class="text-danger"></span>
+                </div>
+                <div class="input-box">
+                    <label asp-for="Email" class="control-label">Email</label>
+                    <input asp-for="Email" class="form-control" placeholder="Enter your valid email address" required>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="input-box">
+                    <label asp-for="Contraseña" class="control-label">Contraseña</label>
+                    <input asp-for="Contraseña" class="form-control" type="password" placeholder="Enter new password" required>
+                    <span asp-validation-for="Contraseña" class="text-danger"></span>
+                </div>
+                <div class="input-box">
+                    <label asp-for="Tipo" class="control-label">Tipo Usuario</label>
+                    <select asp-for="Tipo" class="form-control" id="Tipo">
+                        <option value="">Select</option>
+                        <option value="Voluntario">Voluntario</option>
+                        <option value="Coordinador">Coordinador</option>
+                        <option value="Administrador">Administrador</option>
+                    </select>
+                    <span asp-validation-for="Tipo" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group" id="ubicacionDiv" style="display:none;">
+                <label asp-for="Ubicación" class="control-label">Ubicación</label>
+                <input asp-for="Ubicación" class="form-control" />
+                <span asp-validation-for="Ubicación" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="areaResponsabilidadDiv" style="display:none;">
+                <label asp-for="AreaResponsabilidad" class="control-label">Área Responsable</label>
+                <input asp-for="AreaResponsabilidad" class="form-control" />
+                <span asp-validation-for="AreaResponsabilidad" class="text-danger"></span>
+            </div>
+            <div class="button-container">
+                <button type="submit">Create User</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="../js/userForm.js"></script>
+}
+</body>
+</html>
+
+
+
+
+@*@model Capa_de_Datos.Models.ModelsDTO.UsuarioCreateDTO
+@{
+    Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
+}
+
+<!-- Aquí va el contenido de tu vista -->
+@section Estilos {
+    <link rel="stylesheet" href="~/css/styleCrearUsuario.css" />
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#Tipo').change(function () {
+                if ($(this).val() === 'Voluntario') {
+                    $('#ubicacionDiv').show(); // Mostrar el campo de ubicación
+                    $('#areaResponsabilidadDiv').hide(); // Ocultar el campo de área de responsabilidad
+                } else if ($(this).val() === 'Coordinador') {
+                    $('#ubicacionDiv').hide();
+                    $('#areaResponsabilidadDiv').show(); // Mostrar el campo de área de responsabilidad
+                } else {
+                    $('#ubicacionDiv').hide();
+                    $('#areaResponsabilidadDiv').hide();
+                }
+            });
+        });
+    </script>
+}
+
+=======
+
+
+
+>>>>>>> ba3530e52b780c9f309df0acce60ad2366138fa7
+<h1>Crear Nuevo Usuario</h1>
+
+<form asp-action="Crear" method="post">
+    <div class="form-group">
+        <label asp-for="Nombre" class="control-label"></label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Apellido" class="control-label"></label>
+        <input asp-for="Apellido" class="form-control" />
+        <span asp-validation-for="Apellido" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email" class="control-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Tipo" class="control-label"></label>
+        <select asp-for="Tipo" class="form-control">
+            <option value="">Seleccionar</option>
+            <option value="Voluntario">Voluntario</option>
+            <option value="Coordinador">Coordinador</option>
+            <option value="Administrador">Administrador</option>
+        </select>
+        <span asp-validation-for="Tipo" class="text-danger"></span>
+    </div>
+    <div class="form-group" id="ubicacionDiv" style="display:none;">
+        <label asp-for="Ubicación" class="control-label"></label>
+        <input asp-for="Ubicación" class="form-control" />
+        <span asp-validation-for="Ubicación" class="text-danger"></span>
+    </div>
+    <!-- Nuevo campo de entrada para el área de responsabilidad -->
+    <div class="form-group" id="areaResponsabilidadDiv" style="display:none;">
+        <label asp-for="AreaResponsabilidad" class="control-label"></label>
+        <input asp-for="AreaResponsabilidad" class="form-control" />
+        <span asp-validation-for="AreaResponsabilidad" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contraseña" class="control-label"></label>
+        <input asp-for="Contraseña" class="form-control" />
+        <span asp-validation-for="Contraseña" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Guardar" class="btn btn-primary" />
+    </div>
+</form>
+<<<<<<< HEAD
+*@
+
+=======
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#Tipo').change(function () {
+                if ($(this).val() === 'Voluntario') {
+                    $('#ubicacionDiv').show(); // Mostrar el campo de ubicación
+                    $('#areaResponsabilidadDiv').hide(); // Ocultar el campo de área de responsabilidad
+                } else if ($(this).val() === 'Coordinador') {
+                    $('#ubicacionDiv').hide();
+                    $('#areaResponsabilidadDiv').show(); // Mostrar el campo de área de responsabilidad
+                } else {
+                    $('#ubicacionDiv').hide();
+                    $('#areaResponsabilidadDiv').hide();
+                }
+            });
+        });
+    </script>
+}
+>>>>>>> ba3530e52b780c9f309df0acce60ad2366138fa7
+
+
+@*
+
+<h1>Crear Nuevo Usuario</h1>
+
+<form asp-action="Crear" method="post">
+    <div class="form-group">
+        <label asp-for="Nombre" class="control-label"></label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Apellido" class="control-label"></label>
+        <input asp-for="Apellido" class="form-control" />
+        <span asp-validation-for="Apellido" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email" class="control-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Tipo" class="control-label"></label>
+        <select asp-for="Tipo" class="form-control">
+            <option value="">Seleccionar</option>
+            <option value="Voluntario">Voluntario</option>
+            <option value="Coordinador">Coordinador</option>
+            <option value="Administrador">Administrador</option>
+        </select>
+        <span asp-validation-for="Tipo" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contraseña" class="control-label"></label>
+        <input asp-for="Contraseña" class="form-control" />
+        <span asp-validation-for="Contraseña" class="text-danger"></span>
+    </div>
+    <!-- Agregar campo de entrada para la ubicación -->
+    <div class="form-group" id="area_de_ResponsabilidadDiv" style="display:none;">
+        <label asp-for="Area_de_Responsabilidad" class="control-label"></label>
+        <input asp-for="Area_de_Responsabilidad" class="form-control" />
+        <span asp-validation-for="Area_de_Responsabilidad" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Guardar" class="btn btn-primary" />
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#Tipo').change(function () {
+                if ($(this).val() === 'Coordinador') {
+                    $('#area_de_ResponsabilidadDiv').show();
+                } else {
+                    $('#area_de_ResponsabilidadDiv').hide();
+                }
+            });
+        });
+    </script>
+}
+*@

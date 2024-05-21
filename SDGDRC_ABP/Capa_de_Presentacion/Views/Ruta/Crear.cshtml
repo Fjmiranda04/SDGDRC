@@ -1,0 +1,165 @@
+﻿@model Capa_de_Datos.Models.ModelsDTO.RutaDTO
+<<<<<<< HEAD
+@{
+    Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
+}
+=======
+
+>>>>>>> ba3530e52b780c9f309df0acce60ad2366138fa7
+<h2>Crear Ruta</h2>
+
+<form asp-controller="Ruta" asp-action="Crear" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="Fecha" class="control-label"></label>
+        <input asp-for="Fecha" type="date" class="form-control" />
+        <span asp-validation-for="Fecha" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CoordinadorId" class="control-label">Coordinador</label>
+        <select asp-for="CoordinadorId" class="form-control" asp-items="@(new SelectList(ViewBag.Coordinadores, "IdCoordinador", "NombreCompleto"))">
+            <option value="">Selecciona un coordinador</option>
+        </select>
+        <span asp-validation-for="CoordinadorId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="VoluntarioId" class="control-label">Voluntario</label>
+        <select asp-for="VoluntarioId" class="form-control" asp-items="@(new SelectList(ViewBag.Voluntarios, "IdVoluntario", "NombreCompleto"))">
+            <option value="">Selecciona un voluntario</option>
+        </select>
+        <span asp-validation-for="VoluntarioId" class="text-danger"></span>
+    </div>
+
+    <!-- Agrega los campos de latitud y longitud utilizando el selector de ubicación -->
+    <div class="form-group">
+        <label class="control-label">Selecciona la ubicación</label>
+        <input type="text" id="ubicacionInput" class="form-control" placeholder="Buscar ubicación">
+        <span class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Latitud" class="control-label">Latitud</label>
+        <input asp-for="Latitud" type="number" step="any" class="form-control" />
+        <span asp-validation-for="Latitud" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Longitud" class="control-label">Longitud</label>
+        <input asp-for="Longitud" type="number" step="any" class="form-control" />
+        <span asp-validation-for="Longitud" class="text-danger"></span>
+    </div>
+
+    <!-- Contenedor para mostrar el mapa -->
+    <div id="map" style="height: 300px;"></div>
+
+    <button type="submit" class="btn btn-primary">Crear</button>
+</form>
+
+<!-- Script para cargar el mapa de Bing Maps y actualizar la ubicación en tiempo real -->
+<script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=As7DHsUsfLCWYqKddzeO4Co4xOrnOYVBYiky_ZpGoAoN5x1Il89m3TWKDCd0LQzX&callback=loadMapScenario' async defer></script>
+<script>
+    var map, searchManager, pushpin;
+
+    function loadMapScenario() {
+        map = new Microsoft.Maps.Map(document.getElementById('map'), {
+            credentials: 'As7DHsUsfLCWYqKddzeO4Co4xOrnOYVBYiky_ZpGoAoN5x1Il89m3TWKDCd0LQzX'
+        });
+        Microsoft.Maps.loadModule('Microsoft.Maps.Search', function () {
+            searchManager = new Microsoft.Maps.Search.SearchManager(map);
+        });
+    }
+
+    document.getElementById('ubicacionInput').addEventListener('change', function () {
+        var ubicacion = this.value;
+
+        var searchRequest = {
+            where: ubicacion,
+            callback: function (results) {
+                if (results && results.results && results.results.length > 0) {
+                    var latitud = results.results[0].location.latitude;
+                    var longitud = results.results[0].location.longitude;
+
+                    // Centrar el mapa en la nueva ubicación
+                    map.setView({
+                        center: new Microsoft.Maps.Location(latitud, longitud),
+                        zoom: 13
+                    });
+
+                    // Actualizar las coordenadas en el formulario con un máximo de 6 decimales
+                    document.getElementById('Latitud').value = latitud.toFixed(6);
+                    document.getElementById('Longitud').value = longitud.toFixed(6);
+
+
+                    // Agregar marcador en la ubicación seleccionada
+                    if (!pushpin) {
+                        pushpin = new Microsoft.Maps.Pushpin(map.getCenter(), {
+                            color: 'red'
+                        });
+                        map.entities.push(pushpin);
+                    } else {
+                        pushpin.setLocation(new Microsoft.Maps.Location(latitud, longitud));
+                    }
+                } else {
+                    alert('No se pudo encontrar la ubicación ingresada.');
+                }
+            },
+            errorCallback: function (e) {
+                console.error('Error al geocodificar la ubicación:', e);
+                alert('Error al geocodificar la ubicación. Por favor, inténtalo de nuevo.');
+            }
+        };
+
+        searchManager.geocode(searchRequest);
+    });
+</script>
+
+
+
+@*@model Capa_de_Datos.Models.ModelsDTO.RutaDTO
+
+<h2>Crear Ruta</h2>
+
+<form asp-controller="Ruta" asp-action="Crear" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="Fecha" class="control-label"></label>
+        <input asp-for="Fecha" type="date" class="form-control" />
+        <span asp-validation-for="Fecha" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CoordinadorId" class="control-label">Coordinador</label>
+        <select asp-for="CoordinadorId" class="form-control" asp-items="@(new SelectList(ViewBag.Coordinadores, "IdCoordinador", "NombreCompleto"))">
+            <option value="">Selecciona un coordinador</option>
+        </select>
+        <span asp-validation-for="CoordinadorId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="VoluntarioId" class="control-label">Voluntario</label>
+        <select asp-for="VoluntarioId" class="form-control" asp-items="@(new SelectList(ViewBag.Voluntarios, "IdVoluntario", "NombreCompleto"))">
+            <option value="">Selecciona un voluntario</option>
+        </select>
+        <span asp-validation-for="VoluntarioId" class="text-danger"></span>
+    </div>
+
+
+
+    <div class="form-group">
+        <label asp-for="Latitud" class="control-label">Latitud</label>
+        <input asp-for="Latitud" type="number" step="any" class="form-control" />
+        <span asp-validation-for="Latitud" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Longitud" class="control-label">Longitud</label>
+        <input asp-for="Longitud" type="number" step="any" class="form-control" />
+        <span asp-validation-for="Longitud" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Crear</button>
+</form>*@

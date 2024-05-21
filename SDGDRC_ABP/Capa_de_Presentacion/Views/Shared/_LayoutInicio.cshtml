@@ -1,0 +1,211 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SDGDRC</title>
+    <!-- Enlaces a estilos que podrían ser utilizados en el futuro -->
+    @if (false) // Cambia a true si necesitas cargar estos estilos
+    {
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/Capa_de_Presentacion.styles.css" asp-append-version="true" />
+    }
+    <!-- Enlaces a estilos propios -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="~/css/siteHome.css" />
+</head>
+<body>
+    <header class="header">
+      
+        <!-- Contenido del encabezado -->
+        <div class="menu container">
+            <a href="#" class="logo"><img src="~/img/Logo.png" alt="" /></a>
+            <input type="checkbox" id="menu" />
+            <label for="menu">
+                <img src="~/img/menu.png" class="menu-icono" alt="" />
+            </label>
+
+            <nav class="navbar">
+                <ul>
+                    <li><a href="/Home/Index">Inicio</a></li>
+                    <li><a href="#">Noticias</a></li>
+                    <li><a href="#">Ubicaciones</a></li>
+                    <li><a href="#">Recursos</a></li>
+                    <li><a href="/Auth/Login">Sign in</a></li>
+                    <li><a href="#">Sign up</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="header-content container">
+            <h1>SDGDRC: Un Lugar para el Cambio Ambiental</h1>
+            <p>
+                Bienvenido a SDGDRC, tu plataforma para promover prácticas de
+                reciclaje, gestión de residuos y conservación del medio ambiente.
+                Únete a nosotros para construir un futuro más limpio y sostenible.
+                ¡Juntos podemos marcar la diferencia!
+            </p>
+            <a href="" class="btn-1">Información</a>
+        </div>
+    </header>
+
+    <div class="content-container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer">
+        <!-- Contenido del pie de página -->
+        <div class="footer-content">
+            <div class="link">
+                <h3>Enlaces útiles</h3>
+                <ul>
+                    <li><a href="#">Preguntas frecuentes</a></li>
+                    <li><a href="#">Contáctanos</a></li>
+                    <li><a href="#">Términos y condiciones</a></li>
+                    <li><a href="#">Política de privacidad</a></li>
+                </ul>
+            </div>
+            <div class="link">
+                <h3>Recursos</h3>
+                <ul>
+                    <li><a href="#">Guías de reciclaje</a></li>
+                    <li><a href="#">Noticias ambientales</a></li>
+                    <li><a href="#">Eventos</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="link">
+                <h3>Redes sociales</h3>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                </ul>
+            </div>
+            <div class="link">
+                <h3>Contacto</h3>
+                <ul>
+                    <li><a href="#">Correo electrónico</a></li>
+                    <li><a href="#">Teléfono</a></li>
+                    <li><a href="#">Dirección</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Enlaces a scripts que podrían ser utilizados en el futuro -->
+    @if (false) // Cambia a true si necesitas cargar estos scripts
+    {
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    }
+</body>
+</html>
+
+
+@*<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SDGDRC</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Capa_de_Presentacion.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+       * <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Capa_de_Presentacion</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>*
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+       * <div class="container">
+            &copy; 2024 - Capa_de_Presentacion - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>*
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+*@
+
+@*
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Capa_de_Presentacion</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Capa_de_Presentacion.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Capa_de_Presentacion</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - Capa_de_Presentacion - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+*@

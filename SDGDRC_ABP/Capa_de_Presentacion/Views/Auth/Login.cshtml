@@ -1,0 +1,59 @@
+<<<<<<< HEAD
+﻿@model Capa_de_Datos.Models.ViewModels.LoginViewModel
+@{
+    Layout = null; // Indica que esta vista no utilizará ningún _Layout
+}
+=======
+﻿@model Capa_de_Datos.Models.ModelsDTO.LoginViewModel
+
+>>>>>>> ba3530e52b780c9f309df0acce60ad2366138fa7
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
+    <link rel="stylesheet" href="~/css/StyleLogin.css" />
+=======
+    <link rel="stylesheet" href="~/css/Style.css" />
+>>>>>>> ba3530e52b780c9f309df0acce60ad2366138fa7
+    <title>Login</title>
+</head>
+<body>
+    <div class="login-box">
+        <img class="avatar" src="~/img/Logo.png" alt="Logo SDGDRC">
+        <h1>Login </h1>
+        <form asp-controller="Auth" asp-action="Login" method="post">
+
+            <label asp-for="Email">Email</label>
+            <input asp-for="Email" type="email" />
+            <span asp-validation-for="Email"></span>
+
+            <label asp-for="Password">Password</label>
+            <input asp-for="Password" type="password" />
+            <span asp-validation-for="Password"></span>
+
+            <button type="submit">Iniciar Sesión</button>
+            <a href="#">Lost your password?</a><br>
+            <a href="#">Don't have an account?</a>
+        </form>
+    </div>
+</body>
+</html>
+@*
+<h2>Iniciar Sesión</h2>
+
+<form asp-controller="Auth" asp-action="Login" method="post">
+    <div>
+        <label asp-for="Email"></label>
+        <input asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <div>
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <button type="submit">Iniciar Sesión</button>
+</form>*@
